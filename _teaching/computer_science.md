@@ -2,9 +2,9 @@
 title: "computer science"
 collection: teaching
 type:
-permalink: /teaching/csc
-venue:
-date: 2020-01-01
+permalink: /teaching/2015-spring-teaching-
+venue: "University 1, Department"
+date: 2015-01-01
 location: "Seattle, USA"
 ---
 

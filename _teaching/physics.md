@@ -1,11 +1,11 @@
 ---
 title: "physics"
 collection: teaching
-type: "phys221, phys222"
+type:
 permalink:
 venue:
-#date: 2020-01-01
-location: "USA"
+date: 2020-01-01
+location: "Seattle, USA"
 ---
 
 VPython labs
