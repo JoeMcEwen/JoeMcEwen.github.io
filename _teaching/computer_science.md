@@ -3,7 +3,7 @@ title: "computer science"
 collection: teaching
 type:
 permalink: /teaching/2015-spring-teaching-
-venue: "University 1, Department"
+venue: 
 date: 2015-01-01
 location: "Seattle, USA"
 ---
