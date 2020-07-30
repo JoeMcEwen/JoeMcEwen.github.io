@@ -4,7 +4,7 @@ collection: teaching
 type:
 permalink: /teaching/csc
 venue:
-date: 2020
+date: 2020-01-01
 location: "Seattle, USA"
 ---
 
