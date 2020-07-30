@@ -1,10 +1,10 @@
 ---
 title: "physics"
 collection: teaching
-type: 
+type:
 permalink:
 venue:
-date:
+date:2020-01-01
 location:
 ---
 
