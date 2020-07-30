@@ -1,10 +1,10 @@
 ---
 title: "physics"
 collection: teaching
-type: "clas"
+type: "phys221, phys222"
 permalink:
 venue:
-date: 2020-01-01
+#date: 2020-01-01
 location: "USA"
 ---
 
