@@ -3,7 +3,8 @@ title: "computer science"
 collection: teaching
 type:
 permalink: /teaching/csc
-date: 2015-01-01
+venue:
+date: 2020
 location: "Seattle, USA"
 ---
 
