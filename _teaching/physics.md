@@ -1,11 +1,11 @@
 ---
 title: "physics"
 collection: teaching
-type:
+type: "clas"
 permalink:
 venue:
 date:2020-01-01
-location:
+location: "USA"
 ---
 
 VPython labs
