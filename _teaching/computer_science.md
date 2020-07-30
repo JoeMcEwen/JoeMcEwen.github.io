@@ -1,20 +1,20 @@
 ---
 title: "computer science"
 collection: teaching
-type: "class"
+type:
 permalink: /teaching/2015-spring-teaching-1
 venue: "University 1, Department"
 date: 2015-01-01
-location: "USA"
+location: "Seattle, USA"
 ---
 
-This is a description of a teaching experience. You can use markdown like any other post.
+A collection of codes/lectures used in my CSC110 course.
 
-Heading 1
+quicksort
 ======
 
-Heading 2
+k-means clustering
 ======
 
-Heading 3
+random walks
 ======
