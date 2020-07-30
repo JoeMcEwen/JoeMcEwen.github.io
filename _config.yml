@@ -7,7 +7,7 @@
 
 # Site Settings
 locale                   : "en-US"
-title                    : "the web archive of Joe McEwen"
+title                    : "about"
 title_separator          : "-"
 name                     : &name "Joe McEwen"
 description              : &description "personal description"
