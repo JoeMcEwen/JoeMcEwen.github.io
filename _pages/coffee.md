@@ -16,4 +16,3 @@ redirect_from:
 
 ## daily article list
 * [What dark matter is (probably) not](https://www.symmetrymagazine.org/article/what-dark-matter-is-probably-not?fbclid=IwAR3Tm6QgQiFawHWdN2wpclPUKtDaUxMSzcVgCWGXi_QQAS4JvySmfACTtS4)
-*
