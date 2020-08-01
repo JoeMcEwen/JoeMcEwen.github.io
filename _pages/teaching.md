@@ -9,7 +9,8 @@ redirect_from:
 
 {% include base_path %}
 
-## Physics
+## Physics 101
+* mechanics computational labs
 
 
-## Computer Science
+## Computer Science 101
