@@ -9,7 +9,6 @@ redirect_from:
 
 {% include base_path %}
 
-## Physics
+## currently reading
 
-
-## Computer Science
+## daily article list
