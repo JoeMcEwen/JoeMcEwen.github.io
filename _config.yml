@@ -190,6 +190,9 @@ collections:
   cv:
     output: true
     permalink: /:collection/:path/
+  coffee:
+    output: true
+    permalink: /:collection/:path/
 
 
 # Defaults
