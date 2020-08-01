@@ -1,7 +1,7 @@
 ---
 layout: archive
-title: "Curriculum Vitae"
-permalink: /teaching/
+title: "coffee"
+permalink: /coffee/
 author_profile: true
 redirect_from:
   - /resume
