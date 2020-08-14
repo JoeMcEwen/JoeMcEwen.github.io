@@ -16,4 +16,4 @@ redirect_from:
 
 ## daily article list
 * [What dark matter is (probably) not](https://www.symmetrymagazine.org/article/what-dark-matter-is-probably-not?fbclid=IwAR3Tm6QgQiFawHWdN2wpclPUKtDaUxMSzcVgCWGXi_QQAS4JvySmfACTtS4)
-* [Half the universe was missing... until now]https://www.youtube.com/watch?v=Kp_kqamkYpw&t=744s
+* [Half the universe was missing... until now](https://www.youtube.com/watch?v=Kp_kqamkYpw&t=744s)
