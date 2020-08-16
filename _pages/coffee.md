@@ -20,5 +20,5 @@ redirect_from:
 * [What dark matter is (probably) not](https://www.symmetrymagazine.org/article/what-dark-matter-is-probably-not?fbclid=IwAR3Tm6QgQiFawHWdN2wpclPUKtDaUxMSzcVgCWGXi_QQAS4JvySmfACTtS4)
 * [Half the universe was missing... until now](https://www.youtube.com/watch?v=Kp_kqamkYpw&t=744s)
 * [LHCb discovers a new type of tetraquark](https://www.symmetrymagazine.org/article/lhcb-discovers-a-new-type-of-tetraquark?fbclid=IwAR3Ha6aG8z9wtJWzdA_tplbHv9nymBrYSf29NLfn_znEM7aqgtvA9_VgGYs)
-*[CMS SEES EVIDENCE FOR THE HIGGS BOSON DECAYING INTO MUONS](http://cms.cern/news/cms-sees-evidence-higgs-boson-decaying-muons?fbclid=IwAR0VzIfVkg1vc_idL9Ln58_QahSAe-CW5gTS6RKwLhoiVS0ogcWHRV9OGKg)
+* [CMS SEES EVIDENCE FOR THE HIGGS BOSON DECAYING INTO MUONS](http://cms.cern/news/cms-sees-evidence-higgs-boson-decaying-muons?fbclid=IwAR0VzIfVkg1vc_idL9Ln58_QahSAe-CW5gTS6RKwLhoiVS0ogcWHRV9OGKg)
 
