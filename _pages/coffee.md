@@ -21,4 +21,4 @@ redirect_from:
 * [Half the universe was missing... until now](https://www.youtube.com/watch?v=Kp_kqamkYpw&t=744s)
 * [LHCb discovers a new type of tetraquark](https://www.symmetrymagazine.org/article/lhcb-discovers-a-new-type-of-tetraquark?fbclid=IwAR3Ha6aG8z9wtJWzdA_tplbHv9nymBrYSf29NLfn_znEM7aqgtvA9_VgGYs)
 * [CMS SEES EVIDENCE FOR THE HIGGS BOSON DECAYING INTO MUONS](http://cms.cern/news/cms-sees-evidence-higgs-boson-decaying-muons?fbclid=IwAR0VzIfVkg1vc_idL9Ln58_QahSAe-CW5gTS6RKwLhoiVS0ogcWHRV9OGKg)
-
+* [A new view of the Higgs boson](https://www.symmetrymagazine.org/article/a-new-view-of-the-higgs-boson)
