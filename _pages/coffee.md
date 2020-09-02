@@ -29,3 +29,4 @@ redirect_from:
 * [LHC creates matter from light](https://www.symmetrymagazine.org/article/lhc-creates-matter-from-light)
 * [A bit of MAGIC](https://www.symmetrymagazine.org/article/a-bit-of-magic)
 * [How big is a neutron star?](https://www.symmetrymagazine.org/article/how-big-is-a-neutron-star)
+* [A Heavyweight Merger](https://physics.aps.org/articles/v13/111?fbclid=IwAR2X4Vc0UDQVp5raNtQN2nIlBDt1gwni_zyjIm6OsTR7jpPzAFo2ZheU3fk)
