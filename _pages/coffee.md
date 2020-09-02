@@ -28,3 +28,4 @@ redirect_from:
 * [Neutrinos Lead to Unexpected Discovery in Basic Math](https://www.quantamagazine.org/neutrinos-lead-to-unexpected-discovery-in-basic-math-20191113/?fbclid=IwAR1z2Zn07qj4fIg7n1w_QUN-5x2pPoKw7wY-gl5YC6-Z73K7nqtaYBDuBRg)
 * [LHC creates matter from light](https://www.symmetrymagazine.org/article/lhc-creates-matter-from-light)
 * [https://www.symmetrymagazine.org/article/a-bit-of-magic](https://www.symmetrymagazine.org/article/a-bit-of-magic)
+* [How big is a neutron star?](https://www.symmetrymagazine.org/article/how-big-is-a-neutron-star)
