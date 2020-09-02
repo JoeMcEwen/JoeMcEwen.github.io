@@ -27,5 +27,5 @@ redirect_from:
 * [Random Search Wired Into Animals May Help Them Hunt](https://www.quantamagazine.org/random-search-wired-into-animals-may-help-them-hunt-20200611/?fbclid=IwAR1z2Zn07qj4fIg7n1w_QUN-5x2pPoKw7wY-gl5YC6-Z73K7nqtaYBDuBRg)
 * [Neutrinos Lead to Unexpected Discovery in Basic Math](https://www.quantamagazine.org/neutrinos-lead-to-unexpected-discovery-in-basic-math-20191113/?fbclid=IwAR1z2Zn07qj4fIg7n1w_QUN-5x2pPoKw7wY-gl5YC6-Z73K7nqtaYBDuBRg)
 * [LHC creates matter from light](https://www.symmetrymagazine.org/article/lhc-creates-matter-from-light)
-* [https://www.symmetrymagazine.org/article/a-bit-of-magic](https://www.symmetrymagazine.org/article/a-bit-of-magic)
+* [A bit of MAGIC](https://www.symmetrymagazine.org/article/a-bit-of-magic)
 * [How big is a neutron star?](https://www.symmetrymagazine.org/article/how-big-is-a-neutron-star)
