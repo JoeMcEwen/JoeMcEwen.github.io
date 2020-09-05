@@ -14,4 +14,4 @@ Hi, I am Joe. Welcome to my website. I hope you may find something of interest h
 Originally, I am from Texas. In 2003 I moved to the San Francisco Bay area. I obtained my bachelor's in physics from San Francisco State University. I then moved to the Los Angeles area to pursue my master's at Long Beach State University. In 2010 I began my Ph.D. in Columbus, Ohio. I have recently relocated to Seattle, WA. I am looking forward to the next exciting chapter in my life.
 
 
-<br/><img src='/images/Kepler_error.png'>
+<br/><img src='/images/tracers.gif'>
