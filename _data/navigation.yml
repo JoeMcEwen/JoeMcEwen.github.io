@@ -6,6 +6,10 @@ main:
   # - title: "Talks"
   #   url: /talks/
 
+  - title: "coding"
+    url: /coding/
+
+
   - title: "teaching"
     url: /teaching/
 
