@@ -15,8 +15,5 @@ I primarily code in Python. I also teach a class in Python. Lately, I have been 
 
 Here are some coding I have done recently (somewhat suitable for public display).
 
-<head>
-  <link rel="import" href="/codes/3body.html">
-</head>
 
-{% include 3body.html %}
+{% include archive-3body.html %}
