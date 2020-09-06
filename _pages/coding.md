@@ -1,7 +1,7 @@
 ---
 layout: archive
-title: "coffee"
-permalink: /coffee/
+title: "coding"
+permalink: /coding/
 author_profile: true
 redirect_from:
   - /resume
@@ -9,24 +9,12 @@ redirect_from:
 
 {% include base_path %}
 
-### summer 2020 to fall 2020
+In truth coding was a skill I picked up late in my academic career (a mistake). In graduate school I found out just how enjoyable coding was. For me, being able to code was like simultaneously being an experimentalist and theorist. To code physics you had to understand mathematics like a theorist. Once you had your code finished you could run as many experiments as you liked (all you needed was a computer).
 
-## watching
+I primarily code in Python. I also teach a class in Python. Lately, I have been coding more in Julia (I am still learning). My first coding language was Fortran and I am still enjoy Fortran as my go to low level language. I have also done work in Matlab, C languages, and mathematica.
 
-## books
-* [The Origins of Political Order, Francis Fukuyama](https://en.wikipedia.org/wiki/The_Origins_of_Political_Order#:~:text=The%20Origins%20of%20Political%20Order%3A%20From%20prehuman%20times%20to%20the,what%20makes%20a%20state%20stable.&text=According%20to%20Fukuyama%2C%20a%20stable,the%20state%20and%20be%20accountable.)
-* [Jazz and Justics:Racism and the Political Economy of Music, Gerald Horne](https://nyupress.org/9781583677858/jazz-and-justice/)
-* [Mexican Gothic, Silvia Moreno-Garcia](https://www.penguinrandomhouse.com/books/577068/mexican-gothic-by-silvia-moreno-garcia/)
+Here are some coding I have done recently (somewhat suitable for public display).
 
-## articles
-* [What dark matter is (probably) not](https://www.symmetrymagazine.org/article/what-dark-matter-is-probably-not?fbclid=IwAR3Tm6QgQiFawHWdN2wpclPUKtDaUxMSzcVgCWGXi_QQAS4JvySmfACTtS4)
-* [Half the universe was missing... until now](https://www.youtube.com/watch?v=Kp_kqamkYpw&t=744s)
-* [LHCb discovers a new type of tetraquark](https://www.symmetrymagazine.org/article/lhcb-discovers-a-new-type-of-tetraquark?fbclid=IwAR3Ha6aG8z9wtJWzdA_tplbHv9nymBrYSf29NLfn_znEM7aqgtvA9_VgGYs)
-* [CMS SEES EVIDENCE FOR THE HIGGS BOSON DECAYING INTO MUONS](http://cms.cern/news/cms-sees-evidence-higgs-boson-decaying-muons?fbclid=IwAR0VzIfVkg1vc_idL9Ln58_QahSAe-CW5gTS6RKwLhoiVS0ogcWHRV9OGKg)
-* [A new view of the Higgs boson](https://www.symmetrymagazine.org/article/a-new-view-of-the-higgs-boson)
-* [Random Search Wired Into Animals May Help Them Hunt](https://www.quantamagazine.org/random-search-wired-into-animals-may-help-them-hunt-20200611/?fbclid=IwAR1z2Zn07qj4fIg7n1w_QUN-5x2pPoKw7wY-gl5YC6-Z73K7nqtaYBDuBRg)
-* [Neutrinos Lead to Unexpected Discovery in Basic Math](https://www.quantamagazine.org/neutrinos-lead-to-unexpected-discovery-in-basic-math-20191113/?fbclid=IwAR1z2Zn07qj4fIg7n1w_QUN-5x2pPoKw7wY-gl5YC6-Z73K7nqtaYBDuBRg)
-* [LHC creates matter from light](https://www.symmetrymagazine.org/article/lhc-creates-matter-from-light)
-* [A bit of MAGIC](https://www.symmetrymagazine.org/article/a-bit-of-magic)
-* [How big is a neutron star?](https://www.symmetrymagazine.org/article/how-big-is-a-neutron-star)
-* [A Heavyweight Merger](https://physics.aps.org/articles/v13/111?fbclid=IwAR2X4Vc0UDQVp5raNtQN2nIlBDt1gwni_zyjIm6OsTR7jpPzAFo2ZheU3fk)
+<object data="/codes/3body_I.html">
+    Your browser doesn’t support the object tag.
+</object>
