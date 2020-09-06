@@ -25,7 +25,7 @@ On the web.
 * [Mexican Gothic, Silvia Moreno-Garcia](https://www.penguinrandomhouse.com/books/577068/mexican-gothic-by-silvia-moreno-garcia/)
 
 ## articles
-Here is list of current popular science articles I find interesting. I encourge students to read these types of articles. I find these types of articles enjoyable and they often remind me why I started to study science. (I made a mistake of not reading these types of artciles in grad school.)
+Here is list of current popular science articles I find interesting. I encourge students to read these types of articles. I find these types of articles enjoyable and they often remind me why I started to study science.
 * [What dark matter is (probably) not](https://www.symmetrymagazine.org/article/what-dark-matter-is-probably-not?fbclid=IwAR3Tm6QgQiFawHWdN2wpclPUKtDaUxMSzcVgCWGXi_QQAS4JvySmfACTtS4)
 * [Half the universe was missing... until now](https://www.youtube.com/watch?v=Kp_kqamkYpw&t=744s)
 * [LHCb discovers a new type of tetraquark](https://www.symmetrymagazine.org/article/lhcb-discovers-a-new-type-of-tetraquark?fbclid=IwAR3Ha6aG8z9wtJWzdA_tplbHv9nymBrYSf29NLfn_znEM7aqgtvA9_VgGYs)
