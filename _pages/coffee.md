@@ -10,6 +10,7 @@ redirect_from:
 {% include base_path %}
 
 On the web.
+
 [OSU Astronomy Daily Brew](http://www.astronomy.ohio-state.edu/Coffee/coffee.html)
 
 [Fermi Lab Youtube](https://www.youtube.com/channel/UCD5B6VoXv41fJ-IW8Wrhz9A)
