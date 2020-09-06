@@ -14,3 +14,5 @@ In truth coding was a skill I picked up late in my academic career (a mistake). 
 I primarily code in Python. I also teach a class in Python. Lately, I have been coding more in Julia (I am still learning). My first coding language was Fortran and I am still enjoy Fortran as my go to low level language. I have also done work in Matlab, C languages, and mathematica.
 
 Here are some coding I have done recently (somewhat suitable for public display).
+
+{$ include 3body.html %}
