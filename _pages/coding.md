@@ -15,4 +15,4 @@ I primarily code in Python. I also teach a class in Python. Lately, I have been 
 
 Here are some coding I have done recently (somewhat suitable for public display).
 
-{$ include 3body.html %}
+{% include 3body.html %}
