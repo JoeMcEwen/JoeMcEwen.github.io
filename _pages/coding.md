@@ -15,6 +15,6 @@ I primarily code in Python. I also teach a class in Python. Lately, I have been 
 
 Here are some coding I have done recently (somewhat suitable for public display).
 
-<object data="/codes/3body_I.html">
+<object data="/codes/3body.html">
     Your browser doesn’t support the object tag.
 </object>
