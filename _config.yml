@@ -193,6 +193,9 @@ collections:
   coffee:
     output: true
     permalink: /:collection/:path/
+  coding:
+    output: true
+    permalink: /:collection/:path/
 
 
 # Defaults
