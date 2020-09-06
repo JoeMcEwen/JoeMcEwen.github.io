@@ -19,4 +19,4 @@ Here are some coding I have done recently (somewhat suitable for public display)
   <link rel="import" href="/codes/3body.html">
 </head>
 
-{% include codes/3body.html %}
+{% include 3body.html %}
