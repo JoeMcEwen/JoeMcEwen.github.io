@@ -6,10 +6,6 @@ main:
   # - title: "Talks"
   #   url: /talks/
 
-  - title: "coding"
-    url: /coding/
-
-
   - title: "teaching"
     url: /teaching/
 
@@ -24,6 +20,9 @@ main:
 
   - title: "coffee"
     url: /coffee/
+
+  - title: "coding"
+    url: /coding/
 
   # - title: "Guide"
   #   url: /markdown/
