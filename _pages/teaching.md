@@ -18,3 +18,6 @@ Here is a link to my [VPython codes for physics](https://www.glowscript.org/#/us
 
 
 ## Computer Science 101
+Here are some codes used in my introductory computer science course. These codes some of the topics the class covers near the end of the quarter. Generally, these topics are considered outside the scope of the class, but are good topics for students to be introduced to (but never tested on).
+
+* [quicksort](https://github.com/JoeMcEwen/intro-computer-science-/blob/master/quicksort.ipynb)
