@@ -37,3 +37,8 @@ Here is list of current popular science articles I find interesting. I encourge 
 * [A bit of MAGIC](https://www.symmetrymagazine.org/article/a-bit-of-magic)
 * [How big is a neutron star?](https://www.symmetrymagazine.org/article/how-big-is-a-neutron-star)
 * [A Heavyweight Merger](https://physics.aps.org/articles/v13/111?fbclid=IwAR2X4Vc0UDQVp5raNtQN2nIlBDt1gwni_zyjIm6OsTR7jpPzAFo2ZheU3fk)
+* [A robot ballet](https://www.symmetrymagazine.org/article/a-robot-ballet)
+
+
+
+*
