@@ -196,7 +196,7 @@ collections:
   coding:
     output: true
     permalink: /:collection/:path/
-  scientific_computing:
+  fluid_codes:
     output: true
     permalink: /:collection/:path/
 
