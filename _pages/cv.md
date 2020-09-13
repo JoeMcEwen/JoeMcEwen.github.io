@@ -3,8 +3,6 @@ layout: archive
 title: "Curriculum Vitae"
 permalink: /cv/
 author_profile: true
-redirect_from:
-  - /resume
 ---
 
 {% include base_path %}
@@ -18,32 +16,32 @@ Education
 * M.Sc. Physics, Long Beach State University, 2010
 * B.Sc. Physics, San Francisco State University, 2007
 
-Research 
+Research
 ======
-Ph.D. thesis in theoretical and computational cosmology. M.Sc. thesis in the nuclear few body problem and computational physics. Current interests: statistical learning and information theory, urban analytics and economics, fluid dynamics, geometric mechanics, dynamical systems, using mathematics and science to influence policy 
+Ph.D. thesis in theoretical and computational cosmology. M.Sc. thesis in the nuclear few body problem and computational physics. Current interests: statistical learning and information theory, urban analytics and economics, fluid dynamics, geometric mechanics, dynamical systems, using mathematics and science to influence policy
 
 Professional experience
 ======
 * Mar. 2017 - Sept. 2017: Postdoctoral Scientist
   * Battelle Center for Mathematical Medicine
   * Research in information theory, statistical mechanics of dynamical systems
-  
+
 * Fall 2016 - Spring 2017: Lecturer
   * The Ohio State University
-  * Instructor for introductory physics recitations and laboratories 
+  * Instructor for introductory physics recitations and laboratories
 
 * Fall 2013 - Summer 2016: Graduate Research Associate
   * The Ohio State University
-  * research in Cosmology, author/coauthor on seven publications 
+  * research in Cosmology, author/coauthor on seven publications
   * research group that included members of the the physics and astronomy departments at The Ohio State University
   * research in lattice quantum chromodynamics (summer 2011)
 
 
 * Fall 2011 - Spring 2010: Graduate Research Associate
   * Long Beach State University
-  * research in nuclear few body problem, author/coauthor on three publications 
-  
-Leadership 
+  * research in nuclear few body problem, author/coauthor on three publications
+
+Leadership
 ======
 * **Journal Club Moderator**, Center for Cosmology and Astroparticle Physics, Columbus, OH Jan. 2014 -May. 2016
 
@@ -56,13 +54,13 @@ Leadership
 
 * **Graduate Mentor**, The Ohio State University, Columbus, OH 2015-2026
 
-  Served as a mentor for two incoming physics graduate students. Provided general advice with class selection, finding a research group, and navigating Columbus OH. 
+  Served as a mentor for two incoming physics graduate students. Provided general advice with class selection, finding a research group, and navigating Columbus OH.
 
 * **Elected Officer for Physics and Astronomy Club**, San Francisco State University, San Francisco, CA 2006-2006
 
   Elected officer for Physics and Astronomy Club. Helped organize monthly meetings and student events. Provided assistance maintaining physics and astronomy student services (e.g., the snack bar and study room)
 
-Service 
+Service
 ======
 * Fall 2017 - current, Downtown Emergency Service Center, Seattle, WA
 * 2014-2016, volunteer for Science Day at Innis Elementary, Columbus, OH
@@ -110,7 +108,7 @@ Publications
 
   Juna Kollmeier, David H. Weinberg, Benjamin E. Oppenheimer, Francesco Haardt, Neal Katz, Davé Romell, Mark Fardal, Piero Madau, Charles Danforth, Amanda B. Ford, **Joseph E. McEwen** :The Astrophysical Journal Letters, Volume 789, Issue 2, article id. L32, 5 pp. (2014),
   arXiv: 1404.2933v1
-      
+
 * [ <span style="color:blue"> The α − α fishbone potential revisited </span> ](https://journals.aps.org/prc/abstract/10.1103/PhysRevC.84.034001)
 
   J. P. Day, **Joseph E. McEwen**, M. Elhanagy, E. Smith, R. Woodhouse, Z. Papp : Physical Review C 84, 034001 6-September 2011,
