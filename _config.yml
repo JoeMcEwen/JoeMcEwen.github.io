@@ -199,7 +199,7 @@ collections:
   fluid_codes:
     output: true
     permalink: /:collection/:path/
-  dynamcis_codes:
+  dynamics_codes:
     output: true
     permalink: /:collection/:path/
 
