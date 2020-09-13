@@ -17,6 +17,6 @@ Here are some coding I have done recently (somewhat suitable for public display)
 
 
 
-{% for post in site.julia_examples reversed %}
+{% for post in site.scientific_computing reversed %}
   {% include archive-single.html %}
 {% endfor %}
