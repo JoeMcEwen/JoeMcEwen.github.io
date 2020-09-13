@@ -1,7 +1,7 @@
 ---
 title: "3-Body fun in Julia"
-excerpt: "Some fun with the 3-body problem using Julia <br/><img src='/images/Kepler_error.png'>"
-collection: scientific_computing 
+excerpt: "Some fun with the 3-body problem using Julia"
+collection: fluid_codes
 ---
 <script type="text/javascript" async
   src="https://cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-MML-AM_CHTML">
@@ -8459,15 +8459,15 @@ label {
 }
 /* Flexible box model classes */
 /* Taken from Alex Russell http://infrequently.org/2009/08/css-3-progress/ */
-/* This file is a compatability layer.  It allows the usage of flexible box 
+/* This file is a compatability layer.  It allows the usage of flexible box
 model layouts accross multiple browsers, including older browsers.  The newest,
 universal implementation of the flexible box model is used when available (see
-`Modern browsers` comments below).  Browsers that are known to implement this 
+`Modern browsers` comments below).  Browsers that are known to implement this
 new spec completely include:
 
     Firefox 28.0+
     Chrome 29.0+
-    Internet Explorer 11+ 
+    Internet Explorer 11+
     Opera 17.0+
 
 Browsers not listed, including Safari, are supported via the styling under the
@@ -11241,7 +11241,7 @@ div#pager .ui-resizable-handle {
   background: #f7f7f7;
   border-top: 1px solid #cfcfcf;
   border-bottom: 1px solid #cfcfcf;
-  /* This injects handle bars (a short, wide = symbol) for 
+  /* This injects handle bars (a short, wide = symbol) for
         the resize handle. */
 }
 div#pager .ui-resizable-handle::after {
@@ -11684,7 +11684,7 @@ ul.typeahead-list > li > a {
 .highlight .il { color: #666666 } /* Literal.Number.Integer.Long */
     </style>
 <style type="text/css">
-    
+
 /* Temporary definitions which will become obsolete with Notebook release 5.0 */
 .ansi-black-fg { color: #3E424D; }
 .ansi-black-bg { background-color: #3E424D; }
@@ -11738,14 +11738,14 @@ div#notebook {
   div.cell {
     display: block;
     page-break-inside: avoid;
-  } 
-  div.output_wrapper { 
-    display: block;
-    page-break-inside: avoid; 
   }
-  div.output { 
+  div.output_wrapper {
     display: block;
-    page-break-inside: avoid; 
+    page-break-inside: avoid;
+  }
+  div.output {
+    display: block;
+    page-break-inside: avoid;
   }
 }
 </style>
@@ -11801,23 +11801,23 @@ div#notebook {
 <p><video controls autoplay loop src="/images/three_body.mp4" />
 (code for video is below)</p>
 <p><a id='Hamiltonian'></a></p>
-<h4 id="The-3-Body-Hamiltonian">The 3-Body Hamiltonian<a class="anchor-link" href="#The-3-Body-Hamiltonian">&#182;</a></h4><p>The Hamiltonian for the 3-body problem is 
-\begin{align} 
-H(p,q) = \frac{p_1^2}{2 m_1} + \frac{p_2^2}{2 m_2} + \frac{p_3^2}{2 m_3} - G \frac{m_1 m_2}{q_{12}} - G \frac{m_1 m_3}{q_{13}} - G \frac{m_2 m_3}{q_{23}}~, 
-\end{align} 
-where $q_{ij} = \big| \mathbf{q}_i - \mathbf{q}_j \big|$ (like wise for the vector $\mathbf{q}_{ij} = \mathbf{q}_i - \mathbf{q}_j$). The Hamiltonian can be split into kinetic energy and potential energy parts
-\begin{align} 
-H(p,q) = K(p) + \Phi(q)~, 
+<h4 id="The-3-Body-Hamiltonian">The 3-Body Hamiltonian<a class="anchor-link" href="#The-3-Body-Hamiltonian">&#182;</a></h4><p>The Hamiltonian for the 3-body problem is
+\begin{align}
+H(p,q) = \frac{p_1^2}{2 m_1} + \frac{p_2^2}{2 m_2} + \frac{p_3^2}{2 m_3} - G \frac{m_1 m_2}{q_{12}} - G \frac{m_1 m_3}{q_{13}} - G \frac{m_2 m_3}{q_{23}}~,
 \end{align}
-where $\Phi$ is the potential energy function. The force on the ith particle from the jth particle is given by the gradient of the potential function 
-\begin{align} 
-\begin{split} 
+where $q_{ij} = \big| \mathbf{q}_i - \mathbf{q}_j \big|$ (like wise for the vector $\mathbf{q}_{ij} = \mathbf{q}_i - \mathbf{q}_j$). The Hamiltonian can be split into kinetic energy and potential energy parts
+\begin{align}
+H(p,q) = K(p) + \Phi(q)~,
+\end{align}
+where $\Phi$ is the potential energy function. The force on the ith particle from the jth particle is given by the gradient of the potential function
+\begin{align}
+\begin{split}
 \mathbf{F}_{ij} &amp;=  - \boldsymbol{\nabla_{q_i}} \Phi(q_{ij}) \\
 &amp; =- \boldsymbol{\nabla_{q_i}}  \left[ -G \frac{m_i m_j}{q_{ij}} \right] \\
 &amp; = -G \frac{m_i m_j}{q_{ij}^2} \boldsymbol{\nabla_{q_i}} \big| \mathbf{q}_i - \mathbf{q}_j \big| \\
 &amp; = -G \frac{m_i m_j}{q_{ij}^2}  \frac{ \mathbf{q}_i - \mathbf{q}_j }{q_{ij} } \\
-&amp; = -G \frac{m_i m_j}{q_{ij}^2} \hat{q}_{ij} ~. 
-\end{split} 
+&amp; = -G \frac{m_i m_j}{q_{ij}^2} \hat{q}_{ij} ~.
+\end{split}
 \end{align}</p>
 <p><a id='Jacobi'></a></p>
 <h4 id="Jacobi-coordinates">Jacobi coordinates<a class="anchor-link" href="#Jacobi-coordinates">&#182;</a></h4><p><a href="https://en.wikipedia.org/wiki/Jacobi_coordinates">Jacobi coordinates</a> are a coordinate transformation particulary suited for describing the dynamics of many body system.</p>
@@ -11828,88 +11828,88 @@ where $\Phi$ is the potential energy function. The force on the ith particle fro
 <li>As long as the center of mass remains constant, it can be ignored in calculations. </li>
 </ul>
 <p>For this notebook, the coordinate transformation between configuration coordinates $\mathbf{q}_i$ to Jacobi coordinates $\mathbf{s}_i$ is</p>
-<p>\begin{align} 
-\left( \begin{array}{c} \mathbf{s}_1 \\ \mathbf{s}_2 \\ \mathbf{R}_\text{cm} \end{array} \right) = \left( \begin{array}{ccc} 1 &amp; 0 &amp; -1 \\ - \frac{m_1}{m_1 + m_3} &amp; 1 &amp; -\frac{m_3}{m_1 + m_3} \\ \frac{m_1}{M} &amp; \frac{m_2}{M} &amp; \frac{m_2}{M} \end{array} \right) \left( \begin{array}{c} \mathbf{q}_1 \\ \mathbf{q}_2 \\ \mathbf{q}_3 \end{array} \right) ~, 
-\end{align} 
+<p>\begin{align}
+\left( \begin{array}{c} \mathbf{s}_1 \\ \mathbf{s}_2 \\ \mathbf{R}_\text{cm} \end{array} \right) = \left( \begin{array}{ccc} 1 &amp; 0 &amp; -1 \\ - \frac{m_1}{m_1 + m_3} &amp; 1 &amp; -\frac{m_3}{m_1 + m_3} \\ \frac{m_1}{M} &amp; \frac{m_2}{M} &amp; \frac{m_2}{M} \end{array} \right) \left( \begin{array}{c} \mathbf{q}_1 \\ \mathbf{q}_2 \\ \mathbf{q}_3 \end{array} \right) ~,
+\end{align}
 where $M= m_1 + m_2 + m_3 $ and $R_\text{cm}$ is the center of mass coordinate.</p>
-<p>The inverse transformation is given by 
-\begin{align} 
+<p>The inverse transformation is given by
+\begin{align}
 \left( \begin{array}{c} \mathbf{q}_1 \\ \mathbf{q}_2 \\ \mathbf{q}_3 \end{array} \right)= \left( \begin{array}{ccc} \frac{m_3}{m_1+m_3} &amp; -\frac{m_2}{M} &amp; 1 \\ 0 &amp; \frac{m_1 +m_3}{M} &amp; 1 \\ \frac{-m_1}{m_1 +m_3} &amp; \frac{-m_2}{M} &amp; 1 \end{array} \right) \left( \begin{array}{c} \mathbf{s}_1 \\ \mathbf{s}_2 \\ \mathbf{R}_\text{cm} \end{array} \right)~.
 \end{align}</p>
 <p>Ignoring the center of mass the coordinates and their time derivatves are
 \begin{align}
-\begin{split} 
+\begin{split}
 &amp; \mathbf{s}_1 = \mathbf{q}_1 - \mathbf{q}_3 \\
-&amp; \dot{\mathbf{s}}_1 = \dot{\mathbf{q}}_1 - \dot{\mathbf{q}}_3~, 
-\end{split} 
+&amp; \dot{\mathbf{s}}_1 = \dot{\mathbf{q}}_1 - \dot{\mathbf{q}}_3~,
+\end{split}
 \end{align}</p>
 <p>\begin{align}
-\begin{split} 
+\begin{split}
 &amp; \mathbf{s}_2 = \frac{m_1\mathbf{q}_1 - m_3\mathbf{q}_3}{m_1 + m_3} + \mathbf{q}_2 \\
-&amp; \dot{\mathbf{s}}_2 = \frac{m_1 \dot{\mathbf{q}}_1 - m_3\dot{\mathbf{q}}_3}{m_1 + m_3} + \dot{\mathbf{q}}_2 ~. 
-\end{split} 
+&amp; \dot{\mathbf{s}}_2 = \frac{m_1 \dot{\mathbf{q}}_1 - m_3\dot{\mathbf{q}}_3}{m_1 + m_3} + \dot{\mathbf{q}}_2 ~.
+\end{split}
 \end{align}</p>
 <p>It is useful to define the reduced masses
-\begin{align} 
-\mu_1= \frac{ m_1 m_3}{m_1 +  m_3} ~, \quad \mu_2= \frac{m_2(m_1 + m_3)}{M} ~. 
+\begin{align}
+\mu_1= \frac{ m_1 m_3}{m_1 +  m_3} ~, \quad \mu_2= \frac{m_2(m_1 + m_3)}{M} ~.
 \end{align}</p>
-<p>The kinetic energy in Jacobi coordinates is: 
-\begin{align} 
-\begin{split} 
+<p>The kinetic energy in Jacobi coordinates is:
+\begin{align}
+\begin{split}
 \frac{1}{2} m_1 \dot{q}_1^2 &amp; = \frac{1}{2} m_1 \left( \frac{m_3^2}{(m_1 + m_3)^2} \dot{s}_1^2 + \frac{m_2^2}{M^2} \dot{s}_2^2 + \dot{R}^2_\text{cm} - \frac{2 m_3 m_2}{M(m_1 + m_3)} \dot{\mathbf{s}}_1 \cdot \dot{\mathbf{s}}_2 + \frac{2 m_3}{m_1 + m_3} \dot{\mathbf{s}}_1 \cdot \dot{\mathbf{R}}_\text{cm} - \frac{2 m_2}{M} \dot{\mathbf{s}}_2 \cdot \dot{\mathbf{R}}_\text{cm}  \right) ~,
-\end{split} 
+\end{split}
 \end{align}</p>
-<p>\begin{align} 
-\begin{split} 
-\frac{1}{2} m_2 \dot{q}_2^2 &amp; = \frac{1}{2} m_2 \left( \frac{ (m_1^2 + 2m_1 m_3 +  m_3^2)}{M^2} \dot{s}_2^2 + 
+<p>\begin{align}
+\begin{split}
+\frac{1}{2} m_2 \dot{q}_2^2 &amp; = \frac{1}{2} m_2 \left( \frac{ (m_1^2 + 2m_1 m_3 +  m_3^2)}{M^2} \dot{s}_2^2 +
 \dot{R}_\text{cm}^2 + \frac{2(m_1 + m_3)}{M} \dot{\mathbf{s}}_2 \cdot \dot{\mathbf{R}}_\text{cm}\right) ~,
-\end{split} 
+\end{split}
 \end{align}</p>
-<p>\begin{align} 
-\begin{split} 
+<p>\begin{align}
+\begin{split}
 \frac{1}{2} m_3 \dot{q}_3^2 &amp; = \frac{1}{2} m_3 \left(\frac{m_1^2}{(m_1 +m_3)^2}\dot{s}_1^2 + \frac{m_2^2}{M^2} \dot{s}_2^2 + \dot{R}^2_\text{cm} + \frac{2 m_1 m_2}{M(m_1 + m_3)}\dot{\mathbf{s}}_1 \cdot \dot{\mathbf{s}}_2 - \frac{2 m_1}{m_1 + m_3}\dot{\mathbf{s}}_1 \cdot \dot{\mathbf{R}}_\text{cm} - \frac{2 m_2}{M} \dot{\mathbf{s}}_2 \cdot \dot{\mathbf{R}}_\text{cm}\right) ~,
-\end{split} 
+\end{split}
 \end{align}</p>
-<p>\begin{align} 
+<p>\begin{align}
 \begin{split}
 \frac{1}{2} \left( m_1 \dot{q}_1^2 + m_2 \dot{q}_2^2  + m_3 \dot{q}_3^2 \right) &amp; = \frac{1}{2} \left( \frac{m_1m_3}{m_1 + m_3} \dot{s}_1^2 + \frac{m_2(m_1 + m_3)}{M} \dot{s}_2^2 + M \dot{R}^2_\text{cm} \right)~.
-\end{split} 
+\end{split}
 \end{align}</p>
-<p>The differences in configuration vectors is 
-\begin{align} 
+<p>The differences in configuration vectors is
+\begin{align}
 \mathbf{q}_{21}= \mathbf{s}_2 - \frac{m_3}{m_1 + m_3} \mathbf{s}_1~,
 \end{align}</p>
-<p>\begin{align} 
+<p>\begin{align}
 \mathbf{q}_{31} = - \mathbf{s}_1~,
 \end{align}</p>
-<p>\begin{align} 
+<p>\begin{align}
 \mathbf{q}_{23} = \mathbf{s}_2 + \frac{m_1}{m_1 + m_3} \mathbf{s}_1 ~.
 \end{align}</p>
 <p>The Hamiltonian in Jacobi coordinates is
-\begin{align} 
-\begin{split} 
+\begin{align}
+\begin{split}
 H = \frac{p_1^2}{2 \mu_1} + \frac{p^2_2}{2 \mu_2} - G m_1 m_2 \frac{1}{\Big| \mathbf{s}_2 - \frac{m_3}{m_1 + m_3} \mathbf{s}_1\Big|} - G m_1 m_3 \frac{1}{\Big| \mathbf{s}_1 \Big|  } - G m_2 m_3 \frac{1}{\Big| \mathbf{s}_2 - \frac{m_1}{m_1 + m_3} \mathbf{s}_1 \Big| } ~.
-\end{split} 
+\end{split}
 \end{align}</p>
 <h4 id="Hamilton's-Equations">Hamilton's Equations<a class="anchor-link" href="#Hamilton's-Equations">&#182;</a></h4><p>In Jacobi coordinates Hamilton's equations are
-\begin{align} 
-\dot{\mathbf{s}}_1 =  \frac{ \partial H}{\partial \mathbf{p}_1} = \frac{ \mathbf{p}_1}{\mu_1}~, 
+\begin{align}
+\dot{\mathbf{s}}_1 =  \frac{ \partial H}{\partial \mathbf{p}_1} = \frac{ \mathbf{p}_1}{\mu_1}~,
 \end{align}</p>
-<p>\begin{align} 
-\dot{\mathbf{s}}_2 =  \frac{ \partial H}{\partial \mathbf{p}_2} = \frac{ \mathbf{p}_2}{\mu_2}~, 
+<p>\begin{align}
+\dot{\mathbf{s}}_2 =  \frac{ \partial H}{\partial \mathbf{p}_2} = \frac{ \mathbf{p}_2}{\mu_2}~,
 \end{align}</p>
-<p>\begin{align} 
-\begin{split} 
+<p>\begin{align}
+\begin{split}
 \dot{\mathbf{p}}_1 &amp; = -\frac{\partial H}{\partial \mathbf{s}_1} \\
 &amp; = \frac{m_3}{m_1 + m_3}\frac{G m_1 m_2}{ \Big| \mathbf{s}_2 - \frac{m_3}{m_1 + m_3} \mathbf{s}_1\Big|^3} \left( \mathbf{s}_2 - \frac{m_3}{m_1 + m_3} \mathbf{s}_1\right) \\
 &amp; \;\;\;\;\; - \frac{G m_1 m_3}{\Big| \mathbf{s}_1 \Big|^3 } \mathbf{s}_1 -  \frac{m_1}{m_1 + m_3}\frac{G m_2 m_3}{ \Big| \mathbf{s}_2 + \frac{m_1}{m_1 + m_3} \mathbf{s}_1 \Big|^3} \left( \mathbf{s}_2 + \frac{m_1}{m_1 + m_3} \mathbf{s}_1 \right) ~,
-\end{split} 
+\end{split}
 \end{align}</p>
-<p>\begin{align} 
-\begin{split} 
+<p>\begin{align}
+\begin{split}
 \dot{\mathbf{p}}_2 &amp; = -\frac{\partial H}{\partial \mathbf{s}_2} \\
 &amp; = -\frac{G m_1 m_2}{ \Big| \mathbf{s}_2 - \frac{m_3}{m_1 + m_3} \mathbf{s}_1\Big|^3} \left( \mathbf{s}_2 - \frac{m_3}{m_1 + m_3} \mathbf{s}_1\right)  -  \frac{G m_2 m_3}{ \Big| \mathbf{s}_2 + \frac{m_1}{m_1 + m_3} \mathbf{s}_1 \Big|^3} \left( \mathbf{s}_2 + \frac{m_1}{m_1 + m_3} \mathbf{s}_1 \right) ~.
-\end{split} 
+\end{split}
 \end{align}</p>
 <p>A good way for me to get the signs right was to calculate $\frac{\partial H}{\partial \mathbf{s}_1}= \frac{\partial H}{\partial \mathbf{q}_1}\frac{\partial \mathbf{q}_1}{\partial \mathbf{s}_1 } + \frac{\partial H}{\partial \mathbf{q}_2}\frac{\partial \mathbf{q}_2}{\partial \mathbf{s}_1 } + \frac{\partial H}{\partial \mathbf{q}_3}\frac{\partial \mathbf{q}_3}{\partial \mathbf{s}_1 }$ (similar for other terms).</p>
 
@@ -11924,16 +11924,16 @@ H = \frac{p_1^2}{2 \mu_1} + \frac{p^2_2}{2 \mu_2} - G m_1 m_2 \frac{1}{\Big| \ma
 <h4 id="Symplectic-Integration">Symplectic Integration<a class="anchor-link" href="#Symplectic-Integration">&#182;</a></h4><p>A good reference on symplectic integration is  the book by <a href="http://www.springer.com/us/book/9783540306634">Haier, Wanner, and Lubich</a>.</p>
 <p>What does symplectic mean (the briefest of explanations)?</p>
 <ul>
-<li><p>Symplectic referes to a geometric property of Hamiltonian systems. In one dimension the 2-form $\omega= dp_1 \wedge dq^1$ describes an oriented area in phase space. More specifically, for two vectors 
-\begin{align} 
-X=\left( \begin{array}{c} X^p \\ X^q \end{array} \right)~\quad \&amp;\quad ~Y=\left( \begin{array}{c} Y^p \\ Y^q \end{array} \right)~, 
-\end{align} 
+<li><p>Symplectic referes to a geometric property of Hamiltonian systems. In one dimension the 2-form $\omega= dp_1 \wedge dq^1$ describes an oriented area in phase space. More specifically, for two vectors
+\begin{align}
+X=\left( \begin{array}{c} X^p \\ X^q \end{array} \right)~\quad \&amp;\quad ~Y=\left( \begin{array}{c} Y^p \\ Y^q \end{array} \right)~,
+\end{align}
 the symplectic 2-form on $X$ and $Y$ gives
-\begin{align} 
+\begin{align}
 \begin{split}
 \omega(X,Y) &amp; = \left( \begin{array}{c} X^p \\ X^q \end{array} \right)^T \left( \begin{array}{cc} 0 &amp; 1 \\ -1 &amp; 0 \end{array} \right) \left( \begin{array}{c} Y^p \\ Y^q \end{array} \right) = X^pY^q - X^q Y^p \\
 &amp; =\text{the oriented area of the parallelogram spaned by $X~ \&amp;~ Y$.}
-\end{split} 
+\end{split}
 \end{align}</p>
 </li>
 <li><p>In dimensions greater than one the symplectic 2-form is $\omega = dp_1 \wedge dq^1 + dp_2 \wedge dq^2 + ... + dp_n \wedge dq^n$. Evaluated on vectors $X$ and $Y$ the symplectic two form gives the sum of projected areas.</p>
@@ -11954,43 +11954,43 @@ the symplectic 2-form on $X$ and $Y$ gives
 </ul>
 <p>The symplectic integrator presented in this notebook follows the paper of <a href="https://link.springer.com/article/10.1007/BF00699717">Yoshida 1993</a> section 3.2, which takes a Lie algebra perspective.</p>
 <p>Hamilton's equations are
-\begin{align} 
-\dot{q}^i= \frac{\partial H}{\partial p_i} ~, \quad \dot{p}_i = - \frac{\partial H}{\partial q^i} ~. 
-\end{align} 
+\begin{align}
+\dot{q}^i= \frac{\partial H}{\partial p_i} ~, \quad \dot{p}_i = - \frac{\partial H}{\partial q^i} ~.
+\end{align}
 Letting $\eta=(q,p)$ Hamilton's equations can be written as</p>
 <p>\begin{align}
-\begin{split} 
+\begin{split}
 \frac{d\eta}{dt} &amp;= \frac{ \partial \eta}{\partial q^i} \dot{q}^i + \frac{ \partial \eta}{\partial p_i} \dot{p}_i\\
 &amp; =  \frac{ \partial \eta}{\partial q^i} \frac{\partial H}{\partial p_i} - \frac{ \partial \eta}{\partial p_i} \frac{\partial H}{\partial q^i} \\
-&amp; = \{ \eta, H \} ~, 
-\end{split} 
-\end{align} 
+&amp; = \{ \eta, H \} ~,
+\end{split}
+\end{align}
 where the last line makes use of the Poisson bracket
-\begin{align} 
-\{f, g\} = \frac{ \partial f}{\partial q^i} \frac{\partial g}{\partial p_i} - \frac{ \partial f}{\partial p_i} \frac{\partial g}{\partial q^i}~. 
+\begin{align}
+\{f, g\} = \frac{ \partial f}{\partial q^i} \frac{\partial g}{\partial p_i} - \frac{ \partial f}{\partial p_i} \frac{\partial g}{\partial q^i}~.
 \end{align}</p>
-<p>Define the operator 
-\begin{align} D_H = \frac{ \partial H}{\partial p_i} \frac{\partial }{\partial q^i} - \frac{\partial H}{\partial q^i} \frac{\partial }{\partial p_i} ~, 
-\end{align} 
-so that the time evolution of $\eta$ can be written as 
-\begin{align} 
-\frac{d \eta}{dt} = D_H ~\eta~. 
-\end{align} 
-For a time step of size $\tau$ the solution is an exponential 
-\begin{align} 
-\eta(\tau) = \exp\left[ \tau D_H \right] ~\eta(0) ~. 
+<p>Define the operator
+\begin{align} D_H = \frac{ \partial H}{\partial p_i} \frac{\partial }{\partial q^i} - \frac{\partial H}{\partial q^i} \frac{\partial }{\partial p_i} ~,
+\end{align}
+so that the time evolution of $\eta$ can be written as
+\begin{align}
+\frac{d \eta}{dt} = D_H ~\eta~.
+\end{align}
+For a time step of size $\tau$ the solution is an exponential
+\begin{align}
+\eta(\tau) = \exp\left[ \tau D_H \right] ~\eta(0) ~.
 \end{align}</p>
 <p>Many Hamiltonians can be split into parts, for instance $H=H_0 + H_\text{interaction}$. For separable Hamiltonians the Hamiltonain operator can be split into a kinetic term and a potential term
-\begin{align} D_H = K_p + V_q~. 
-\end{align} 
-In this case the solution takes the form of 
-\begin{align} 
-\eta(\tau) = \exp \left[ \tau ( A + B) \right] ~\eta(0)~, 
-\end{align} 
-where $A= T_p$ (the kinetic term) and $B=V_p$ (the potential term). Up to order $\tau^n$ the solution can be determined by 
+\begin{align} D_H = K_p + V_q~.
+\end{align}
+In this case the solution takes the form of
 \begin{align}
-\exp(\tau[ A + B]) = \displaystyle \prod_{i}^n \exp(\tau~ c_i A)~ \exp(\tau~ d_i B) + o(\tau^{n+1}) ~, 
-\end{align} 
+\eta(\tau) = \exp \left[ \tau ( A + B) \right] ~\eta(0)~,
+\end{align}
+where $A= T_p$ (the kinetic term) and $B=V_p$ (the potential term). Up to order $\tau^n$ the solution can be determined by
+\begin{align}
+\exp(\tau[ A + B]) = \displaystyle \prod_{i}^n \exp(\tau~ c_i A)~ \exp(\tau~ d_i B) + o(\tau^{n+1}) ~,
+\end{align}
 for a set of real numbers $c_i$ and $d_i$.</p>
 <p>A second order solution is $c_1 =1/2,~ c_2=1/2,~ d_1=1,~ d_2=0$, with expansion given by</p>
 <p>\begin{align}
@@ -11998,35 +11998,35 @@ for a set of real numbers $c_i$ and $d_i$.</p>
 \displaystyle \prod_{i}^2 \exp(\tau~ c_i A)~ \exp(\tau~ d_i B) + o(\tau^2) &amp; =\exp(\tau/2~ A) ~\exp(\tau B)~ \exp(\tau/2~A) + o(\tau^3) \\
 &amp; =\big( 1+ \frac{\tau}{2} A + \frac{\tau^2}{4 2!} A^2 + ...\big)~\big( 1+ \tau B + \frac{\tau^2}{2!} B^2 + ...\big) ~\big( 1+ \frac{\tau}{2} A + \frac{\tau^2}{4 2!} A^2 + ...\big) + o(\tau^3) \\
 &amp; = 1 + \tau(A + B) + \frac{\tau^2}{2!} \left[ A^2 + [A,B]  + B^2\right] + ... + o(\tau^3) \\
-&amp; = \exp(\tau~\left[ A+B\right]) + o(\tau^3)~. 
+&amp; = \exp(\tau~\left[ A+B\right]) + o(\tau^3)~.
 \end{split}
 \end{align}</p>
-<p>For $A= \frac{\partial H}{\partial p}$ and $B= \frac{\partial H}{\partial q}$[where is the minus sign?], the above corresponds to a half step update in $q$ followed by a full step update in $p$ followed by a half step update in $q$, or 
-\begin{align} 
-\begin{split} 
+<p>For $A= \frac{\partial H}{\partial p}$ and $B= \frac{\partial H}{\partial q}$[where is the minus sign?], the above corresponds to a half step update in $q$ followed by a full step update in $p$ followed by a half step update in $q$, or
+\begin{align}
+\begin{split}
 &amp; q_\star= q_0 + \frac{\tau}{2} \frac{\partial H(p_0,q_0)}{\partial p} ~, \\
 &amp; p=p_0 - \tau \frac{\partial H(p_0,q_\star)}{\partial q}~, \\
 &amp; q= q_\star + \frac{\tau}{2} \frac{\partial H(p,q_\star)}{\partial p}~,
 \end{split}
-\end{align} 
+\end{align}
 which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer-Verlet or leapfrog methods</a>.</p>
 <p>This notebook employs the third order method by Ruth
 \begin{align}
-\begin{split} 
+\begin{split}
 &amp; c_1 =  \frac{7}{24}~, \quad ~ c_2 = \frac{3}{4} \\
 &amp; c_3=\frac{-1}{24} \\
 &amp; d_1 = \frac{2}{3} ~, \quad ~ d_2 = -d1 \\
 &amp; d_3=1~.
-\end{split} 
+\end{split}
 \end{align}</p>
 <p>And, also the fourth order method by Ruth
-\begin{align} 
-\begin{split} 
+\begin{align}
+\begin{split}
 &amp; c_1 = \frac{1}{2(2 - 2^{1/3})} ~, \quad ~ c_2 = \frac{1-2^{1/3}}{2(2 - 2^{1/3})} \\
 &amp; c_3=c_2 ~, \quad ~ c_4=c_1 \\
 &amp; d_1 = \frac{1}{2(2 - 2^{1/3})} ~, \quad ~ d_2 = \frac{-2^{1/3}}{2(2 - 2^{1/3})} \\
-&amp; d_3=d_1 ~, \quad ~ d_4=0 ~. 
-\end{split} 
+&amp; d_3=d_1 ~, \quad ~ d_4=0 ~.
+\end{split}
 \end{align}</p>
 
 </div>
@@ -12048,30 +12048,30 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="k">function</span> <span class="n">s1_dot</span><span class="p">(</span><span class="n">p1</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">p2</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">params</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
     <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="n">params</span>
-    
+
     <span class="k">return</span> <span class="n">p1</span><span class="o">/</span><span class="n">mu1</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">function</span> <span class="n">s2_dot</span><span class="p">(</span><span class="n">p1</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">p2</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">params</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
     <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="n">params</span>
-    
+
     <span class="k">return</span> <span class="n">p2</span><span class="o">/</span><span class="n">mu2</span>
 <span class="k">end</span><span class="p">;</span>
 
 
 <span class="k">function</span> <span class="n">p1_dot</span><span class="p">(</span><span class="n">s1</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">s2</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">params</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
     <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="n">params</span>
-    
+
     <span class="n">q23</span><span class="o">=</span><span class="n">s2</span><span class="o">+</span> <span class="n">m1</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span>
     <span class="n">q21</span><span class="o">=</span><span class="n">s2</span><span class="o">-</span> <span class="n">m3</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span>
-    <span class="n">result</span><span class="o">=</span> <span class="n">m1</span><span class="o">*</span><span class="n">m2</span><span class="o">*</span><span class="n">mu1</span><span class="o">/</span><span class="n">m1</span><span class="o">*</span><span class="n">q21</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q21</span><span class="p">)</span><span class="o">^</span><span class="mf">3.</span> <span class="o">-</span> <span class="n">m2</span><span class="o">*</span><span class="n">m3</span><span class="o">*</span><span class="n">mu1</span><span class="o">/</span><span class="n">m3</span><span class="o">*</span><span class="n">q23</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q23</span><span class="p">)</span><span class="o">^</span><span class="mf">3.</span> <span class="o">-</span> <span class="n">m1</span><span class="o">*</span><span class="n">m3</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">s1</span> 
-        
+    <span class="n">result</span><span class="o">=</span> <span class="n">m1</span><span class="o">*</span><span class="n">m2</span><span class="o">*</span><span class="n">mu1</span><span class="o">/</span><span class="n">m1</span><span class="o">*</span><span class="n">q21</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q21</span><span class="p">)</span><span class="o">^</span><span class="mf">3.</span> <span class="o">-</span> <span class="n">m2</span><span class="o">*</span><span class="n">m3</span><span class="o">*</span><span class="n">mu1</span><span class="o">/</span><span class="n">m3</span><span class="o">*</span><span class="n">q23</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q23</span><span class="p">)</span><span class="o">^</span><span class="mf">3.</span> <span class="o">-</span> <span class="n">m1</span><span class="o">*</span><span class="n">m3</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">^</span><span class="mi">3</span><span class="o">*</span><span class="n">s1</span>
+
     <span class="k">return</span> <span class="n">result</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">function</span> <span class="n">p2_dot</span><span class="p">(</span><span class="n">s1</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span> <span class="n">s2</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">params</span><span class="o">::</span><span class="kt">Array</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
     <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="n">params</span>
-    
+
     <span class="n">q23</span><span class="o">=</span><span class="n">s2</span><span class="o">+</span> <span class="n">m1</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span>
     <span class="n">q21</span><span class="o">=</span><span class="n">s2</span><span class="o">-</span> <span class="n">m3</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span>
     <span class="n">result</span><span class="o">=</span> <span class="o">-</span><span class="n">m1</span><span class="o">*</span><span class="n">m2</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q21</span><span class="p">)</span><span class="o">^</span><span class="mf">3.</span><span class="o">*</span><span class="n">q21</span>  <span class="o">-</span> <span class="n">m2</span><span class="o">*</span><span class="n">m3</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q23</span><span class="p">)</span><span class="o">^</span><span class="mf">3.</span><span class="o">*</span><span class="n">q23</span>
@@ -12092,7 +12092,7 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
 <div class=" highlight hl-julia"><pre><span></span><span class="k">function</span> <span class="n">map_to_Jacobi</span><span class="p">(</span><span class="n">q1</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">q2</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span>
         <span class="n">q3</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">params</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
     <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="n">params</span>
-     
+
     <span class="n">s1</span><span class="o">=</span><span class="n">q1</span><span class="o">-</span><span class="n">q3</span>
     <span class="n">s2</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">m1</span><span class="o">*</span><span class="n">q1</span><span class="o">-</span><span class="n">m3</span><span class="o">*</span><span class="n">q3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span> <span class="o">+</span> <span class="n">q2</span>
     <span class="n">R</span><span class="o">=</span><span class="p">(</span><span class="n">m1</span><span class="o">*</span><span class="n">q1</span><span class="o">+</span><span class="n">m2</span><span class="o">*</span><span class="n">q2</span><span class="o">+</span><span class="n">m3</span><span class="o">*</span><span class="n">q3</span><span class="p">)</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m2</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span>
@@ -12101,10 +12101,10 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
 
 <span class="k">function</span> <span class="n">map_to_Cartesian</span><span class="p">(</span><span class="n">s1</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">s2</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span>
         <span class="n">R</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">params</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">})</span>
-    
+
     <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="n">params</span>
     <span class="n">M</span><span class="o">=</span><span class="n">m1</span><span class="o">+</span><span class="n">m2</span><span class="o">+</span><span class="n">m3</span>
-     
+
     <span class="n">q1</span><span class="o">=</span><span class="n">m3</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span> <span class="o">-</span> <span class="n">m2</span><span class="o">/</span><span class="n">M</span><span class="o">*</span><span class="n">s2</span> <span class="o">+</span> <span class="n">R</span>
     <span class="n">q2</span><span class="o">=</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">/</span><span class="n">M</span><span class="o">*</span><span class="n">s2</span> <span class="o">+</span> <span class="n">R</span>
     <span class="n">q3</span><span class="o">=-</span><span class="n">m1</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span> <span class="o">-</span><span class="n">m2</span><span class="o">/</span><span class="n">M</span><span class="o">*</span><span class="n">s2</span> <span class="o">+</span> <span class="n">R</span>
@@ -12133,29 +12133,29 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
 <div class=" highlight hl-julia"><pre><span></span><span class="k">function</span> <span class="n">dsdt</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
     <span class="n">p1</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">p2</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="o">:</span><span class="mi">6</span><span class="p">]</span>
-    
+
     <span class="k">return</span> <span class="n">vcat</span><span class="p">(</span><span class="n">s1_dot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">params</span><span class="p">),</span> <span class="n">s2_dot</span><span class="p">(</span><span class="n">p1</span><span class="p">,</span><span class="n">p2</span><span class="p">,</span><span class="n">params</span><span class="p">))</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">function</span> <span class="n">dpdt</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
     <span class="n">s1</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">s2</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="o">:</span><span class="mi">6</span><span class="p">]</span>
-    
+
     <span class="k">return</span> <span class="n">vcat</span><span class="p">(</span><span class="n">p1_dot</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">params</span><span class="p">),</span> <span class="n">p2_dot</span><span class="p">(</span><span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span><span class="n">params</span><span class="p">))</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">function</span> <span class="n">H</span><span class="p">(</span><span class="n">s</span><span class="p">,</span><span class="n">p</span><span class="p">,</span><span class="n">params</span><span class="p">)</span>
     <span class="n">m1</span><span class="p">,</span> <span class="n">m2</span><span class="p">,</span> <span class="n">m3</span><span class="p">,</span> <span class="n">mu1</span><span class="p">,</span> <span class="n">mu2</span><span class="o">=</span><span class="n">params</span>
-    
+
     <span class="n">p1</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">p2</span><span class="o">=</span><span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="o">:</span><span class="mi">6</span><span class="p">]</span>
-    
+
     <span class="n">s1</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">]</span>
     <span class="n">s2</span><span class="o">=</span><span class="n">s</span><span class="p">[</span><span class="mi">4</span><span class="o">:</span><span class="mi">6</span><span class="p">]</span>
-    
+
     <span class="n">q23</span><span class="o">=</span><span class="n">s2</span><span class="o">+</span> <span class="n">m1</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span>
     <span class="n">q21</span><span class="o">=</span><span class="n">s2</span><span class="o">-</span> <span class="n">m3</span><span class="o">/</span><span class="p">(</span><span class="n">m1</span><span class="o">+</span><span class="n">m3</span><span class="p">)</span><span class="o">*</span><span class="n">s1</span>
-    
+
     <span class="n">K</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">2.</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="mi">3</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="n">mu1</span>  <span class="o">+</span> <span class="mi">1</span><span class="o">/</span><span class="mf">2.</span><span class="o">*</span><span class="n">norm</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">4</span><span class="o">:</span><span class="mi">6</span><span class="p">])</span><span class="o">^</span><span class="mi">2</span><span class="o">/</span><span class="n">mu2</span>
     <span class="n">Phi</span><span class="o">=-</span> <span class="n">m1</span><span class="o">*</span><span class="n">m2</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q21</span><span class="p">)</span><span class="o">-</span><span class="n">m1</span><span class="o">*</span><span class="n">m3</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">s1</span><span class="p">)</span><span class="o">-</span><span class="n">m2</span><span class="o">*</span><span class="n">m3</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q23</span><span class="p">)</span>
     <span class="k">return</span> <span class="n">K</span> <span class="o">+</span> <span class="n">Phi</span>
@@ -12195,26 +12195,26 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="k">function</span> <span class="n">Ruth3rd</span><span class="p">(</span><span class="n">dqdt</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="n">dpdt</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="n">q_0</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">p_0</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">tau</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span>
-    
+
     <span class="n">c1</span><span class="o">=</span><span class="mf">7.</span><span class="o">/</span><span class="mf">24.</span>
     <span class="n">c2</span><span class="o">=</span><span class="mf">3.</span><span class="o">/</span><span class="mf">4.</span>
     <span class="n">c3</span><span class="o">=-</span><span class="mf">1.</span><span class="o">/</span><span class="mf">24.</span>
 
-    <span class="n">d1</span><span class="o">=</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span> 
+    <span class="n">d1</span><span class="o">=</span><span class="mf">2.</span><span class="o">/</span><span class="mf">3.</span>
     <span class="n">d2</span><span class="o">=-</span><span class="n">d1</span>
     <span class="n">d3</span><span class="o">=</span><span class="mf">1.</span>
     <span class="c"># the sign in front of d_i is positive </span>
     <span class="c"># since I use dpdt instead of V_q </span>
     <span class="n">q_star</span><span class="o">=</span><span class="n">q_0</span> <span class="o">+</span> <span class="n">c1</span><span class="o">*</span><span class="n">dqdt</span><span class="p">(</span><span class="n">q_0</span><span class="p">,</span><span class="n">p_0</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
     <span class="n">p_star</span><span class="o">=</span><span class="n">p_0</span> <span class="o">+</span> <span class="n">d1</span><span class="o">*</span><span class="n">dpdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_0</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
-    
+
     <span class="n">q_star</span><span class="o">=</span><span class="n">q_star</span> <span class="o">+</span> <span class="n">c2</span><span class="o">*</span><span class="n">dqdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
     <span class="n">p_star</span><span class="o">=</span><span class="n">p_star</span> <span class="o">+</span> <span class="n">d2</span><span class="o">*</span><span class="n">dpdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
-    
+
     <span class="n">q_star</span><span class="o">=</span><span class="n">q_star</span> <span class="o">+</span> <span class="n">c3</span><span class="o">*</span><span class="n">dqdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
     <span class="n">p_star</span><span class="o">=</span><span class="n">p_star</span> <span class="o">+</span> <span class="n">d3</span><span class="o">*</span><span class="n">dpdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
-    
-    <span class="k">return</span> <span class="n">q_star</span><span class="p">,</span> <span class="n">p_star</span>  
+
+    <span class="k">return</span> <span class="n">q_star</span><span class="p">,</span> <span class="n">p_star</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 
@@ -12229,7 +12229,7 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="k">function</span> <span class="n">Ruth4th</span><span class="p">(</span><span class="n">dqdt</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="n">dpdt</span><span class="o">::</span><span class="kt">Function</span><span class="p">,</span><span class="n">q_0</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">p_0</span><span class="o">::</span><span class="kt">Vector</span><span class="p">{</span><span class="kt">Float64</span><span class="p">},</span><span class="n">tau</span><span class="o">::</span><span class="kt">Float64</span><span class="p">)</span>
-    
+
     <span class="n">c1</span><span class="o">=</span><span class="mi">1</span><span class="o">/</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">^</span><span class="mi">1</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
     <span class="n">c2</span><span class="o">=</span><span class="p">(</span><span class="mi">1</span><span class="o">-</span><span class="mi">2</span><span class="o">^</span><span class="mi">1</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span><span class="o">/</span><span class="mf">2.</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">^</span><span class="mi">1</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
     <span class="n">c3</span><span class="o">=</span><span class="n">c2</span>
@@ -12239,21 +12239,21 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
     <span class="n">d2</span><span class="o">=-</span><span class="mi">2</span><span class="o">^</span><span class="mi">1</span><span class="o">/</span><span class="mf">3.</span><span class="o">/</span><span class="p">(</span><span class="mi">2</span><span class="o">-</span><span class="mi">2</span><span class="o">^</span><span class="mi">1</span><span class="o">/</span><span class="mf">3.</span><span class="p">)</span>
     <span class="n">d3</span><span class="o">=</span><span class="n">d1</span>
     <span class="c">#d4=0</span>
-    
+
     <span class="c"># the sign in front of d_i is positive </span>
     <span class="c"># since I use dpdt instead of V_q </span>
     <span class="n">q_star</span><span class="o">=</span><span class="n">q_0</span> <span class="o">+</span> <span class="n">c1</span><span class="o">*</span><span class="n">dqdt</span><span class="p">(</span><span class="n">q_0</span><span class="p">,</span><span class="n">p_0</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
     <span class="n">p_star</span><span class="o">=</span><span class="n">p_0</span> <span class="o">+</span> <span class="n">d1</span><span class="o">*</span><span class="n">dpdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_0</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
-    
+
     <span class="n">q_star</span><span class="o">=</span><span class="n">q_star</span> <span class="o">+</span> <span class="n">c2</span><span class="o">*</span><span class="n">dqdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
     <span class="n">p_star</span><span class="o">=</span><span class="n">p_star</span> <span class="o">+</span> <span class="n">d2</span><span class="o">*</span><span class="n">dpdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
-    
+
     <span class="n">q_star</span><span class="o">=</span><span class="n">q_star</span> <span class="o">+</span> <span class="n">c3</span><span class="o">*</span><span class="n">dqdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
     <span class="n">p_star</span><span class="o">=</span><span class="n">p_star</span> <span class="o">+</span> <span class="n">d3</span><span class="o">*</span><span class="n">dpdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
-    
+
     <span class="n">q_star</span><span class="o">=</span><span class="n">q_star</span> <span class="o">+</span> <span class="n">c4</span><span class="o">*</span><span class="n">dqdt</span><span class="p">(</span><span class="n">q_star</span><span class="p">,</span><span class="n">p_star</span><span class="p">)</span><span class="o">*</span><span class="n">tau</span>
-      
-    <span class="k">return</span> <span class="n">q_star</span><span class="p">,</span> <span class="n">p_star</span>  
+
+    <span class="k">return</span> <span class="n">q_star</span><span class="p">,</span> <span class="n">p_star</span>
 <span class="k">end</span><span class="p">;</span>
 </pre></div>
 
@@ -12311,10 +12311,10 @@ which is the <a href="http://www.unige.ch/~hairer/poly_geoint/week2.pdf">Stormer
 <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="n">m1</span><span class="p">,</span><span class="n">m2</span><span class="p">,</span><span class="n">m3</span><span class="p">,</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">]</span>
 <span class="n">q1_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.97000436</span><span class="p">;</span>   <span class="mf">0.24308753</span><span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span>
 <span class="n">q2_0</span><span class="o">=</span><span class="p">[</span><span class="mf">0.97000436</span><span class="p">;</span>   <span class="o">-</span><span class="mf">0.24308753</span><span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span>
-<span class="n">q3_0</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span> <span class="p">;</span><span class="mf">0.0</span><span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span> 
+<span class="n">q3_0</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span> <span class="p">;</span><span class="mf">0.0</span><span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span>
 
 <span class="n">q3_dot_0</span><span class="o">=</span><span class="p">[</span><span class="mf">0.93240737</span><span class="p">;</span> <span class="mf">0.8647314</span><span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span>
-<span class="n">q2_dot_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.46620368</span><span class="p">;</span>  <span class="o">-</span><span class="mf">0.4323657</span><span class="p">;</span>  <span class="mf">0.0</span><span class="p">]</span>  
+<span class="n">q2_dot_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.46620368</span><span class="p">;</span>  <span class="o">-</span><span class="mf">0.4323657</span><span class="p">;</span>  <span class="mf">0.0</span><span class="p">]</span>
 <span class="n">q1_dot_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.46620368</span> <span class="p">;</span> <span class="o">-</span><span class="mf">0.4323657</span> <span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span>
 
 <span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">map_to_Jacobi</span><span class="p">(</span><span class="n">q1_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q3_0</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
@@ -12407,13 +12407,13 @@ integrated
 
     <span class="n">line1</span><span class="p">[</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
     <span class="n">pt1</span><span class="p">[</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">1</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span>
-    
+
     <span class="n">line2</span><span class="p">[</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
     <span class="n">pt2</span><span class="p">[</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">4</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">5</span><span class="p">])</span>
-    
+
     <span class="n">line3</span><span class="p">[</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
     <span class="n">pt3</span><span class="p">[</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">7</span><span class="p">],</span><span class="n">q</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="mi">8</span><span class="p">])</span>
-    
+
     <span class="k">return</span> <span class="p">(</span><span class="n">line1</span><span class="p">,</span><span class="n">line2</span><span class="p">,</span><span class="n">line3</span><span class="p">,</span><span class="n">pt1</span><span class="p">,</span><span class="n">pt2</span><span class="p">,</span><span class="n">pt3</span><span class="p">,</span><span class="kt">Union</span><span class="p">{})</span>
 <span class="k">end</span>
 
@@ -12423,7 +12423,7 @@ integrated
 
 <span class="c"># Convert it to an MP4 movie file and saved on disk in this format.</span>
 <span class="n">myanim</span><span class="p">[</span><span class="o">:</span><span class="n">save</span><span class="p">](</span><span class="n">save_name</span><span class="p">,</span> <span class="n">bitrate</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;-vcodec&quot;</span><span class="p">,</span> <span class="s">&quot;libx264&quot;</span><span class="p">,</span> <span class="s">&quot;-pix_fmt&quot;</span><span class="p">,</span> <span class="s">&quot;yuv420p&quot;</span><span class="p">])</span>
-<span class="k">end</span><span class="p">;</span> 
+<span class="k">end</span><span class="p">;</span>
 
 <span class="c"># Function for creating an embedded video given a filename</span>
 <span class="k">function</span> <span class="n">html_video</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span>
@@ -12469,10 +12469,10 @@ integrated
 <div class="inner_cell">
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="k">function</span> <span class="n">anim_plot</span><span class="p">(</span><span class="n">N</span><span class="p">,</span><span class="n">q</span><span class="p">,</span><span class="n">lim</span><span class="p">,</span><span class="n">save_name</span><span class="p">)</span>
-    
+
     <span class="n">n</span><span class="o">=</span><span class="mi">3</span>
     <span class="n">colors</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;blue&quot;</span><span class="p">,</span> <span class="s">&quot;red&quot;</span><span class="p">,</span> <span class="s">&quot;green&quot;</span><span class="p">]</span>
-    
+
     <span class="c"># find way to set axis </span>
     <span class="n">fig</span> <span class="o">=</span> <span class="n">figure</span><span class="p">()</span>
     <span class="n">ax</span> <span class="o">=</span><span class="n">axes</span><span class="p">(</span><span class="n">xlim</span> <span class="o">=</span> <span class="p">(</span><span class="o">-</span><span class="n">lim</span><span class="p">,</span><span class="n">lim</span><span class="p">),</span><span class="n">ylim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">lim</span><span class="p">,</span><span class="n">lim</span><span class="p">),</span><span class="n">zlim</span><span class="o">=</span><span class="p">(</span><span class="o">-</span><span class="n">lim</span><span class="p">,</span><span class="n">lim</span><span class="p">),</span> <span class="n">projection</span><span class="o">=</span><span class="s">&quot;3d&quot;</span><span class="p">)</span>
@@ -12488,7 +12488,7 @@ integrated
     <span class="k">end</span>
 
     <span class="k">function</span> <span class="n">init</span><span class="p">()</span>
-    
+
         <span class="kd">global</span> <span class="n">lines</span>
         <span class="kd">global</span> <span class="n">pts</span>
         <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">n</span>
@@ -12497,9 +12497,9 @@ integrated
             <span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="o">:</span><span class="n">set_data</span><span class="p">]([],[])</span>
             <span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">][</span><span class="o">:</span><span class="n">set_3d_properties</span><span class="p">]([])</span>
         <span class="k">end</span>
-    
+
         <span class="n">result</span> <span class="o">=</span> <span class="n">tuple</span><span class="p">(</span><span class="n">tuple</span><span class="p">([</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">n</span><span class="p">]),</span><span class="n">tuple</span><span class="p">([</span><span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">n</span><span class="p">]))</span>
-    
+
         <span class="k">return</span> <span class="n">result</span>
     <span class="k">end</span>
 
@@ -12511,18 +12511,18 @@ integrated
             <span class="n">j</span><span class="o">=</span><span class="mi">1</span><span class="o">+</span><span class="p">(</span><span class="n">k</span><span class="o">-</span><span class="mi">1</span><span class="p">)</span><span class="o">*</span><span class="mi">3</span>
             <span class="n">x</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
             <span class="n">y</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">1</span><span class="p">]</span>
-            <span class="n">z</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span> 
-        
-        
+            <span class="n">z</span> <span class="o">=</span> <span class="n">q</span><span class="p">[</span><span class="mi">1</span><span class="o">:</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="o">+</span><span class="mi">2</span><span class="p">]</span>
+
+
             <span class="n">lines</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
             <span class="n">lines</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">:</span><span class="n">set_3d_properties</span><span class="p">](</span><span class="n">z</span><span class="p">)</span>
             <span class="n">pts</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">:</span><span class="n">set_data</span><span class="p">](</span><span class="n">last</span><span class="p">(</span><span class="n">x</span><span class="p">),</span><span class="n">last</span><span class="p">(</span><span class="n">y</span><span class="p">))</span>
             <span class="n">pts</span><span class="p">[</span><span class="n">k</span><span class="p">][</span><span class="o">:</span><span class="n">set_3d_properties</span><span class="p">](</span><span class="n">last</span><span class="p">(</span><span class="n">z</span><span class="p">))</span>
-        
+
             <span class="c">#Rotate axes</span>
             <span class="n">ax</span><span class="p">[</span><span class="o">:</span><span class="n">view_init</span><span class="p">](</span><span class="mi">30</span><span class="p">,</span> <span class="mf">0.3</span> <span class="o">*</span> <span class="n">i</span><span class="p">)</span>
         <span class="k">end</span>
-    
+
         <span class="n">result</span> <span class="o">=</span> <span class="n">tuple</span><span class="p">(</span><span class="n">tuple</span><span class="p">([</span><span class="n">lines</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">n</span><span class="p">]),</span><span class="n">tuple</span><span class="p">([</span><span class="n">pts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span> <span class="o">=</span> <span class="mi">1</span><span class="o">:</span><span class="n">n</span><span class="p">]))</span>
     <span class="k">return</span> <span class="n">result</span>
     <span class="k">end</span>
@@ -12532,7 +12532,7 @@ integrated
     <span class="n">myanim</span> <span class="o">=</span> <span class="n">anim</span><span class="o">.</span><span class="n">FuncAnimation</span><span class="p">(</span><span class="n">fig</span><span class="p">,</span> <span class="n">animate</span><span class="p">,</span> <span class="n">init_func</span><span class="o">=</span><span class="n">init</span><span class="p">,</span> <span class="n">frames</span><span class="o">=</span><span class="n">N</span><span class="p">,</span> <span class="n">interval</span><span class="o">=</span><span class="mi">15</span><span class="p">)</span>
     <span class="c"># Convert it to an MP4 movie file and saved on disk in this format.</span>
     <span class="n">myanim</span><span class="p">[</span><span class="o">:</span><span class="n">save</span><span class="p">](</span><span class="n">save_name</span><span class="p">,</span> <span class="n">bitrate</span><span class="o">=-</span><span class="mi">1</span><span class="p">,</span> <span class="n">extra_args</span><span class="o">=</span><span class="p">[</span><span class="s">&quot;-vcodec&quot;</span><span class="p">,</span> <span class="s">&quot;libx264&quot;</span><span class="p">,</span> <span class="s">&quot;-pix_fmt&quot;</span><span class="p">,</span> <span class="s">&quot;yuv420p&quot;</span><span class="p">])</span>
-    <span class="k">end</span> 
+    <span class="k">end</span>
 
     <span class="n">display</span><span class="p">(</span><span class="s">&quot;text/html&quot;</span><span class="p">,</span> <span class="n">html_video</span><span class="p">(</span><span class="n">save_name</span><span class="p">))</span>
 <span class="k">end</span>
@@ -12586,10 +12586,10 @@ integrated
 <span class="n">params</span><span class="o">=</span><span class="p">[</span><span class="n">m1</span><span class="p">,</span><span class="n">m2</span><span class="p">,</span><span class="n">m3</span><span class="p">,</span><span class="n">mu1</span><span class="p">,</span><span class="n">mu2</span><span class="p">]</span>
 <span class="n">q1_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">1.0</span><span class="p">;</span>   <span class="mf">0.5</span><span class="p">;</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">]</span>
 <span class="n">q2_0</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">;</span>   <span class="o">-</span><span class="mf">1.0</span><span class="p">;</span> <span class="mf">3.0</span><span class="p">]</span>
-<span class="n">q3_0</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span> <span class="p">;</span><span class="mf">0.0</span><span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span> 
+<span class="n">q3_0</span><span class="o">=</span><span class="p">[</span><span class="mf">0.0</span> <span class="p">;</span><span class="mf">0.0</span><span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span>
 
 <span class="n">q3_dot_0</span><span class="o">=</span><span class="p">[</span><span class="mf">1.0</span><span class="p">;</span> <span class="mf">0.8</span><span class="p">;</span> <span class="mf">0.5</span><span class="p">]</span>
-<span class="n">q2_dot_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">;</span>  <span class="o">-</span><span class="mf">0.2</span><span class="p">;</span>  <span class="mf">0.0</span><span class="p">]</span>  
+<span class="n">q2_dot_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span><span class="p">;</span>  <span class="o">-</span><span class="mf">0.2</span><span class="p">;</span>  <span class="mf">0.0</span><span class="p">]</span>
 <span class="n">q1_dot_0</span><span class="o">=</span><span class="p">[</span><span class="o">-</span><span class="mf">0.5</span> <span class="p">;</span> <span class="o">-</span><span class="mf">0.1</span> <span class="p">;</span> <span class="mf">0.0</span><span class="p">]</span>
 
 <span class="n">s1</span><span class="p">,</span><span class="n">s2</span><span class="p">,</span> <span class="n">R</span><span class="o">=</span><span class="n">map_to_Jacobi</span><span class="p">(</span><span class="n">q1_0</span><span class="p">,</span><span class="n">q2_0</span><span class="p">,</span><span class="n">q3_0</span><span class="p">,</span> <span class="n">params</span><span class="p">)</span>
@@ -12675,14 +12675,14 @@ size of q(3001, 9)
     <div class="input_area">
 <div class=" highlight hl-julia"><pre><span></span><span class="k">function</span> <span class="n">H_Keppler</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
     <span class="k">return</span> <span class="o">.</span><span class="mi">5</span><span class="o">*</span><span class="p">(</span><span class="n">p</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span> <span class="o">+</span> <span class="n">p</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span><span class="o">^</span><span class="mi">2</span><span class="p">)</span><span class="o">-</span> <span class="mi">1</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q</span><span class="p">)</span>
-<span class="k">end</span><span class="p">;</span> 
+<span class="k">end</span><span class="p">;</span>
 
 <span class="k">function</span> <span class="n">dpdt_Kep</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
     <span class="k">return</span> <span class="o">-</span><span class="mi">1</span><span class="o">/</span><span class="n">norm</span><span class="p">(</span><span class="n">q</span><span class="p">)</span><span class="o">^</span><span class="mi">2</span><span class="o">*</span><span class="n">q</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">function</span> <span class="n">dqdt_Kep</span><span class="p">(</span><span class="n">q</span><span class="p">,</span><span class="n">p</span><span class="p">)</span>
-    <span class="k">return</span> <span class="n">p</span> 
+    <span class="k">return</span> <span class="n">p</span>
 <span class="k">end</span><span class="p">;</span>
 
 <span class="k">function</span> <span class="n">RHS_Kep</span><span class="p">(</span><span class="n">Y</span><span class="p">)</span>
@@ -12810,7 +12810,7 @@ size of q(3001, 9)
   </div>
 </body>
 
- 
+
 
 
 </html>
