@@ -196,6 +196,9 @@ collections:
   coding:
     output: true
     permalink: /:collection/:path/
+  scientific_computing:
+    output: true
+    permalink: /:collection/:path/
 
 
 # Defaults
