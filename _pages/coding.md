@@ -18,6 +18,6 @@ Most codes are html files of jupyter notebooks. Sometimes the text does not full
 
 
 {% include base_path %}
-{% for post in site.dyanmics_codes %}
+{% for post in site.dynamics_codes %}
   {% include archive-single.html %}
 {% endfor %}
