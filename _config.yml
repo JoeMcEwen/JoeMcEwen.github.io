@@ -178,15 +178,15 @@ collections:
   teaching:
     output: true
     permalink: /:collection/:path/
-  publications:
-    output: true
-    permalink: /:collection/:path/
-  portfolio:
-    output: true
-    permalink: /:collection/:path/
-  talks:
-    output: true
-    permalink: /:collection/:path/
+  # publications:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # portfolio:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # talks:
+  #   output: true
+  #   permalink: /:collection/:path/
   cv:
     output: true
     permalink: /:collection/:path/
@@ -196,9 +196,9 @@ collections:
   coding:
     output: true
     permalink: /:collection/:path/
-  scientific_computing:
-    output: true
-    permalink: /:collection/:path/
+  # scientific_computing:
+  #   output: true
+  #   permalink: /:collection/:path/
 
 
 # Defaults
@@ -228,8 +228,8 @@ defaults:
     values:
       layout: single
       author_profile: true
-      share: true
-      comments: true
+      share: false
+      comments: false
   # _publications
   - scope:
       path: ""
