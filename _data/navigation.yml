@@ -24,5 +24,8 @@ main:
   - title: "coding"
     url: /coding/
 
+  - title: "scientific computing"
+    url: /scientific computing/
+
   # - title: "Guide"
   #   url: /markdown/
