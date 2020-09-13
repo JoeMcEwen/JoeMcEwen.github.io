@@ -19,5 +19,7 @@ Most codes are html files of jupyter notebooks. Sometimes the text does not full
 
 {% include base_path %}
 {% for post in site.dynamics_codes %}
-  {% include archive-single.html %}
+  {% if post.path contains '3body' %}
+    {% include archive-single.html %}
+  {% endif %}
 {% endfor %}
