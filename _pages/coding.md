@@ -16,10 +16,14 @@ Here are some example coding I have done recently (somewhat suitable for public 
 Most codes are html files of jupyter notebooks. Sometimes the text does not fully render (reloading the page twice often fixes the problem).
 
 
-
 {% include base_path %}
 {% for post in site.dynamics_codes %}
   {% if post.path contains '3body' %}
     {% include archive-single.html %}
   {% endif %}
+{% endfor %}
+
+
+{% for post in site.fluid_codes %}
+    {% include archive-single.html %}
 {% endfor %}
