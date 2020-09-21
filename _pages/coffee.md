@@ -23,6 +23,7 @@ On the web.
 * [The Origins of Political Order, Francis Fukuyama](https://en.wikipedia.org/wiki/The_Origins_of_Political_Order#:~:text=The%20Origins%20of%20Political%20Order%3A%20From%20prehuman%20times%20to%20the,what%20makes%20a%20state%20stable.&text=According%20to%20Fukuyama%2C%20a%20stable,the%20state%20and%20be%20accountable.)
 * [Jazz and Justice: Racism and the Political Economy of Music, Gerald Horne](https://nyupress.org/9781583677858/jazz-and-justice/)
 * [Mexican Gothic, Silvia Moreno-Garcia](https://www.penguinrandomhouse.com/books/577068/mexican-gothic-by-silvia-moreno-garcia/)
+* [A Gentleman in Moscow, Amor Towles](https://en.wikipedia.org/wiki/A_Gentleman_in_Moscow) 
 
 ## articles
 Here is list of current popular science articles I find interesting. I encourge students to read these types of articles. I find these types of articles enjoyable and they often remind me why I started to study science.
