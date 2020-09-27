@@ -19,6 +19,7 @@ On the web.
 * [Lovecraft Country](https://www.hbo.com/lovecraft-country)
 
 ## listening
+* [quanta magazine](https://www.quantamagazine.org/tag/podcast/)
 * [The Joy of X podcast](https://podcasts.apple.com/us/podcast/the-joy-of-x/id1495067186)
 * [Fermi Lab Youtube](https://www.youtube.com/channel/UCD5B6VoXv41fJ-IW8Wrhz9A)
 * [KEXP](https://www.kexp.org/) (because I just bought a new car (bummer) and refound the fun of listening to the radio)
