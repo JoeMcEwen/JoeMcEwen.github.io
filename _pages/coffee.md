@@ -13,8 +13,6 @@ On the web.
 
 [OSU Astronomy Daily Brew](http://www.astronomy.ohio-state.edu/Coffee/coffee.html)
 
-[Fermi Lab Youtube](https://www.youtube.com/channel/UCD5B6VoXv41fJ-IW8Wrhz9A)
-
 ### summer 2020 through fall 2020
 
 ## watching
@@ -22,6 +20,7 @@ On the web.
 
 ## listening
 * [The Joy of X podcast](https://podcasts.apple.com/us/podcast/the-joy-of-x/id1495067186)
+* [Fermi Lab Youtube](https://www.youtube.com/channel/UCD5B6VoXv41fJ-IW8Wrhz9A)
 * [KEXP](https://www.kexp.org/) (because I just bought a new car (bummer) and refound the fun of listening to the radio)
 
 ## books
