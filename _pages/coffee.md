@@ -32,6 +32,7 @@ On the web.
 
 ## articles
 Here is list of current popular science articles I find interesting. I encourge students to read these types of articles. I find these types of articles enjoyable and they often remind me why I started to study science.
+* [How big can a fundamental particle be?](https://www.symmetrymagazine.org/article/how-big-can-a-fundamental-particle-be)
 * [Physicists Argue That Black Holes From the Big Bang Could Be the Dark Matter](https://www.quantamagazine.org/black-holes-from-the-big-bang-could-be-the-dark-matter-20200923/)
 * [Nature through the looking glass](https://www.symmetrymagazine.org/article/nature-through-the-looking-glass)
 * [The neutrino painter](https://www.symmetrymagazine.org/article/the-neutrino-painter)
