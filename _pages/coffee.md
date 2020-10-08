@@ -23,6 +23,7 @@ On the web.
 * [The Joy of X podcast](https://podcasts.apple.com/us/podcast/the-joy-of-x/id1495067186)
 * [Fermi Lab Youtube](https://www.youtube.com/channel/UCD5B6VoXv41fJ-IW8Wrhz9A)
 * [KEXP](https://www.kexp.org/) (because I just bought a new car (bummer) and refound the fun of listening to the radio)
+* [Bill Frisell's new album Valentine](https://www.youtube.com/watch?v=qQCRGn6OTu0)
 
 ## books
 * [The Origins of Political Order, Francis Fukuyama](https://en.wikipedia.org/wiki/The_Origins_of_Political_Order#:~:text=The%20Origins%20of%20Political%20Order%3A%20From%20prehuman%20times%20to%20the,what%20makes%20a%20state%20stable.&text=According%20to%20Fukuyama%2C%20a%20stable,the%20state%20and%20be%20accountable.)
