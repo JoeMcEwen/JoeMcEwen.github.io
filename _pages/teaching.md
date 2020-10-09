@@ -17,7 +17,7 @@ Here is a link to my [VPython codes for physics](https://www.glowscript.org/#/us
 * the mercury code is stolen from a lab write up on introducing general relativity
 
 ### waves course
-# notes #
+## notes ##
 {% for post in site.physics_III %}
     {% include archive-single.html %}
 {% endfor %}
