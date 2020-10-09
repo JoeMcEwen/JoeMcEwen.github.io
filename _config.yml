@@ -205,6 +205,9 @@ collections:
   fluid_codes:
     output: true
     permalink: /:collection/:path/
+  physics_III:
+    output: true
+    permalink: /:collection/:path/
 
 
 
