@@ -208,6 +208,9 @@ collections:
   physics_III:
     output: true
     permalink: /:collection/:path/
+  physics_I:
+    output: true
+    permalink: /:collection/:path/
 
 
 
