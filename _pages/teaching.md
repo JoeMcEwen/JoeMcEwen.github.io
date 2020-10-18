@@ -16,8 +16,15 @@ Here is a link to my [VPython codes for physics](https://www.glowscript.org/#/us
 * pendulum and double pendulum (students get a intro to chaos by examining the double pendulum)
 * the mercury code is stolen from a lab write up on introducing general relativity
 
-### waves course
-## notes ##
+### mechanics I course
+**notes**
+{% for post in site.physics_III %}
+    {% include archive-single.html %}
+{% endfor %}
+
+
+### waves I course
+**notes**
 {% for post in site.physics_III %}
     {% include archive-single.html %}
 {% endfor %}
