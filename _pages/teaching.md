@@ -18,7 +18,7 @@ Here is a link to my [VPython codes for physics](https://www.glowscript.org/#/us
 
 ### mechanics I course
 **notes**
-{% for post in site.physics_III %}
+{% for post in site.physics_I%}
     {% include archive-single.html %}
 {% endfor %}
 
