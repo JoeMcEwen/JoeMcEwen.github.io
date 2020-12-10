@@ -30,9 +30,14 @@ On the web.
 * [Jazz and Justice: Racism and the Political Economy of Music, Gerald Horne](https://nyupress.org/9781583677858/jazz-and-justice/)
 * [Mexican Gothic, Silvia Moreno-Garcia](https://www.penguinrandomhouse.com/books/577068/mexican-gothic-by-silvia-moreno-garcia/)
 * [A Gentleman in Moscow, Amor Towles](https://en.wikipedia.org/wiki/A_Gentleman_in_Moscow)
+* [Anna Karenina, Leo Tolstoy](https://en.wikipedia.org/wiki/Anna_Karenina)
+* [History of the Russian Revolution,  Leon Trotsky](https://en.wikipedia.org/wiki/History_of_the_Russian_Revolution)
 
 ## articles
 Here is list of current popular science articles I find interesting. I encourge students to read these types of articles. I find these types of articles enjoyable and they often remind me why I started to study science.
+* [Physics books of 2020](https://www.symmetrymagazine.org/article/physics-books-of-2020)
+* [Contemplating the End of Physics](https://www.quantamagazine.org/the-end-of-physics-20201124/?fbclid=IwAR2wEDLPDnL96iJ37B8gcNESBJUSwaN0CnOCxkJeK-wcatp6x_eegP0xUrE)
+* [Scientists Uncover the Universal Geometry of Geology](https://www.quantamagazine.org/geometry-reveals-how-the-world-is-assembled-from-cubes-20201119/)
 * [How big can a fundamental particle be?](https://www.symmetrymagazine.org/article/how-big-can-a-fundamental-particle-be)
 * [Physicists Argue That Black Holes From the Big Bang Could Be the Dark Matter](https://www.quantamagazine.org/black-holes-from-the-big-bang-could-be-the-dark-matter-20200923/)
 * [Nature through the looking glass](https://www.symmetrymagazine.org/article/nature-through-the-looking-glass)
