@@ -32,9 +32,13 @@ On the web.
 * [A Gentleman in Moscow, Amor Towles](https://en.wikipedia.org/wiki/A_Gentleman_in_Moscow)
 * [Anna Karenina, Leo Tolstoy](https://en.wikipedia.org/wiki/Anna_Karenina)
 * [History of the Russian Revolution,  Leon Trotsky](https://en.wikipedia.org/wiki/History_of_the_Russian_Revolution)
+* [Reaganland, America's right turn 1976-1980, Rick Perlstein](https://www.npr.org/2020/08/26/906195845/reaganland-author-revisits-the-roots-of-american-conservatism)
+* [Exoplanets, dimond worlds, super earths, pulsar planets, and the search the new search for life beyond our solar system](https://www.smithsonianbooks.com/store/aviation-military-history/exoplanets-diamond-worlds-super-earths-pulsar-plan/)
 
 ## articles
 Here is list of current popular science articles I find interesting. I encourge students to read these types of articles. I find these types of articles enjoyable and they often remind me why I started to study science.
+* [How Julia Robinson helped define the limits of mathematical knowledge](https://www.sciencenews.org/article/how-julia-robinson-helped-define-limits-mathematical-knowledge?fbclid=IwAR3SeQVnBdmCFn7z7ZMTnWW_u-7yiTNkbvpFUw-3aZVvXZKrUwEzrtiWVJI)
+* [Astronomers Get Their Wish, and a Cosmic Crisis Gets Worse](https://www.quantamagazine.org/astronomers-get-their-wish-and-the-hubble-crisis-gets-worse-20201217/)
 * [Physics books of 2020](https://www.symmetrymagazine.org/article/physics-books-of-2020)
 * [Contemplating the End of Physics](https://www.quantamagazine.org/the-end-of-physics-20201124/?fbclid=IwAR2wEDLPDnL96iJ37B8gcNESBJUSwaN0CnOCxkJeK-wcatp6x_eegP0xUrE)
 * [Scientists Uncover the Universal Geometry of Geology](https://www.quantamagazine.org/geometry-reveals-how-the-world-is-assembled-from-cubes-20201119/)
