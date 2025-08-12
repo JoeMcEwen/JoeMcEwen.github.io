@@ -6,8 +6,8 @@ main:
   # - title: "Talks"
   #   url: /talks/
 
-  - title: "teaching"
-    url: /teaching/
+  # - title: "teaching"
+  #   url: /teaching/
 
   # - title: "Portfolio"
   #   url: /portfolio/
@@ -18,11 +18,11 @@ main:
   - title: "CV"
     url: /cv/
 
-  - title: "coffee"
-    url: /coffee/
+  # - title: "coffee"
+  #   url: /coffee/
 
-  - title: "coding"
-    url: /coding/
+  # - title: "coding"
+  #   url: /coding/
 
   # - title: "scientific computing"
   #   url: /scientific_computing/
