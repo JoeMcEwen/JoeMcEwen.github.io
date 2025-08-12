@@ -177,43 +177,10 @@ kramdown:
 collections:
   # teaching:
   #   output: true
-  #   permalink: /:collection/:path/
-  # publications:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # portfolio:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # talks:
-  #   output: true
-  #   permalink: /:collection/:path/
   cv:
     output: true
     permalink: /:collection/:path/
-  # coffee:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # coding:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # fluid_codes:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # dynamics_codes:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # fluid_codes:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # physics_III:
-  #   output: true
-  #   permalink: /:collection/:path/
-  # physics_I:
-  #   output: true
-  #   permalink: /:collection/:path/
-
-
-
+ 
 # Defaults
 defaults:
   # _posts
@@ -234,50 +201,50 @@ defaults:
     values:
       layout: single
       author_profile: true
-  # _teaching
-  - scope:
-      path: ""
-      type: teaching
-    values:
-      layout: single
-      author_profile: true
-      share: false
-      comments: false
-  # _publications
-  - scope:
-      path: ""
-      type: publications
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comments: true
-  # _portfolio
-  - scope:
-      path: ""
-      type: portfolio
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comment: true
-  # _talks
-  - scope:
-      path: ""
-      type: talks
-    values:
-      layout: talk
-      author_profile: true
-      share: true
-  # _scientific_computing
-  - scope:
-      path: ""
-      type: scientific_computing
-    values:
-      layout: single
-      author_profile: true
-      share: true
-      comment: true
+  # # _teaching
+  # - scope:
+  #     path: ""
+  #     type: teaching
+  #   values:
+  #     layout: single
+  #     author_profile: true
+  #     share: false
+  #     comments: false
+  # # _publications
+  # - scope:
+  #     path: ""
+  #     type: publications
+  #   values:
+  #     layout: single
+  #     author_profile: true
+  #     share: true
+  #     comments: true
+  # # _portfolio
+  # - scope:
+  #     path: ""
+  #     type: portfolio
+  #   values:
+  #     layout: single
+  #     author_profile: true
+  #     share: true
+  #     comment: true
+  # # _talks
+  # - scope:
+  #     path: ""
+  #     type: talks
+  #   values:
+  #     layout: talk
+  #     author_profile: true
+  #     share: true
+  # # _scientific_computing
+  # - scope:
+  #     path: ""
+  #     type: scientific_computing
+  #   values:
+  #     layout: single
+  #     author_profile: true
+  #     share: true
+  #     comment: true
 
 # Sass/SCSS
 sass:
