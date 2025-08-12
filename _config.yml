@@ -175,9 +175,9 @@ kramdown:
 
 # Collections
 collections:
-  teaching:
-    output: true
-    permalink: /:collection/:path/
+  # teaching:
+  #   output: true
+  #   permalink: /:collection/:path/
   # publications:
   #   output: true
   #   permalink: /:collection/:path/
@@ -190,27 +190,27 @@ collections:
   cv:
     output: true
     permalink: /:collection/:path/
-  coffee:
-    output: true
-    permalink: /:collection/:path/
-  coding:
-    output: true
-    permalink: /:collection/:path/
-  fluid_codes:
-    output: true
-    permalink: /:collection/:path/
-  dynamics_codes:
-    output: true
-    permalink: /:collection/:path/
-  fluid_codes:
-    output: true
-    permalink: /:collection/:path/
-  physics_III:
-    output: true
-    permalink: /:collection/:path/
-  physics_I:
-    output: true
-    permalink: /:collection/:path/
+  # coffee:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # coding:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # fluid_codes:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # dynamics_codes:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # fluid_codes:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # physics_III:
+  #   output: true
+  #   permalink: /:collection/:path/
+  # physics_I:
+  #   output: true
+  #   permalink: /:collection/:path/
 
 
 
