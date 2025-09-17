@@ -18,7 +18,8 @@ Education
 
 Research
 ======
-Ph.D. thesis in theoretical and computational cosmology. M.Sc. thesis in the nuclear few body problem and computational physics. Current interests: statistical learning and information theory, urban analytics and economics, fluid dynamics, geometric mechanics, dynamical systems, using mathematics and science to influence policy
+Ph.D. thesis in theoretical and computational cosmology. M.Sc. thesis in the nuclear few body problem and computational physics. Currently, I am interested in galactic dynamics.
+
 
 Professional experience
 ======
