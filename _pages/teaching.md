@@ -9,3 +9,5 @@ redirect_from:
 
 {% include base_path %}
 
+Some stuff will go here. 
+
