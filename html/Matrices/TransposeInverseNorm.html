@@ -1,0 +1,940 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>5.1. Transpose, Inverse, and Norm &#8212; Getting to the Bottom of It \n  Numerical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Matrices/TransposeInverseNorm';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="prev" title="5. Matrices" href="matrix_cover.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../cover.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/numerical_methods_logo.svg" class="logo__image only-light" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/numerical_methods_logo.svg" class="logo__image only-dark" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../cover.html">
+                    Getting to the Bottom of It: Numerical Methods for Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../About.html">1. What is this?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Before%20We%20Begin/guidance.html">2. Guidance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/job.html">2.1. Do You Want a Job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/good_coding.html">2.2. Good Coding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Arrays/array_cover.html">3. Array Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/ArrayBasics.html">3.1. Arrays in Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/DotProduct.html">3.2. Dot Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixMultiplication.html">3.3. Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixInversion.html">3.4. Solving Systems of Equations</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Mathematics/math_cover.html">4. Differential Calculus</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/SingleVariableCalculus.html">4.1. Single Variable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/MultiVariableCalculus.html">4.2. Multivariable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/JaxAutoDiff.html">4.3. Automatic Differentiation with Jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/DerivativesLesson.html">4.4. Derivatives, a Helpful Lesson</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="matrix_cover.html">5. Matrices</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">5.1. Transpose, Inverse, and Norm</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Matrices/TransposeInverseNorm.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Transpose, Inverse, and Norm</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transpose">5.1.1. Transpose</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-matrix-transpose">5.1.1.1. Properties of Matrix Transpose</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetric-matrix">5.1.2. Symmetric Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identity-matrix-and-matrix-inverse">5.1.3. Identity Matrix and Matrix Inverse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norms">5.1.4. Norms</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="transpose-inverse-and-norm">
+<h1><span class="section-number">5.1. </span>Transpose, Inverse, and Norm<a class="headerlink" href="#transpose-inverse-and-norm" title="Link to this heading">#</a></h1>
+<section id="transpose">
+<h2><span class="section-number">5.1.1. </span>Transpose<a class="headerlink" href="#transpose" title="Link to this heading">#</a></h2>
+<p>The transpose of a matrix is the operation that swaps the rows and columns. For example, consider the  <span class="math notranslate nohighlight">\(4\times 3\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span> below</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f8768ee9-1818-4d37-9b53-505dbb37bf12">
+<span class="eqno">(5.1)<a class="headerlink" href="#equation-f8768ee9-1818-4d37-9b53-505dbb37bf12" title="Permalink to this equation">#</a></span>\[\begin{equation}
+A = \begin{bmatrix} 1 &amp; 2 &amp; 3 \\ 40 &amp; 50 &amp; 60 \\ 8 &amp; 9 &amp; 10 \\ .11 &amp; .12 &amp; .13 
+\end{bmatrix} 
+\end{equation} \]</div>
+<p>The transpose of <span class="math notranslate nohighlight">\(A\)</span>, denoted with a superscript <span class="math notranslate nohighlight">\(T\)</span>, is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-48f5d3a8-4426-4dd6-b611-870824abd4ac">
+<span class="eqno">(5.2)<a class="headerlink" href="#equation-48f5d3a8-4426-4dd6-b611-870824abd4ac" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+A^T = \begin{bmatrix} 
+1 &amp; 40 &amp; 8 &amp; .11 \\ 
+2 &amp; 50 &amp; 9 &amp; .12 \\ 
+3 &amp; 60 &amp; 10 &amp; .13 
+\end{bmatrix}
+\end{equation} \]</div>
+<p>Notice that <span class="math notranslate nohighlight">\(A^T\)</span> is now a <span class="math notranslate nohighlight">\(3\times 4\)</span> matrix. In general, if <span class="math notranslate nohighlight">\(A\)</span> is an <span class="math notranslate nohighlight">\(m\times n\)</span> matrix, then <span class="math notranslate nohighlight">\(A^T\)</span> is an <span class="math notranslate nohighlight">\(n\times m\)</span> matrix.</p>
+<p>In index notation, the transpose operation swaps the indices:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-133df259-fab5-4e05-acb9-20dd4ce9004f">
+<span class="eqno">(5.3)<a class="headerlink" href="#equation-133df259-fab5-4e05-acb9-20dd4ce9004f" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+(A^T)_{ij} = A_{ji} 
+\end{equation}\]</div>
+<p>This means that the element in the <span class="math notranslate nohighlight">\(i\)</span>-th row and <span class="math notranslate nohighlight">\(j\)</span>-th column of <span class="math notranslate nohighlight">\(A^T\)</span> equals the element in the <span class="math notranslate nohighlight">\(j\)</span>-th row and <span class="math notranslate nohighlight">\(i\)</span>-th column of the original matrix <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<section id="properties-of-matrix-transpose">
+<h3><span class="section-number">5.1.1.1. </span>Properties of Matrix Transpose<a class="headerlink" href="#properties-of-matrix-transpose" title="Link to this heading">#</a></h3>
+<p>The transpose operation has several important properties:</p>
+<ol class="arabic simple">
+<li><p><strong>Double transpose</strong>: <span class="math notranslate nohighlight">\((A^T)^T = A\)</span></p></li>
+<li><p><strong>Transpose of a sum</strong>: <span class="math notranslate nohighlight">\((A + B)^T = A^T + B^T\)</span></p></li>
+<li><p><strong>Transpose of a scalar multiple</strong>: <span class="math notranslate nohighlight">\((cA)^T = cA^T\)</span> for any scalar <span class="math notranslate nohighlight">\(c\)</span></p></li>
+<li><p><strong>Transpose of a product</strong>: <span class="math notranslate nohighlight">\((AB)^T = B^T A^T\)</span> (note the order reversal)</p></li>
+</ol>
+<p>Property 4 can be proven using index notation. Let <span class="math notranslate nohighlight">\(C\)</span> be the product of <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span></p>
+<div class="amsmath math notranslate nohighlight" id="equation-b2e3a271-c7f6-4118-9a0e-8b965c5376db">
+<span class="eqno">(5.4)<a class="headerlink" href="#equation-b2e3a271-c7f6-4118-9a0e-8b965c5376db" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+C_{ij} = \displaystyle \sum_k  A_{ik} B_{kj}.  
+\end{equation} \]</div>
+<p>Taking the transpose, i.e., swapping the indices, gives</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e91ece18-ef76-4a46-9eea-2cc06362f0f5">
+<span class="eqno">(5.5)<a class="headerlink" href="#equation-e91ece18-ef76-4a46-9eea-2cc06362f0f5" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+C^T_{ij} = C_{ji} = \displaystyle \sum_k A_{jk} B_{ki} = \displaystyle \sum_k B_{ki} A_{jk} = \displaystyle \sum_k B^T_{ik} A^T_{kj}
+\end{equation}\]</div>
+<p>By definition of matrix multiplication, this last expression is exactly <span class="math notranslate nohighlight">\((B^T A^T)_{ij}\)</span>. Therefore:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-361950bc-79d0-42b5-91c8-fac1a591b9c0">
+<span class="eqno">(5.6)<a class="headerlink" href="#equation-361950bc-79d0-42b5-91c8-fac1a591b9c0" title="Permalink to this equation">#</a></span>\[\begin{equation}
+C^T_{ij} = (B^T A^T)_{ij}
+\end{equation}\]</div>
+<p>Since this holds for all indices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>, we conclude that</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e03103e6-c9bc-453d-8b52-c2bd4d80a4bb">
+<span class="eqno">(5.7)<a class="headerlink" href="#equation-e03103e6-c9bc-453d-8b52-c2bd4d80a4bb" title="Permalink to this equation">#</a></span>\[\begin{equation}
+(AB)^T = B^T A^T.
+\end{equation}\]</div>
+<p><strong>Exercise</strong>
+Use NumPy to verify property 4 above (a justification by numerical experiment).
+Create two <span class="math notranslate nohighlight">\(3\times3\)</span> arrays <span class="math notranslate nohighlight">\(A\)</span> and <span class="math notranslate nohighlight">\(B\)</span>. Use the numpy random integer function to create arrays with numbers between 0 and 10. Compute the product <span class="math notranslate nohighlight">\(C = AB\)</span>. Compute the transpose of <span class="math notranslate nohighlight">\(C\)</span> by directly taking the transpose and also by computing <span class="math notranslate nohighlight">\(B^T A^T\)</span>. Verify that both methods give the same result.</p>
+<div class="toggle docutils container">
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Set random seed for reproducibility</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Create two 3x3 arrays with random integers between 0 and 10</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">B</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">randint</span><span class="p">(</span><span class="mi">0</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Matrix A:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Matrix B:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B</span><span class="p">)</span>
+
+<span class="c1"># Compute the product C = AB</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">B</span>  <span class="c1"># or np.dot(A, B)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Matrix C = AB:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+
+<span class="c1"># Method 1: Direct transpose of C</span>
+<span class="n">C_transpose_direct</span> <span class="o">=</span> <span class="n">C</span><span class="o">.</span><span class="n">T</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">C^T (direct transpose):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">C_transpose_direct</span><span class="p">)</span>
+
+<span class="c1"># Method 2: Compute B^T A^T</span>
+<span class="n">B_transpose</span> <span class="o">=</span> <span class="n">B</span><span class="o">.</span><span class="n">T</span>
+<span class="n">A_transpose</span> <span class="o">=</span> <span class="n">A</span><span class="o">.</span><span class="n">T</span>
+<span class="n">C_transpose_formula</span> <span class="o">=</span> <span class="n">B_transpose</span> <span class="o">@</span> <span class="n">A_transpose</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">B^T:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B_transpose</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">A^T:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A_transpose</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">B^T A^T:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">C_transpose_formula</span><span class="p">)</span>
+
+<span class="c1"># Verify that both methods give the same result</span>
+<span class="n">are_equal</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">C_transpose_direct</span><span class="p">,</span> <span class="n">C_transpose_formula</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Are C^T and B^T A^T equal? </span><span class="si">{</span><span class="n">are_equal</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Show the difference (should be all zeros or very close to zero)</span>
+<span class="n">difference</span> <span class="o">=</span> <span class="n">C_transpose_direct</span> <span class="o">-</span> <span class="n">C_transpose_formula</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Difference (should be all zeros):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This exercise demonstrates property 4: <span class="math notranslate nohighlight">\((AB)^T = B^T A^T\)</span> through numerical computation. The <code class="docutils literal notranslate"><span class="pre">np.allclose()</span></code> function is used to check equality, which accounts for potential floating-point precision issues.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+</section>
+<section id="symmetric-matrix">
+<h2><span class="section-number">5.1.2. </span>Symmetric Matrix<a class="headerlink" href="#symmetric-matrix" title="Link to this heading">#</a></h2>
+<p>A <strong>symmetric matrix</strong> is one in which the transpose is equal to itself. In other words, a matrix <span class="math notranslate nohighlight">\(A\)</span> is symmetric if:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-88ec920d-1b64-49c6-912f-437ed4074153">
+<span class="eqno">(5.8)<a class="headerlink" href="#equation-88ec920d-1b64-49c6-912f-437ed4074153" title="Permalink to this equation">#</a></span>\[\begin{equation}
+A = A^T
+\end{equation}\]</div>
+<p>This means that <span class="math notranslate nohighlight">\(A_{ij} = A_{ji}\)</span> for all indices <span class="math notranslate nohighlight">\(i\)</span> and <span class="math notranslate nohighlight">\(j\)</span>. In geometric terms, the matrix is “mirrored” across its main diagonal.</p>
+<p><strong>Examples:</strong></p>
+<p>A <span class="math notranslate nohighlight">\(3 \times 3\)</span> symmetric matrix:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-04acc4f7-862e-4519-a1c1-9bc332111747">
+<span class="eqno">(5.9)<a class="headerlink" href="#equation-04acc4f7-862e-4519-a1c1-9bc332111747" title="Permalink to this equation">#</a></span>\[\begin{equation}
+A = \begin{bmatrix} 
+2 &amp; 5 &amp; -1 \\ 
+5 &amp; 3 &amp; 7 \\ 
+-1 &amp; 7 &amp; 4 
+\end{bmatrix}
+\end{equation}\]</div>
+<p>Notice that <span class="math notranslate nohighlight">\(A_{12} = A_{21} = 5\)</span>, <span class="math notranslate nohighlight">\(A_{13} = A_{31} = -1\)</span>, and <span class="math notranslate nohighlight">\(A_{23} = A_{32} = 7\)</span>.</p>
+<p><strong>Properties of Symmetric Matrices:</strong></p>
+<ul class="simple">
+<li><p>Only square matrices can be symmetric</p></li>
+<li><p>The diagonal elements can be any values</p></li>
+<li><p>All eigenvalues of a real symmetric matrix are real</p></li>
+<li><p>Symmetric matrices are important in many applications (e.g., covariance matrices, quadratic forms)</p></li>
+</ul>
+<p><strong>Exercise</strong>
+Use NumPy to create a <span class="math notranslate nohighlight">\(4 \times 4\)</span> symmetric matrix and verify that it equals its own transpose. Also check a non-symmetric matrix to confirm the difference.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Solution</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Set random seed for reproducibility</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">123</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Creating a 4x4 Symmetric Matrix&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">40</span><span class="p">)</span>
+
+<span class="c1"># Method 1: Create a symmetric matrix by construction</span>
+<span class="c1"># Generate a random matrix and make it symmetric</span>
+<span class="n">random_matrix</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="c1"># A matrix A is symmetric if A = (A + A^T) / 2</span>
+<span class="n">A_symmetric</span> <span class="o">=</span> <span class="p">(</span><span class="n">random_matrix</span> <span class="o">+</span> <span class="n">random_matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span> <span class="o">/</span> <span class="mi">2</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Symmetric matrix A:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A_symmetric</span><span class="p">)</span>
+
+<span class="c1"># Compute the transpose</span>
+<span class="n">A_transpose</span> <span class="o">=</span> <span class="n">A_symmetric</span><span class="o">.</span><span class="n">T</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Transpose of A:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A_transpose</span><span class="p">)</span>
+
+<span class="c1"># Check if A = A^T</span>
+<span class="n">is_symmetric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">A_symmetric</span><span class="p">,</span> <span class="n">A_transpose</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Is A = A^T? </span><span class="si">{</span><span class="n">is_symmetric</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Show the difference (should be all zeros)</span>
+<span class="n">difference</span> <span class="o">=</span> <span class="n">A_symmetric</span> <span class="o">-</span> <span class="n">A_transpose</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Difference A - A^T (should be all zeros):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">difference</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum absolute difference: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">difference</span><span class="p">))</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Checking a Non-Symmetric Matrix&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">35</span><span class="p">)</span>
+
+<span class="c1"># Create a non-symmetric matrix for comparison</span>
+<span class="n">B_nonsymmetric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Non-symmetric matrix B:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B_nonsymmetric</span><span class="p">)</span>
+
+<span class="n">B_transpose</span> <span class="o">=</span> <span class="n">B_nonsymmetric</span><span class="o">.</span><span class="n">T</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Transpose of B:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">B_transpose</span><span class="p">)</span>
+
+<span class="c1"># Check if B = B^T</span>
+<span class="n">is_B_symmetric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">B_nonsymmetric</span><span class="p">,</span> <span class="n">B_transpose</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Is B = B^T? </span><span class="si">{</span><span class="n">is_B_symmetric</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Show the difference (should NOT be all zeros)</span>
+<span class="n">difference_B</span> <span class="o">=</span> <span class="n">B_nonsymmetric</span> <span class="o">-</span> <span class="n">B_transpose</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Difference B - B^T:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">difference_B</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum absolute difference: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">difference_B</span><span class="p">))</span><span class="si">:</span><span class="s2">.4f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">60</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Alternative: Manual Construction of Symmetric Matrix&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;=&quot;</span> <span class="o">*</span> <span class="mi">50</span><span class="p">)</span>
+
+<span class="c1"># Method 2: Manually construct a symmetric matrix</span>
+<span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">2</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">7</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">3</span><span class="p">,</span> <span class="mi">6</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">7</span><span class="p">,</span> <span class="mi">9</span><span class="p">,</span> <span class="mi">10</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Manually created symmetric matrix C:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">C</span><span class="p">)</span>
+
+<span class="c1"># Verify symmetry</span>
+<span class="n">is_C_symmetric</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">C</span><span class="p">,</span> <span class="n">C</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Is C = C^T? </span><span class="si">{</span><span class="n">is_C_symmetric</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># NumPy also has a specific function to check symmetry</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">is_symmetric_matrix</span><span class="p">(</span><span class="n">matrix</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check if a matrix is symmetric&quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">matrix</span><span class="p">,</span> <span class="n">matrix</span><span class="o">.</span><span class="n">T</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Using custom function - is C symmetric? </span><span class="si">{</span><span class="n">is_symmetric_matrix</span><span class="p">(</span><span class="n">C</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">SUMMARY:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Matrix A (constructed): Symmetric ✓&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Matrix B (random): Not symmetric ✗&quot;</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;- Matrix C (manual): Symmetric ✓&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+<section id="identity-matrix-and-matrix-inverse">
+<h2><span class="section-number">5.1.3. </span>Identity Matrix and Matrix Inverse<a class="headerlink" href="#identity-matrix-and-matrix-inverse" title="Link to this heading">#</a></h2>
+<p>The analog of the number 1 in matrix calculations is the <strong>identity matrix</strong>, a square matrix of all zeros except ones along the main diagonal. For example, the <span class="math notranslate nohighlight">\(3\times3\)</span> identity matrix is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-313dc6eb-37fc-486c-ac00-d9329a6319f4">
+<span class="eqno">(5.10)<a class="headerlink" href="#equation-313dc6eb-37fc-486c-ac00-d9329a6319f4" title="Permalink to this equation">#</a></span>\[\begin{align} 
+\mathbf{I}_3 = \begin{bmatrix} 1 &amp; 0 &amp; 0 \\ 0 &amp; 1 &amp; 0 \\ 0 &amp; 0 &amp; 1 \end{bmatrix} . 
+\end{align} \]</div>
+<p>In general, the <span class="math notranslate nohighlight">\(n \times n\)</span> identity matrix <span class="math notranslate nohighlight">\(\mathbf{I}_n\)</span> has the property that <span class="math notranslate nohighlight">\(\mathbf{I}_n A = A \mathbf{I}_n = A\)</span> for any <span class="math notranslate nohighlight">\(n \times n\)</span> matrix <span class="math notranslate nohighlight">\(A\)</span>, just like multiplying a number by 1 leaves it unchanged.</p>
+<p><strong>Matrix Inverse</strong></p>
+<p>There is no matrix division operation (dividing by a matrix). However, there is the <strong>matrix inverse</strong>, defined by the relationship <span class="math notranslate nohighlight">\(A^{-1}A = AA^{-1} = \mathbf{I}\)</span>, where <span class="math notranslate nohighlight">\(A^{-1}\)</span> is the inverse of <span class="math notranslate nohighlight">\(A\)</span>. This is analogous to the notation for numbers, e.g., <span class="math notranslate nohighlight">\(3^{-1} \cdot 3 = 1\)</span>.</p>
+<p><strong>Important notes about matrix inverses:</strong></p>
+<ul class="simple">
+<li><p>Only square matrices can have inverses</p></li>
+<li><p>Not all square matrices have inverses (they must be non-singular or invertible)</p></li>
+<li><p>If <span class="math notranslate nohighlight">\(A^{-1}\)</span> exists, it is unique</p></li>
+<li><p><span class="math notranslate nohighlight">\((A^{-1})^{-1} = A\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\((AB)^{-1} = B^{-1}A^{-1}\)</span> (note the order reversal, similar to transpose)</p></li>
+</ul>
+<p><strong>Example</strong></p>
+<p>Consider the <span class="math notranslate nohighlight">\(2 \times 2\)</span> matrix</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7590b3d0-fb9a-4b42-acf1-78b1b3344153">
+<span class="eqno">(5.11)<a class="headerlink" href="#equation-7590b3d0-fb9a-4b42-acf1-78b1b3344153" title="Permalink to this equation">#</a></span>\[\begin{align}
+A = \begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 1 \end{bmatrix}.
+\end{align}\]</div>
+<p>Its inverse is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1d30a3c6-0614-4ec0-8f42-5bc2d6c7fbde">
+<span class="eqno">(5.12)<a class="headerlink" href="#equation-1d30a3c6-0614-4ec0-8f42-5bc2d6c7fbde" title="Permalink to this equation">#</a></span>\[\begin{align}
+A^{-1} = \begin{bmatrix} 1 &amp; -1 \\ -1 &amp; 2 \end{bmatrix}.
+\end{align}\]</div>
+<p>We can verify this by computing the product</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c06f303f-39a2-4737-b1cf-c7121ddd3f1b">
+<span class="eqno">(5.13)<a class="headerlink" href="#equation-c06f303f-39a2-4737-b1cf-c7121ddd3f1b" title="Permalink to this equation">#</a></span>\[\begin{align}
+A^{-1}A &amp;= \begin{bmatrix} 1 &amp; -1 \\ -1 &amp; 2 \end{bmatrix} \begin{bmatrix} 2 &amp; 1 \\ 1 &amp; 1 \end{bmatrix} \\
+&amp;= \begin{bmatrix} 1(2) + (-1)(1) &amp; 1(1) + (-1)(1) \\ (-1)(2) + 2(1) &amp; (-1)(1) + 2(1) \end{bmatrix} \\
+&amp;= \begin{bmatrix} 2 - 1 &amp; 1 - 1 \\ -2 + 2 &amp; -1 + 2 \end{bmatrix} \\
+&amp;= \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} = \mathbf{I}_2.
+\end{align}\]</div>
+<p>This confirms that <span class="math notranslate nohighlight">\(A^{-1}\)</span> is the inverse of <span class="math notranslate nohighlight">\(A\)</span>.</p>
+<p><strong>Exercise</strong>
+Use NumPy to create a <span class="math notranslate nohighlight">\(3\times3\)</span> matrix that is guaranteed to be invertible by starting with the identity matrix and adding small random values. Compute the inverse via <code class="docutils literal notranslate"><span class="pre">np.linalg.inv()</span></code>. Verify that multiplying the original matrix by the inverse results in the identity matrix.</p>
+<p><strong>Steps:</strong></p>
+<ol class="arabic simple">
+<li><p>Create a <span class="math notranslate nohighlight">\(3 \times 3\)</span> identity matrix using <code class="docutils literal notranslate"><span class="pre">np.eye(3)</span></code></p></li>
+<li><p>Add small random values (e.g., 0.1 times a random matrix) to ensure invertibility</p></li>
+<li><p>Compute the matrix inverse</p></li>
+<li><p>Verify that <span class="math notranslate nohighlight">\(A \cdot A^{-1} = I\)</span> and <span class="math notranslate nohighlight">\(A^{-1} \cdot A = I\)</span></p></li>
+<li><p>Check that the results are close to the identity matrix using <code class="docutils literal notranslate"><span class="pre">np.allclose()</span></code></p></li>
+</ol>
+<div class="dropdown admonition">
+<p class="admonition-title">Click here for solution</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Set random seed for reproducibility</span>
+<span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">seed</span><span class="p">(</span><span class="mi">42</span><span class="p">)</span>
+
+<span class="c1"># Step 1: Create a 3x3 identity matrix</span>
+<span class="n">I</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Identity matrix:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">I</span><span class="p">)</span>
+
+<span class="c1"># Step 2: Add small random values to guarantee invertibility</span>
+<span class="c1"># This ensures the matrix is close to identity but still interesting</span>
+<span class="n">random_perturbation</span> <span class="o">=</span> <span class="mf">0.1</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">)</span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">I</span> <span class="o">+</span> <span class="n">random_perturbation</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Random perturbation (0.1 * random matrix):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">random_perturbation</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Matrix A = I + perturbation:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+
+<span class="c1"># Check that the matrix is indeed invertible</span>
+<span class="n">det_A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">det</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Determinant of A: </span><span class="si">{</span><span class="n">det_A</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Since det(A) ≠ 0, the matrix is invertible.&quot;</span><span class="p">)</span>
+
+<span class="c1"># Step 3: Compute the inverse</span>
+<span class="n">A_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Inverse matrix A^(-1):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">A_inv</span><span class="p">)</span>
+
+<span class="c1"># Step 4: Verify the inverse property</span>
+<span class="c1"># Check A * A^(-1) = I</span>
+<span class="n">product1</span> <span class="o">=</span> <span class="n">A</span> <span class="o">@</span> <span class="n">A_inv</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">A @ A^(-1):&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">product1</span><span class="p">)</span>
+
+<span class="c1"># Check A^(-1) * A = I  </span>
+<span class="n">product2</span> <span class="o">=</span> <span class="n">A_inv</span> <span class="o">@</span> <span class="n">A</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">A^(-1) @ A:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">product2</span><span class="p">)</span>
+
+<span class="c1"># Step 5: Verify results are close to identity</span>
+<span class="n">identity_3x3</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">eye</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+
+<span class="n">is_identity1</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">product1</span><span class="p">,</span> <span class="n">identity_3x3</span><span class="p">)</span>
+<span class="n">is_identity2</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">(</span><span class="n">product2</span><span class="p">,</span> <span class="n">identity_3x3</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Is A @ A^(-1) ≈ I? </span><span class="si">{</span><span class="n">is_identity1</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Is A^(-1) @ A ≈ I? </span><span class="si">{</span><span class="n">is_identity2</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Show the numerical errors (should be very small)</span>
+<span class="n">error1</span> <span class="o">=</span> <span class="n">product1</span> <span class="o">-</span> <span class="n">identity_3x3</span>
+<span class="n">error2</span> <span class="o">=</span> <span class="n">product2</span> <span class="o">-</span> <span class="n">identity_3x3</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Numerical error in A @ A^(-1) - I:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">error1</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum absolute error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">error1</span><span class="p">))</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Numerical error in A^(-1) @ A - I:&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">error2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Maximum absolute error: </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">error2</span><span class="p">))</span><span class="si">:</span><span class="s2">.2e</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span> <span class="o">+</span> <span class="s2">&quot;=&quot;</span><span class="o">*</span><span class="mi">60</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;SUCCESS: The matrix inverse properties are verified!&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Both A @ A^(-1) and A^(-1) @ A equal the identity matrix&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;(within numerical precision)&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p>This method guarantees an invertible matrix because we start with the identity matrix (which has determinant 1) and add only small perturbations that won’t make the determinant zero.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+<section id="norms">
+<h2><span class="section-number">5.1.4. </span>Norms<a class="headerlink" href="#norms" title="Link to this heading">#</a></h2>
+<p>The distance between two points is a well-known example of a vector norm; it is called the Euclidean or <span class="math notranslate nohighlight">\(L_2\)</span> norm. For example, in 3-dimensional space, consider two points <span class="math notranslate nohighlight">\((x_1, y_1, z_1)\)</span> and <span class="math notranslate nohighlight">\((x_2, y_2, z_2)\)</span>. The Euclidean distance between them is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d87d47fd-0344-4974-be2c-0c90c049a0af">
+<span class="eqno">(5.14)<a class="headerlink" href="#equation-d87d47fd-0344-4974-be2c-0c90c049a0af" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2 + (z_1 - z_2)^2} . 
+\end{equation} \]</div>
+<p>A <strong>norm</strong> is a measure of the size (or magnitude) of a vector. There are multiple methods to calculate a norm. The <strong>p-norm</strong> of a vector <span class="math notranslate nohighlight">\(\mathbf{x} = [x_1, x_2, \ldots, x_n]^T\)</span> is defined by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d2d74015-6da0-4766-8ede-282de9c15579">
+<span class="eqno">(5.15)<a class="headerlink" href="#equation-d2d74015-6da0-4766-8ede-282de9c15579" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\|\mathbf{x}\|_p = \left( \sum_{i=1}^n | x_i |^p \right)^{1/p}. 
+\end{equation} \]</div>
+<p><strong>Common Vector Norms</strong></p>
+<ul class="simple">
+<li><p><strong><span class="math notranslate nohighlight">\(L_1\)</span> norm</strong> (<span class="math notranslate nohighlight">\(p=1\)</span>): <span class="math notranslate nohighlight">\(\|\mathbf{x}\|_1 = \sum_{i=1}^n |x_i|\)</span> (Manhattan distance)</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(L_2\)</span> norm</strong> (<span class="math notranslate nohighlight">\(p=2\)</span>): <span class="math notranslate nohighlight">\(\|\mathbf{x}\|_2 = \sqrt{\sum_{i=1}^n x_i^2}\)</span> (Euclidean norm)</p></li>
+<li><p><strong><span class="math notranslate nohighlight">\(L_\infty\)</span> norm</strong> (<span class="math notranslate nohighlight">\(p=\infty\)</span>): <span class="math notranslate nohighlight">\(\|\mathbf{x}\|_\infty = \max_i |x_i|\)</span> (Maximum norm)</p></li>
+</ul>
+<p><strong>Definition of a Norm</strong></p>
+<p>A norm on a vector space <span class="math notranslate nohighlight">\(V\)</span> is a function <span class="math notranslate nohighlight">\(\| \cdot \| : V \rightarrow \mathbb{R}\)</span> satisfying:</p>
+<ol class="arabic simple">
+<li><p><strong>Positive definiteness</strong>: <span class="math notranslate nohighlight">\(\| \mathbf{x} \| &gt; 0\)</span> if <span class="math notranslate nohighlight">\(\mathbf{x} \neq \mathbf{0}\)</span>, and <span class="math notranslate nohighlight">\(\| \mathbf{0} \| = 0\)</span></p></li>
+<li><p><strong>Homogeneity</strong>: <span class="math notranslate nohighlight">\(\|\lambda \mathbf{x} \|  = |\lambda| \| \mathbf{x} \|\)</span> for all <span class="math notranslate nohighlight">\(\lambda \in \mathbb{R}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{x} \in V\)</span></p></li>
+<li><p><strong>Triangle inequality</strong>: <span class="math notranslate nohighlight">\(\| \mathbf{x} +  \mathbf{y}\| \leq  \|\mathbf{x}\| + \|\mathbf{y}\|\)</span> for all <span class="math notranslate nohighlight">\(\mathbf{x}, \mathbf{y} \in V\)</span></p></li>
+</ol>
+<p><strong>Exercise</strong>
+Verify that if <span class="math notranslate nohighlight">\(p=2\)</span> in the p-norm formula, you recover the Euclidean norm. Show this both algebraically and with a numerical example using a 3D vector.</p>
+<div class="dropdown admonition">
+<p class="admonition-title">Algebraic Solution</p>
+<p>Starting with the p-norm formula for <span class="math notranslate nohighlight">\(p=2\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e9c8c9a9-d951-4bfa-af93-098fe03918b9">
+<span class="eqno">(5.16)<a class="headerlink" href="#equation-e9c8c9a9-d951-4bfa-af93-098fe03918b9" title="Permalink to this equation">#</a></span>\[\begin{align}
+\|\mathbf{x}\|_2 &amp;= \left( \sum_{i=1}^n | x_i |^2 \right)^{1/2} \\
+&amp;= \left( \sum_{i=1}^n x_i^2 \right)^{1/2} \quad \text{(since } |x_i|^2 = x_i^2 \text{)} \\
+&amp;= \sqrt{\sum_{i=1}^n x_i^2}
+\end{align}\]</div>
+<p>This is exactly the definition of the Euclidean norm.</p>
+<p>For the distance between two points, if we let <span class="math notranslate nohighlight">\(\mathbf{d} = \mathbf{x}_1 - \mathbf{x}_2\)</span> be the difference vector, then:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2a248974-7849-4afd-93f6-524bb4aac17a">
+<span class="eqno">(5.17)<a class="headerlink" href="#equation-2a248974-7849-4afd-93f6-524bb4aac17a" title="Permalink to this equation">#</a></span>\[\begin{align}
+\|\mathbf{d}\|_2 &amp;= \sqrt{(x_1 - x_2)^2 + (y_1 - y_2)^2 + (z_1 - z_2)^2}
+\end{align}\]</div>
+<p>This confirms that the <span class="math notranslate nohighlight">\(L_2\)</span> norm (p-norm with <span class="math notranslate nohighlight">\(p=2\)</span>) gives us the familiar Euclidean distance formula.</p>
+</div>
+<div class="dropdown admonition">
+<p class="admonition-title">Numerical Example with Python</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="c1"># Define a 3D vector</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">])</span>
+
+<span class="c1"># Method 1: Using p-norm formula with p=2</span>
+<span class="n">p</span> <span class="o">=</span> <span class="mi">2</span>
+<span class="n">norm_p</span> <span class="o">=</span> <span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">abs</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">**</span><span class="n">p</span><span class="p">))</span><span class="o">**</span><span class="p">(</span><span class="mi">1</span><span class="o">/</span><span class="n">p</span><span class="p">)</span>
+
+<span class="c1"># Method 2: Direct Euclidean norm calculation</span>
+<span class="n">norm_euclidean</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sum</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="p">))</span>
+
+<span class="c1"># Method 3: NumPy&#39;s built-in L2 norm</span>
+<span class="n">norm_numpy</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="nb">ord</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Vector x = </span><span class="si">{</span><span class="n">x</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;P-norm with p=2: </span><span class="si">{</span><span class="n">norm_p</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Euclidean norm:   </span><span class="si">{</span><span class="n">norm_euclidean</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;NumPy L2 norm:    </span><span class="si">{</span><span class="n">norm_numpy</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;All methods equal? </span><span class="si">{</span><span class="n">np</span><span class="o">.</span><span class="n">allclose</span><span class="p">([</span><span class="n">norm_p</span><span class="p">,</span><span class="w"> </span><span class="n">norm_euclidean</span><span class="p">,</span><span class="w"> </span><span class="n">norm_numpy</span><span class="p">],</span><span class="w"> </span><span class="n">norm_numpy</span><span class="p">)</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+<span class="c1"># Verification: 3² + 4² + 5² = 9 + 16 + 25 = 50, √50 ≈ 7.071</span>
+<span class="n">expected</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="mi">3</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">4</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">5</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected result:  </span><span class="si">{</span><span class="n">expected</span><span class="si">:</span><span class="s2">.6f</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<p><strong>Expected Output:</strong></p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>Vector x = [3 4 5]
+P-norm with p=2: 7.071068
+Euclidean norm:   7.071068
+NumPy L2 norm:    7.071068
+All methods equal? True
+Expected result:  7.071068
+</pre></div>
+</div>
+<p>This confirms that the p-norm with <span class="math notranslate nohighlight">\(p=2\)</span> is indeed the Euclidean norm.</p>
+<div class="highlight-default notranslate"><div class="highlight"><pre><span></span>
+</pre></div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Matrices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="matrix_cover.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">5. </span>Matrices</p>
+      </div>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#transpose">5.1.1. Transpose</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-matrix-transpose">5.1.1.1. Properties of Matrix Transpose</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#symmetric-matrix">5.1.2. Symmetric Matrix</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#identity-matrix-and-matrix-inverse">5.1.3. Identity Matrix and Matrix Inverse</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#norms">5.1.4. Norms</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joe McEwen & Jesse Loi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

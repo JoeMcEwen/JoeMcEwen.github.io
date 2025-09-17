@@ -1,0 +1,1430 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Matrix Condition Number &#8212; Getting to the Bottom of It \n  Numerical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Matrices/MatrixConditionNumber';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../cover.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/numerical_methods_logo.svg" class="logo__image only-light" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/numerical_methods_logo.svg" class="logo__image only-dark" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../cover.html">
+                    Getting to the Bottom of It: Numerical Methods for Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../About.html">1. What is this?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Before%20We%20Begin/guidance.html">2. Guidance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/job.html">2.1. Do You Want a Job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/good_coding.html">2.2. Good Coding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Arrays/array_cover.html">3. Array Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/ArrayBasics.html">3.1. Arrays in Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/DotProduct.html">3.2. Dot Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixMultiplication.html">3.3. Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixInversion.html">3.4. Solving Systems of Equations</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Mathematics/math_cover.html">4. Differential Calculus</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/SingleVariableCalculus.html">4.1. Single Variable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/MultiVariableCalculus.html">4.2. Multivariable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/JaxAutoDiff.html">4.3. Automatic Differentiation with Jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/DerivativesLesson.html">4.4. Derivatives, a Helpful Lesson</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="matrix_cover.html">5. Matrices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="TransposeInverseNorm.html">5.1. Transpose, Inverse, and Norm</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Matrices/MatrixConditionNumber.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Matrix Condition Number</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draft-version-do-not-distribute">draft version do not distribute</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-norms">Matrix Norms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-large-condition-number">What is a Large Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-get-the-condition-number">How to get the Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#here-are-some-examples">Here are Some Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-video">Example From Video</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hilbert-matrix">Hilbert Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-mathworks-cleve-moler-what-is-a-matrix-condition-number">Example from MathWorks, Cleve Moler, What is a Matrix Condition Number?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-mit-dynamics-systems-and-control-course">Example from MIT Dynamics Systems and Control Course</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-2-norm-svd-and-condition-number">Matrix 2 Norm, SVD, and Condition Number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-2-norm">Matrix 2-Norm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-the-2-norm">Properties of the 2-Norm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-values">Singular Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-condition-number-from-svd">Matrix Condition Number from SVD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="matrix-condition-number">
+<h1>Matrix Condition Number<a class="headerlink" href="#matrix-condition-number" title="Link to this heading">#</a></h1>
+<section id="draft-version-do-not-distribute">
+<h2>draft version do not distribute<a class="headerlink" href="#draft-version-do-not-distribute" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="o">%%html</span> 
+<span class="p">&lt;</span><span class="nt">div</span> <span class="na">align</span><span class="o">=</span><span class="s">&quot;center&quot;</span><span class="p">&gt;</span>
+<span class="p">&lt;</span><span class="nt">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;600&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;400&quot;</span> <span class="err">&lt;</span><span class="na">iframe</span> <span class="na">width</span><span class="o">=</span><span class="s">&quot;560&quot;</span> <span class="na">height</span><span class="o">=</span><span class="s">&quot;315&quot;</span> <span class="na">src</span><span class="o">=</span><span class="s">&quot;https://www.youtube.com/embed/Axdj-m4bjyw?si=B_VQllegJXDVVkA3&quot;</span> <span class="err">&lt;/</span><span class="na">iframe</span><span class="p">&gt;</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_html"><div align="center">
+<iframe width="600" height="400" <iframe width="560" height="315" src="https://www.youtube.com/embed/Axdj-m4bjyw?si=B_VQllegJXDVVkA3" </iframe>
+</div></div>
+</div>
+</section>
+<section id="references">
+<h2>References:<a class="headerlink" href="#references" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p><a class="reference external" href="https://blogs.mathworks.com/cleve/2017/07/17/what-is-the-condition-number-of-a-matrix/">What is a the Condition Number of a Matrix?, Cleve Moler</a></p></li>
+<li><p><a class="reference external" href="https://numphyspy.org/">Numerical Methods in Physics with Python, Alex Gexerlis</a></p></li>
+</ul>
+<p>A condition number measures how sensitive a function’s output is to changes or errors in its input. In these notes, we focus on linear systems of equations, which are problems of the form:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-af963040-4ddb-46d1-8862-0ad63fb8d56a">
+<span class="eqno">()<a class="headerlink" href="#equation-af963040-4ddb-46d1-8862-0ad63fb8d56a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+A \mathbf{x} = \mathbf{b}.
+\end{equation}\]</div>
+<p>The question we will address is how the solution to equations of the form <span class="math notranslate nohighlight">\(A\mathbf{x} = \mathbf{b}\)</span> changes if we introduce small perturbations to the elements of <span class="math notranslate nohighlight">\(A\)</span> or <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>. The <strong>matrix condition number</strong> quantifies the impact these small changes have on the solution.</p>
+<p>Now, consider changing the elements of matrix <span class="math notranslate nohighlight">\(A\)</span> slightly—how much does this affect the solution, <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>? In a word-schematic equation, we can express this relationship as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f4880a5c-ff53-4d42-99f5-409fa92104ea">
+<span class="eqno">()<a class="headerlink" href="#equation-f4880a5c-ff53-4d42-99f5-409fa92104ea" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\text{changes in } \mathbf{x} \leq \text{some number} \times \text{small changes in } A.
+\end{equation}\]</div>
+<p>The matrix condition number is this “some number.” If the number is small, then small changes in <span class="math notranslate nohighlight">\(A\)</span> map to small changes in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. However, if the number is large, small changes in <span class="math notranslate nohighlight">\(A\)</span> may have a significant impact on the solution <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+<p>Likewise, the condition number specifies how small changes in <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> propagte to changes in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+</section>
+<hr class="docutils" />
+<section id="matrix-norms">
+<h2>Matrix Norms<a class="headerlink" href="#matrix-norms" title="Link to this heading">#</a></h2>
+<p>We will utilize the properties of <a class="reference external" href="https://en.wikipedia.org/wiki/Matrix_norm">matrix norms</a>. Below are the key properties of matrix norms:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(|| A || &gt; 0\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(|| A || = 0\)</span> if and only if all elements are zero, i.e., <span class="math notranslate nohighlight">\(A_{ij} = 0\)</span> for all <span class="math notranslate nohighlight">\(i\)</span>, <span class="math notranslate nohighlight">\(j\)</span></p></li>
+<li><p><span class="math notranslate nohighlight">\(|| k A || = |k| || A ||\)</span>, where <span class="math notranslate nohighlight">\(k\)</span> is a scalar</p></li>
+<li><p><span class="math notranslate nohighlight">\(|| A + B || \leq || A || + || B ||\)</span>, known as the triangle inequality</p></li>
+<li><p><span class="math notranslate nohighlight">\(|| A B || \leq || A || || B ||\)</span></p></li>
+</ul>
+<p>If you’re wondering what a norm is, a common one is the Euclidean norm (also known as the <span class="math notranslate nohighlight">\(l^2\)</span> norm or “el-2”), which is the square root of the sum of all elements squared:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f1c3b32b-6357-442f-9f75-c8d4cfcc78a6">
+<span class="eqno">()<a class="headerlink" href="#equation-f1c3b32b-6357-442f-9f75-c8d4cfcc78a6" title="Permalink to this equation">#</a></span>\[\begin{equation}
+|| A ||_2 = \sqrt{ \sum_i \sum_j A_{ij}^2}.
+\end{equation}\]</div>
+<p>You can check this in Python with the following code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+<span class="n">norm</span><span class="o">=</span><span class="mi">0</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span>
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> 
+        <span class="n">norm</span> <span class="o">+=</span> <span class="n">A</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">sqrt</span><span class="p">(</span><span class="n">norm</span><span class="p">))</span>
+</pre></div>
+</div>
+</section>
+<hr class="docutils" />
+<section id="condition-number">
+<h2>Condition Number<a class="headerlink" href="#condition-number" title="Link to this heading">#</a></h2>
+<p>We will now derive the condition number. Keep in mind that there are multiple ways to derive the condition number, and the approach we are using is just one of them.</p>
+<p>We perturb the matrix <span class="math notranslate nohighlight">\(A\)</span> by adding a small change, <span class="math notranslate nohighlight">\(\Delta A\)</span>, so that <span class="math notranslate nohighlight">\(A \to A + \Delta A\)</span>. As a result, we expect the output <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to change under this perturbation. We should think of this as how the error introduced by adding <span class="math notranslate nohighlight">\(\Delta A\)</span> to <span class="math notranslate nohighlight">\(A\)</span> maps to an error in the solution, i.e., how <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> changes to <span class="math notranslate nohighlight">\(\mathbf{x} + \Delta \mathbf{x}\)</span>.</p>
+<p>Adding perturbations to the equation <span class="math notranslate nohighlight">\(A \mathbf{x} = \mathbf{b}\)</span>, we have:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-42f461d1-a2a5-4c2b-b088-ebee4a096cad">
+<span class="eqno">()<a class="headerlink" href="#equation-42f461d1-a2a5-4c2b-b088-ebee4a096cad" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\begin{split} 
+(A + \Delta A) ( \mathbf{x} + \Delta \mathbf{x}) &amp; = \mathbf{b} \\
+A \mathbf{x}  + \Delta A\mathbf{x} + A  \Delta \mathbf{x} + \Delta A \Delta \mathbf{x} &amp; = \mathbf{b}.
+\end{split} 
+\end{equation} \]</div>
+<p>The first term on the left hand side and the right hand side are equal, since <span class="math notranslate nohighlight">\(A \mathbf{x} = \mathbf{b}\)</span>. Continuing we have</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8dde7c26-49be-4a0a-9c61-83f362c0be8c">
+<span class="eqno">()<a class="headerlink" href="#equation-8dde7c26-49be-4a0a-9c61-83f362c0be8c" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+ A  \Delta \mathbf{x} &amp;  = - \Delta A\mathbf{x} -  \Delta A \Delta \mathbf{x} \\
+A  \Delta \mathbf{x} &amp;  = - \Delta A ( \mathbf{x} +  \Delta \mathbf{x}) \\
+\Delta \mathbf{x} &amp; = -A^{-1} \Delta A ( \mathbf{x} +  \Delta \mathbf{x}). 
+\end{split} 
+\end{equation} \]</div>
+<p>We now take the norm of both sides.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-76e1700d-9196-4183-b50e-4e0fc6bc3314">
+<span class="eqno">()<a class="headerlink" href="#equation-76e1700d-9196-4183-b50e-4e0fc6bc3314" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+&amp; ||\Delta \mathbf{x} || = ||A^{-1} \Delta A ( \mathbf{x} +  \Delta \mathbf{x}) || \\
+&amp; ||\Delta \mathbf{x} || \leq ||A^{-1} || ~||\Delta A ||~||( \mathbf{x} +  \Delta \mathbf{x}) || \\
+&amp; ||\Delta \mathbf{x} || \leq ||A^{-1} || ~||\Delta A ||~|| \mathbf{x}||
+\end{split} 
+\end{equation} \]</div>
+<p>Note, in the second line the norm property, <span class="math notranslate nohighlight">\(|| A +  B|| \leq || A|| + ||B||\)</span> was used. Continuing we have</p>
+<div class="amsmath math notranslate nohighlight" id="equation-330fb826-1a15-446c-9df3-2579be75f5c5">
+<span class="eqno">()<a class="headerlink" href="#equation-330fb826-1a15-446c-9df3-2579be75f5c5" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+&amp; \frac{ || \Delta \mathbf{x} ||}{|| \mathbf{x} ||} \leq ||A^{-1} || ~||\Delta A || \frac{ || A ||}{||A||}  \\
+&amp; \frac{ || \Delta \mathbf{x} ||}{|| \mathbf{x} ||} \leq ||A^{-1} || ~|| A|| \frac{ ||\Delta A ||}{||A||}\\
+&amp; \frac{ || \Delta \mathbf{x} ||}{|| \mathbf{x} ||} \leq \kappa(A) \frac{ ||\Delta A ||}{||A||}, 
+\end{split} 
+\end{equation} \]</div>
+<p>where <span class="math notranslate nohighlight">\(\kappa(A) = ||A^{-1} || ~|| A||\)</span> is the condition number.
+If the condition number is large, then even small perturbations in <span class="math notranslate nohighlight">\(A\)</span> can lead to a large error in <span class="math notranslate nohighlight">\(\frac{ || \Delta \mathbf{x} ||}{|| \mathbf{x} ||}\)</span>.</p>
+<p>Likewise, the condition number sets a bound on how small changes in <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> propagate to changes in <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>: \begin{equation} \frac{||\Delta \mathbf{x}||}{||\mathbf{x}||} \leq \kappa(A) \frac{||\Delta \mathbf{b}||}{||\mathbf{b}||}. \end{equation} This inequality shows that the relative change in the solution <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is at most <span class="math notranslate nohighlight">\(\kappa(A)\)</span> times the relative change in <span class="math notranslate nohighlight">\(\mathbf{b}\)</span>.</p>
+</section>
+<section id="what-is-a-large-condition-number">
+<h2>What is a Large Condition Number<a class="headerlink" href="#what-is-a-large-condition-number" title="Link to this heading">#</a></h2>
+<ul class="simple">
+<li><p>condition numbers on the order of 1 are excellent</p></li>
+<li><p>condition numbers on the order of <span class="math notranslate nohighlight">\(10\)</span> to <span class="math notranslate nohighlight">\(10^2\)</span> are considered “well-conditioned”</p></li>
+<li><p>condition numbers larger than <span class="math notranslate nohighlight">\(10^2\)</span> are “ill-conditioned”</p></li>
+</ul>
+</section>
+<section id="how-to-get-the-condition-number">
+<h2>How to get the Condition Number<a class="headerlink" href="#how-to-get-the-condition-number" title="Link to this heading">#</a></h2>
+<p>Numpy provides a function for the condition number, np.linalg.cond().</p>
+</section>
+<hr class="docutils" />
+<section id="here-are-some-examples">
+<h2>Here are Some Examples<a class="headerlink" href="#here-are-some-examples" title="Link to this heading">#</a></h2>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">hilbert</span>
+</pre></div>
+</div>
+</div>
+</div>
+<section id="example-from-video">
+<h3>Example From Video<a class="headerlink" href="#example-from-video" title="Link to this heading">#</a></h3>
+<div class="amsmath math notranslate nohighlight" id="equation-1d893141-f8a4-400c-aeb6-5df4acc4640b">
+<span class="eqno">()<a class="headerlink" href="#equation-1d893141-f8a4-400c-aeb6-5df4acc4640b" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+A = \begin{bmatrix} 0.2161 &amp; 0.1441 \\
+1.2969 &amp; 0.8648 \end{bmatrix} 
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-e7120bf8-fdda-44c2-a37d-a61b126b70ff">
+<span class="eqno">()<a class="headerlink" href="#equation-e7120bf8-fdda-44c2-a37d-a61b126b70ff" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\mathbf{b} = \begin{bmatrix} 0.1440 \\ 0.8642 \end{bmatrix} 
+\end{equation} \]</div>
+</section>
+<section id="exercise">
+<h3>Exercise<a class="headerlink" href="#exercise" title="Link to this heading">#</a></h3>
+<p>Find the solution <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> to <span class="math notranslate nohighlight">\(A \mathbf{x}= \mathbf{b}\)</span> for the above example. Use NumPy to get the condition number of <span class="math notranslate nohighlight">\(A\)</span>. Perturb \mathbf{b} and observe how the output changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">0.2161</span><span class="p">,</span> <span class="mf">0.1441</span><span class="p">],[</span><span class="mf">1.2969</span><span class="p">,</span> <span class="mf">0.8648</span><span class="p">]])</span> 
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.1440</span><span class="p">,</span> <span class="mf">0.8642</span><span class="p">])</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.2161, 0.1441],
+       [1.2969, 0.8648]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.144 , 0.8642])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># A has a very large condition number </span>
+<span class="n">kappa</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> 
+<span class="n">kappa</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(249729263.3678662)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solve for x </span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> 
+<span class="n">x</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 2., -2.])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># check solution </span>
+<span class="n">A</span><span class="nd">@x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.144 , 0.8642])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># add perturbation to b </span>
+<span class="n">db</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">0</span><span class="p">,</span> <span class="mf">.00001</span><span class="p">])</span> 
+
+<span class="n">bp</span> <span class="o">=</span> <span class="n">b</span> <span class="o">+</span> <span class="n">db</span>
+<span class="n">bp</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.144  , 0.86421])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># see how perturbation changes output </span>
+<span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">bp</span><span class="p">)</span> 
+<span class="n">xp</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 146.10000002, -218.10000003])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="hilbert-matrix">
+<h3>Hilbert Matrix<a class="headerlink" href="#hilbert-matrix" title="Link to this heading">#</a></h3>
+<p>A <a class="reference external" href="https://en.wikipedia.org/wiki/Hilbert_matrix">Hilbert matrix</a> <span class="math notranslate nohighlight">\( H \)</span> has elements defined by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-bc270a99-6f35-4524-a346-00a8b521285f">
+<span class="eqno">()<a class="headerlink" href="#equation-bc270a99-6f35-4524-a346-00a8b521285f" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+H_{ij} = \frac{1}{i + j - 1}.
+\end{equation} \]</div>
+<p>A <span class="math notranslate nohighlight">\(3 \times 3\)</span> Hilbert matrix is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-49c57b53-6bbe-4341-8e00-be063a631251">
+<span class="eqno">()<a class="headerlink" href="#equation-49c57b53-6bbe-4341-8e00-be063a631251" title="Permalink to this equation">#</a></span>\[\begin{equation}
+H = 
+\begin{bmatrix}
+1 &amp; \frac{1}{2} &amp; \frac{1}{3} \\
+\frac{1}{2} &amp; \frac{1}{3} &amp; \frac{1}{4} \\
+\frac{1}{3} &amp; \frac{1}{4} &amp; \frac{1}{5}. 
+\end{bmatrix}
+\end{equation} \]</div>
+<p>Hilbert matrices are known to have large condition numbers. Below is an example of a <span class="math notranslate nohighlight">\(5 \times 5\)</span> Hilbert matrix. You can use np.linalg.cond() to compute the condition number of the matrix.</p>
+</section>
+<section id="id1">
+<h3>Exercise<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Create a <span class="math notranslate nohighlight">\(5 \times 5\)</span> Hilbert matrix and solve <span class="math notranslate nohighlight">\(H\mathbf{x} = \mathbf{b}\)</span> for <span class="math notranslate nohighlight">\(\mathbf{b} = [1~ 1~ 1~ 1~ 1]^T\)</span>.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">from</span><span class="w"> </span><span class="nn">scipy.linalg</span><span class="w"> </span><span class="kn">import</span> <span class="n">hilbert</span>
+
+<span class="c1"># Create a 5x5 Hilbert matrix</span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">hilbert</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Create a right-hand side vector (e.g., all ones)</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">5</span><span class="p">)</span>
+
+<span class="c1"># Solve Hx = b</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span>
+
+<span class="c1"># Calculate condition number</span>
+<span class="n">cond_number</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hilbert matrix (5x5):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">This is vector b:&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Condition number:&quot;</span><span class="p">,</span> <span class="n">cond_number</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Solution x:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Check soltuion recovers b:&quot;</span><span class="p">,</span> <span class="n">H</span><span class="nd">@x</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hilbert matrix (5x5):
+ [[1.         0.5        0.33333333 0.25       0.2       ]
+ [0.5        0.33333333 0.25       0.2        0.16666667]
+ [0.33333333 0.25       0.2        0.16666667 0.14285714]
+ [0.25       0.2        0.16666667 0.14285714 0.125     ]
+ [0.2        0.16666667 0.14285714 0.125      0.11111111]]
+
+This is vector b: [1. 1. 1. 1. 1.]
+
+Condition number: 476607.25024187926
+
+Solution x: [    5.  -120.   630. -1120.   630.]
+
+Check soltuion recovers b: [1. 1. 1. 1. 1.]
+</pre></div>
+</div>
+</div>
+</div>
+<p>Let’s change the vector <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> slightly by changing the first element to 0.1. Notice how much the solution <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> changes.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Solve Hx = b</span>
+<span class="n">bp</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">copy</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">bp</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span> <span class="o">=</span> <span class="mf">.1</span>
+<span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">H</span><span class="p">,</span> <span class="n">bp</span><span class="p">)</span>
+
+<span class="c1"># Calculate condition number</span>
+<span class="n">cond_number</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Hilbert matrix (5x5):</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">This is vector b:&quot;</span><span class="p">,</span> <span class="n">bp</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Condition number:&quot;</span><span class="p">,</span> <span class="n">cond_number</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">The perturbed solution:&quot;</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">The unperturbed solution:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;</span><span class="se">\n</span><span class="s2">Check soltuion recovers perturbed b:&quot;</span><span class="p">,</span> <span class="n">H</span><span class="nd">@xp</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Hilbert matrix (5x5):
+ [[1.         0.5        0.33333333 0.25       0.2       ]
+ [0.5        0.33333333 0.25       0.2        0.16666667]
+ [0.33333333 0.25       0.2        0.16666667 0.14285714]
+ [0.25       0.2        0.16666667 0.14285714 0.125     ]
+ [0.2        0.16666667 0.14285714 0.125      0.11111111]]
+
+This is vector b: [0.1 1.  1.  1.  1. ]
+
+Condition number: 476607.25024187926
+
+The perturbed solution: [ -17.5  150.  -315.   140.    63. ]
+
+The unperturbed solution: [    5.  -120.   630. -1120.   630.]
+
+Check soltuion recovers perturbed b: [0.1 1.  1.  1.  1. ]
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-from-mathworks-cleve-moler-what-is-a-matrix-condition-number">
+<h3>Example from MathWorks, Cleve Moler, <a class="reference external" href="https://blogs.mathworks.com/cleve/2017/07/17/what-is-the-condition-number-of-a-matrix/">What is a Matrix Condition Number</a>?<a class="headerlink" href="#example-from-mathworks-cleve-moler-what-is-a-matrix-condition-number" title="Link to this heading">#</a></h3>
+<p>Consider</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3b87eecf-0e0e-4d38-bd27-13e95e0ec942">
+<span class="eqno">()<a class="headerlink" href="#equation-3b87eecf-0e0e-4d38-bd27-13e95e0ec942" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+A = \begin{bmatrix} 4.1 &amp; 2.8 \\ 9.7 &amp; 6.6 \end{bmatrix}. 
+\end{equation}\]</div>
+<p>Take <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> to be the first column of <span class="math notranslate nohighlight">\(A\)</span>, <span class="math notranslate nohighlight">\(\mathbf{b} = [ 4.1, 9.7]^T\)</span>. Solve for <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.
+Add <span class="math notranslate nohighlight">\(.01\)</span> to the first element of <span class="math notranslate nohighlight">\(\mathbf{b}\)</span> and notice how the solution changes.</p>
+<p>Perturb <span class="math notranslate nohighlight">\(A\)</span> slightly by,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-885e48b0-f760-4098-90cb-d4984f0c7495">
+<span class="eqno">()<a class="headerlink" href="#equation-885e48b0-f760-4098-90cb-d4984f0c7495" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+dA = \begin{bmatrix} 0 &amp; 0 \\ -0.024 &amp; 0 
+\end{bmatrix}. 
+\end{equation} \]</div>
+<p>Notice how the solution for <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> changes significantly.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">4.1</span><span class="p">,</span> <span class="mf">2.8</span><span class="p">],[</span><span class="mf">9.7</span> <span class="p">,</span><span class="mf">6.6</span><span class="p">]])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Condition number for A&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">A</span><span class="p">))</span>
+
+<span class="n">b</span><span class="o">=</span><span class="n">A</span><span class="p">[:,</span><span class="mi">0</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;b-vector&quot;</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> 
+<span class="n">x</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">b</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Solution x:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Condition number for A 1622.9993838564628
+b-vector [4.1 9.7]
+Solution x: [ 1.00000000e+00 -2.63677968e-15]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># perturb b </span>
+<span class="n">bp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.01</span><span class="p">,</span> <span class="mi">0</span><span class="p">])</span> <span class="o">+</span> <span class="n">b</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;perturbed b-vector:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">bp</span><span class="p">)</span> 
+
+<span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">bp</span><span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;pertrubed solution for x:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">xp</span> <span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>perturbed b-vector:
+ [4.11 9.7 ]
+pertrubed solution for x:
+ [0.34 0.97]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">error_b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">bp</span> <span class="o">-</span> <span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span>
+<span class="n">error_x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">xp</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+<span class="n">kappa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in b-vector:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error_b</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;error in x-vector:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">error_x</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;condition number times error in b-vector:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">kappa</span><span class="o">*</span><span class="n">error_b</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>error in b-vector:
+ 0.000949585833500486
+error in x-vector:
+ 1.173243367763031
+condition number times error in b-vector:
+ 1.5411772226901146
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mf">.024</span><span class="p">,</span> <span class="mf">.008</span><span class="p">]])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;dA:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">dA</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;A + dA:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">A</span> <span class="o">+</span> <span class="n">dA</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>dA:
+ [[ 0.     0.   ]
+ [-0.024  0.008]]
+A + dA:
+ [[4.1   2.8  ]
+ [9.676 6.608]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># solve for x </span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;perturbed solution:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">dA</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> <span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>perturbed solution:
+ [ 1.50633216e+13 -2.20570067e+13]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">dA</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-1.48122663e+15,  6.27638402e+14],
+       [ 2.16893899e+15, -9.19041946e+14]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">dA</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(8987461785393098.0)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="example-from-mit-dynamics-systems-and-control-course">
+<h3>Example from MIT Dynamics Systems and Control Course<a class="headerlink" href="#example-from-mit-dynamics-systems-and-control-course" title="Link to this heading">#</a></h3>
+<p>This example is from an MIT course on <a class="reference external" href="https://ocw.mit.edu/courses/6-241j-dynamic-systems-and-control-spring-2011/04fddfbcb1eb933ecca85dab8bfbb171_MIT6_241JS11_chap04.pdf">Dynamic Systems and Control, chapter 4</a>.</p>
+<p>Consider</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2439b0f6-fb6e-4fcc-aa87-31467b041a2d">
+<span class="eqno">()<a class="headerlink" href="#equation-2439b0f6-fb6e-4fcc-aa87-31467b041a2d" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+A = \begin{bmatrix} 100 &amp; 100 \\ 100.2 &amp; 100 \end{bmatrix}. 
+\end{equation}\]</div>
+<p>What is the solution to <span class="math notranslate nohighlight">\(A \mathbf{x}= \mathbf{b}\)</span> for <span class="math notranslate nohighlight">\(\mathbf{b} = [ 1, -1 ]^T\)</span>. What happens to the solution when you perturb <span class="math notranslate nohighlight">\(A\)</span> by a small amount on the order of 0.1%, by</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2a1668dc-a67e-4bcd-9180-4d9eee8fd5d6">
+<span class="eqno">()<a class="headerlink" href="#equation-2a1668dc-a67e-4bcd-9180-4d9eee8fd5d6" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\Delta A = \begin{bmatrix} 0 &amp; 0 \\ -.1 &amp; 0 \end{bmatrix}. 
+\end{equation} \]</div>
+<p>Here is the Python solution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Matrix from example above </span>
+<span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">100</span><span class="p">,</span> <span class="mi">100</span><span class="p">],[</span><span class="mf">100.2</span><span class="p">,</span> <span class="mi">100</span><span class="p">]])</span> 
+<span class="n">A</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[100. , 100. ],
+       [100.2, 100. ]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># b-vector </span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="o">-</span><span class="mi">1</span><span class="p">])</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># compute the inverse </span>
+<span class="n">A_inv</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> 
+<span class="n">A_inv</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-5.  ,  5.  ],
+       [ 5.01, -5.  ]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># unperturbed solution </span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">A_inv</span><span class="nd">@b</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The unperturbed solution is:&quot;</span><span class="p">,</span> <span class="n">x</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The unperturbed solution is: [-10.    10.01]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># perturbation </span>
+<span class="n">dA</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">0</span><span class="p">,</span> <span class="mi">0</span><span class="p">],[</span><span class="o">-</span><span class="mf">.1</span><span class="p">,</span> <span class="mi">0</span><span class="p">]])</span> 
+<span class="n">A</span> <span class="o">+</span> <span class="n">dA</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[100. , 100. ],
+       [100.1, 100. ]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># pertrubed inverse </span>
+<span class="n">Ap_inv</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">inv</span><span class="p">(</span><span class="n">A</span> <span class="o">+</span> <span class="n">dA</span><span class="p">)</span>
+<span class="n">Ap_inv</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[-10.  ,  10.  ],
+       [ 10.01, -10.  ]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># perturbed solution </span>
+<span class="n">xp</span> <span class="o">=</span> <span class="n">Ap_inv</span><span class="nd">@b</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;The perturbed solution is:&quot;</span><span class="p">,</span> <span class="n">xp</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The perturbed solution is: [-20.    20.01]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dx</span><span class="o">=</span><span class="n">x</span> <span class="o">-</span> <span class="n">xp</span> 
+<span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dx</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span>
+<span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.9995001250625194)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">dA</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">A</span><span class="p">)</span>
+<span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.0004997499377186054)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kappa</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">A</span><span class="p">)</span> 
+<span class="n">kappa</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(2002.0015004997842)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">kappa</span><span class="o">*</span><span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.0005001251873218)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+<section id="matrix-2-norm-svd-and-condition-number">
+<h2>Matrix 2 Norm, SVD, and Condition Number<a class="headerlink" href="#matrix-2-norm-svd-and-condition-number" title="Link to this heading">#</a></h2>
+<section id="matrix-2-norm">
+<h3>Matrix 2-Norm<a class="headerlink" href="#matrix-2-norm" title="Link to this heading">#</a></h3>
+<p>The <strong>2-norm</strong> (also called the <strong>spectral norm</strong> or <strong>operator norm</strong>) of a matrix measures how much a matrix can stretch a vector in Euclidean space. It is defined as the maximum singular value of the matrix, and for square matrices, it corresponds to the largest eigenvalue in absolute value. A high 2-norm means the matrix can stretch vectors significantly, whereas a low 2-norm means the matrix causes little distortion.</p>
+<p>For a matrix <span class="math notranslate nohighlight">\(A\)</span>, the <strong>2-norm</strong> is given by:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8ad4a99d-0801-4a35-8fb8-9c31e57a6e7b">
+<span class="eqno">()<a class="headerlink" href="#equation-8ad4a99d-0801-4a35-8fb8-9c31e57a6e7b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+||A||_2 = \max_{\mathbf{x} \neq 0} \frac{||A\mathbf{x}||_2}{||\mathbf{x}||_2}
+\end{equation}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\mathbf{x}\)</span> is any nonzero vector,</p></li>
+<li><p><span class="math notranslate nohighlight">\(||A\mathbf{x}||_2\)</span> is the 2-norm of <span class="math notranslate nohighlight">\(A\mathbf{x}\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(||\mathbf{x}||_2\)</span> is the 2-norm of <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p></li>
+</ul>
+<p>Alternatively, for square matrices, the 2-norm can be computed as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b2820230-c6c9-491c-aa15-8d569a218d94">
+<span class="eqno">()<a class="headerlink" href="#equation-b2820230-c6c9-491c-aa15-8d569a218d94" title="Permalink to this equation">#</a></span>\[\begin{equation}
+||A||_2 = \sigma_{\max}(A)
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(\sigma_{\max}(A)\)</span> is the largest singular value of <span class="math notranslate nohighlight">\(A\)</span>, which can be computed via singular value decomposition (SVD).</p>
+</section>
+<hr class="docutils" />
+<section id="properties-of-the-2-norm">
+<h3>Properties of the 2-Norm<a class="headerlink" href="#properties-of-the-2-norm" title="Link to this heading">#</a></h3>
+<ol class="arabic simple">
+<li><p><strong>Non-negativity</strong>: <span class="math notranslate nohighlight">\(||A||_2 \geq 0\)</span>, and <span class="math notranslate nohighlight">\(||A||_2 = 0\)</span> if and only if <span class="math notranslate nohighlight">\(A\)</span> is the zero matrix.</p></li>
+<li><p><strong>Scaling</strong>: For any scalar <span class="math notranslate nohighlight">\(k\)</span>, <span class="math notranslate nohighlight">\(||kA||_2 = |k| \, ||A||_2\)</span>.</p></li>
+<li><p><strong>Triangle inequality</strong>: <span class="math notranslate nohighlight">\(||A + B||_2 \leq ||A||_2 + ||B||_2\)</span>.</p></li>
+<li><p><strong>Sub-multiplicative property</strong>: <span class="math notranslate nohighlight">\(||AB||_2 \leq ||A||_2 ||B||_2\)</span>.</p></li>
+</ol>
+</section>
+<hr class="docutils" />
+<section id="singular-values">
+<h3>Singular Values<a class="headerlink" href="#singular-values" title="Link to this heading">#</a></h3>
+<p>The <strong>SVD</strong> (singular value decomposition) of a matrix <span class="math notranslate nohighlight">\(A\)</span> is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9649f558-79ab-405e-bfac-6963845246b3">
+<span class="eqno">()<a class="headerlink" href="#equation-9649f558-79ab-405e-bfac-6963845246b3" title="Permalink to this equation">#</a></span>\[\begin{equation}
+A = U \Sigma V^T,
+\end{equation}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(U \in \mathbb{R}^{m \times m}\)</span> is orthogonal (<span class="math notranslate nohighlight">\(U^T U = \mathbf{I}\)</span>),</p></li>
+<li><p><span class="math notranslate nohighlight">\(\Sigma \in \mathbb{R}^{m \times n}\)</span> is diagonal with non-negative entries,</p></li>
+<li><p><span class="math notranslate nohighlight">\(V \in \mathbb{R}^{n \times n}\)</span> is orthogonal (<span class="math notranslate nohighlight">\(V^T V = \mathbf{I}\)</span>).</p></li>
+</ul>
+<p>The diagonal entries <span class="math notranslate nohighlight">\(\sigma_1, \sigma_2, \dots, \sigma_r\)</span> of <span class="math notranslate nohighlight">\(\Sigma\)</span> are called the <strong>singular values</strong> of <span class="math notranslate nohighlight">\(A\)</span>. Singular values describe how much <span class="math notranslate nohighlight">\(A\)</span> stretches vectors along different directions.</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\sigma_1 \geq \sigma_2 \geq \dots \geq \sigma_r \geq 0\)</span>,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_1\)</span> = maximum stretching,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_r\)</span> = minimum stretching.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="matrix-condition-number-from-svd">
+<h3>Matrix Condition Number from SVD<a class="headerlink" href="#matrix-condition-number-from-svd" title="Link to this heading">#</a></h3>
+<p>The <strong>condition number</strong> of <span class="math notranslate nohighlight">\(A\)</span> (with respect to the 2-norm) is defined as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-bb9099ef-aefd-4c5d-8c06-bf2c623c6ad8">
+<span class="eqno">()<a class="headerlink" href="#equation-bb9099ef-aefd-4c5d-8c06-bf2c623c6ad8" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\kappa(A) = \frac{\sigma_{\max}(A)}{\sigma_{\min}(A)}
+\end{equation}\]</div>
+<p>where:</p>
+<ul class="simple">
+<li><p><span class="math notranslate nohighlight">\(\sigma_{\max}(A)\)</span> = largest singular value,</p></li>
+<li><p><span class="math notranslate nohighlight">\(\sigma_{\min}(A)\)</span> = smallest nonzero singular value.</p></li>
+</ul>
+</section>
+<hr class="docutils" />
+<section id="example">
+<h3>Example<a class="headerlink" href="#example" title="Link to this heading">#</a></h3>
+<p>Below the condition number and matrix norm for a <span class="math notranslate nohighlight">\(6 \times 6\)</span> Hilbert matrix is computed via SVD and shown to match np.linalg.cond() and np.linalg.norm().</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># 6 by 6 Hilbert matrix </span>
+<span class="n">H</span> <span class="o">=</span> <span class="n">hilbert</span><span class="p">(</span><span class="mi">6</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;6 by 6 Hilbert matrix:</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">,</span><span class="n">H</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>6 by 6 Hilbert matrix:
+ [[1.         0.5        0.33333333 0.25       0.2        0.16666667]
+ [0.5        0.33333333 0.25       0.2        0.16666667 0.14285714]
+ [0.33333333 0.25       0.2        0.16666667 0.14285714 0.125     ]
+ [0.25       0.2        0.16666667 0.14285714 0.125      0.11111111]
+ [0.2        0.16666667 0.14285714 0.125      0.11111111 0.1       ]
+ [0.16666667 0.14285714 0.125      0.11111111 0.1        0.09090909]]
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Condition number from linalg.cond:&quot;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">cond</span><span class="p">(</span><span class="n">H</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Condition number from linalg.cond: 14951058.641780132
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;2-norm from linalg.norm:&quot;</span><span class="p">,</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">H</span><span class="p">,</span><span class="mi">2</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>2-norm from linalg.norm: 1.6188998589243393
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># SVD factorization</span>
+<span class="n">U</span><span class="p">,</span><span class="n">S</span><span class="p">,</span><span class="n">VT</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">svd</span><span class="p">(</span><span class="n">H</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Max singular value, compare to 2-norm&quot;</span><span class="p">)</span>
+<span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Max singular value, compare to 2-norm
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(1.6188998589243393)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># remove any zero elements in S</span>
+<span class="n">idx</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">nonzero</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+<span class="n">S</span><span class="o">=</span><span class="n">S</span><span class="p">[</span><span class="n">idx</span><span class="p">]</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;Ratio of maximum and minimum (smallest non-zero) singular values, compare to condition number.&quot;</span><span class="p">)</span> 
+<span class="n">np</span><span class="o">.</span><span class="n">max</span><span class="p">(</span><span class="n">S</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">min</span><span class="p">(</span><span class="n">S</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Ratio of maximum and minimum (smallest non-zero) singular values, compare to condition number.
+</pre></div>
+</div>
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(14951058.641780136)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">11</span><span class="p">,</span> <span class="mi">10</span><span class="p">,</span> <span class="mi">14</span><span class="p">],</span> <span class="p">[</span><span class="mi">12</span><span class="p">,</span> <span class="mi">11</span><span class="p">,</span> <span class="o">-</span><span class="mi">13</span><span class="p">],</span> <span class="p">[</span><span class="mi">14</span><span class="p">,</span> <span class="mi">13</span><span class="p">,</span> <span class="o">-</span><span class="mi">66</span><span class="p">]])</span> 
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.001</span><span class="p">,</span> <span class="mf">.999</span><span class="p">,</span> <span class="mf">1.001</span><span class="p">])</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span> <span class="n">b</span><span class="p">)</span> 
+<span class="n">x</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([-0.683,  0.843,  0.006])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">A</span><span class="nd">@x</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.001, 0.999, 1.001])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">bp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">ones</span><span class="p">(</span><span class="mi">3</span><span class="p">)</span>
+<span class="n">xp</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">solve</span><span class="p">(</span><span class="n">A</span><span class="p">,</span><span class="n">bp</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">xp</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([ 1.0000000e+00, -1.0000000e+00, -1.5622424e-15])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">bp</span><span class="o">-</span><span class="n">b</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">b</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.09996663337406798)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">xp</span><span class="o">-</span><span class="n">x</span><span class="p">)</span><span class="o">/</span><span class="n">np</span><span class="o">.</span><span class="n">linalg</span><span class="o">.</span><span class="n">norm</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="mi">100</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(230.03551969236136)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">b</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([1.001, 0.999, 1.001])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Matrices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draft-version-do-not-distribute">draft version do not distribute</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#references">References:</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-norms">Matrix Norms</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#condition-number">Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#what-is-a-large-condition-number">What is a Large Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#how-to-get-the-condition-number">How to get the Condition Number</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#here-are-some-examples">Here are Some Examples</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-video">Example From Video</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#exercise">Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#hilbert-matrix">Hilbert Matrix</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">Exercise</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-mathworks-cleve-moler-what-is-a-matrix-condition-number">Example from MathWorks, Cleve Moler, What is a Matrix Condition Number?</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example-from-mit-dynamics-systems-and-control-course">Example from MIT Dynamics Systems and Control Course</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-2-norm-svd-and-condition-number">Matrix 2 Norm, SVD, and Condition Number</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-2-norm">Matrix 2-Norm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-the-2-norm">Properties of the 2-Norm</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#singular-values">Singular Values</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#matrix-condition-number-from-svd">Matrix Condition Number from SVD</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#example">Example</a></li>
+</ul>
+</li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joe McEwen & Jesse Loi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

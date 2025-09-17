@@ -1,0 +1,82 @@
+Traceback (most recent call last):
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+from sklearn.feature_extraction.text import TfidfVectorizer
+from sklearn.metrics.pairwise import cosine_similarity
+
+# Sample text documents
+doc1 = "I love machine learning and natural language processing."
+doc2 = "Machine learning and language processing are fascinating."
+doc3 = "I enjoy all things machine learning and natural language processing"
+doc4 = "I heart machine learning with natural language processing"
+
+# Create a TfidfVectorizer
+vectorizer = TfidfVectorizer()
+
+# Convert the text documents into vectors
+tfidf_matrix = vectorizer.fit_transform([doc1, doc2, doc3, doc4])
+
+# Compute the cosine similarity between the two documents
+cos_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[1:2])
+
+# Print the cosine similarity
+print(f"Cosine Similarity: {cos_sim[0][0]}")
+
+# Compute the cosine similarity between the two documents
+cos_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[2:3])
+
+# Print the cosine similarity
+print(f"Cosine Similarity: {cos_sim[0][0]}")
+
+# Compute the cosine similarity between the two documents
+cos_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[3:4])
+
+# Print the cosine similarity
+print(f"Cosine Similarity: {cos_sim[0][0]}")
+
+# Compute the cosine similarity between the two documents
+cos_sim = cosine_similarity(tfidf_matrix[0:1], tfidf_matrix[0:1])
+
+# Print the cosine similarity
+print(f"Cosine Similarity: {cos_sim[0][0]}")
+------------------
+
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mModuleNotFoundError[0m                       Traceback (most recent call last)
+[0;32m/var/folders/mq/8_f0y54n1g3f0ht8yb9b6by40000gn/T/ipykernel_19634/252115109.py[0m in [0;36m<cell line: 0>[0;34m()[0m
+[0;32m----> 1[0;31m [0;32mfrom[0m [0msklearn[0m[0;34m.[0m[0mfeature_extraction[0m[0;34m.[0m[0mtext[0m [0;32mimport[0m [0mTfidfVectorizer[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      2[0m [0;32mfrom[0m [0msklearn[0m[0;34m.[0m[0mmetrics[0m[0;34m.[0m[0mpairwise[0m [0;32mimport[0m [0mcosine_similarity[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      3[0m [0;34m[0m[0m
+[1;32m      4[0m [0;31m# Sample text documents[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m [0mdoc1[0m [0;34m=[0m [0;34m"I love machine learning and natural language processing."[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mModuleNotFoundError[0m: No module named 'sklearn'
+

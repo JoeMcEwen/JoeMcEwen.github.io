@@ -1,0 +1,689 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Forward and Backward Substitution &#8212; Getting to the Bottom of It \n  Numerical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Matrices/ForwardBackSubstitution';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../cover.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/numerical_methods_logo.svg" class="logo__image only-light" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/numerical_methods_logo.svg" class="logo__image only-dark" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../cover.html">
+                    Getting to the Bottom of It: Numerical Methods for Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../About.html">1. What is this?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Before%20We%20Begin/guidance.html">2. Guidance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/job.html">2.1. Do You Want a Job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/good_coding.html">2.2. Good Coding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Arrays/array_cover.html">3. Array Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/ArrayBasics.html">3.1. Arrays in Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/DotProduct.html">3.2. Dot Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixMultiplication.html">3.3. Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixInversion.html">3.4. Solving Systems of Equations</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Mathematics/math_cover.html">4. Differential Calculus</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/SingleVariableCalculus.html">4.1. Single Variable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/MultiVariableCalculus.html">4.2. Multivariable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/JaxAutoDiff.html">4.3. Automatic Differentiation with Jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/DerivativesLesson.html">4.4. Derivatives, a Helpful Lesson</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="matrix_cover.html">5. Matrices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="TransposeInverseNorm.html">5.1. Transpose, Inverse, and Norm</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Matrices/ForwardBackSubstitution.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Forward and Backward Substitution</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-substitution">Forward Substitution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-substitution">Backward Substitution</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="forward-and-backward-substitution">
+<h1>Forward and Backward Substitution<a class="headerlink" href="#forward-and-backward-substitution" title="Link to this heading">#</a></h1>
+<p><em>If a matrix is triangular, then solving a systems of equatons is, well, “not so bad.”</em></p>
+<p>A lower triangular matrix has non-zero elements on the diagonal and below it, but all elements above the diagonal are zero. Here’s an example of a <span class="math notranslate nohighlight">\(3\times3\)</span> lower triangular matrix:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-4163080d-772c-4441-81c0-a0768c578a10">
+<span class="eqno">()<a class="headerlink" href="#equation-4163080d-772c-4441-81c0-a0768c578a10" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+L = \begin{bmatrix}
+l_{11} &amp; 0     &amp; 0     \\
+l_{21} &amp; l_{22} &amp; 0     \\
+l_{31} &amp; l_{32} &amp; l_{33}
+\end{bmatrix}.
+\end{equation} \]</div>
+<p>An upper triangular matrix has non-zero elements on the diagonal and above it, but all elements below the diagonal are zero. Here’s an example of a <span class="math notranslate nohighlight">\(3\times3\)</span> upper triangular matrix:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-170acb09-72da-4e14-a5c6-3e93935debe7">
+<span class="eqno">()<a class="headerlink" href="#equation-170acb09-72da-4e14-a5c6-3e93935debe7" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+U = \begin{bmatrix}
+u_{11} &amp; u_{12} &amp; u_{13} \\
+0      &amp; u_{22} &amp; u_{23} \\
+0      &amp; 0      &amp; u_{33}
+\end{bmatrix}
+\end{equation} \]</div>
+<section id="forward-substitution">
+<h2>Forward Substitution<a class="headerlink" href="#forward-substitution" title="Link to this heading">#</a></h2>
+<p>Given the system <span class="math notranslate nohighlight">\(L \mathbf{x} = \mathbf{b}\)</span>, where <span class="math notranslate nohighlight">\(L\)</span> is a lower triangular matrix, we aim to solve for the vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. The matrix <span class="math notranslate nohighlight">\(L\)</span> is of the form:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c6b7c723-82f8-423c-a7da-545ee4585268">
+<span class="eqno">()<a class="headerlink" href="#equation-c6b7c723-82f8-423c-a7da-545ee4585268" title="Permalink to this equation">#</a></span>\[\begin{equation}
+L = \begin{bmatrix}
+\ell_{11} &amp; 0         &amp; \cdots &amp; 0 \\
+\ell_{21} &amp; \ell_{22} &amp; \cdots &amp; 0 \\
+\vdots    &amp; \vdots    &amp; \ddots &amp; \vdots \\
+\ell_{n1} &amp; \ell_{n2} &amp; \cdots &amp; \ell_{nn}
+\end{bmatrix}
+\end{equation}\]</div>
+<p>The system of equations is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b72b48f1-c632-41b3-a942-ec0e9a0e9895">
+<span class="eqno">()<a class="headerlink" href="#equation-b72b48f1-c632-41b3-a942-ec0e9a0e9895" title="Permalink to this equation">#</a></span>\[\begin{equation}
+L \mathbf{x} = \mathbf{b}
+\end{equation}\]</div>
+<p>This gives the following equations:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5dccfde7-46da-466d-8522-9665be60f20b">
+<span class="eqno">()<a class="headerlink" href="#equation-5dccfde7-46da-466d-8522-9665be60f20b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\ell_{11} x_1 = b_1
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-d384ec09-215a-4103-aa42-ddeac0f4c230">
+<span class="eqno">()<a class="headerlink" href="#equation-d384ec09-215a-4103-aa42-ddeac0f4c230" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\ell_{21} x_1 + \ell_{22} x_2 = b_2
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-83c191fc-bcb2-40e2-9771-3467ee3213e9">
+<span class="eqno">()<a class="headerlink" href="#equation-83c191fc-bcb2-40e2-9771-3467ee3213e9" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\ell_{31} x_1 + \ell_{32} x_2 + \ell_{33} x_3 = b_3
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-ee15c675-06f1-40c5-a86b-4e315744f017">
+<span class="eqno">()<a class="headerlink" href="#equation-ee15c675-06f1-40c5-a86b-4e315744f017" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\vdots
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-faac21e5-f658-4f78-ae45-6a14a928f959">
+<span class="eqno">()<a class="headerlink" href="#equation-faac21e5-f658-4f78-ae45-6a14a928f959" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\ell_{n1} x_1 + \ell_{n2} x_2 + \cdots + \ell_{nn} x_n = b_n
+\end{equation}\]</div>
+<p>We solve for <span class="math notranslate nohighlight">\(x\)</span> starting from the first equation and moving downward.</p>
+<p><strong>Step 1: Solve for <span class="math notranslate nohighlight">\(x_1\)</span></strong></p>
+<div class="amsmath math notranslate nohighlight" id="equation-50e4cca8-cc52-4679-88f8-b2d1f6848bad">
+<span class="eqno">()<a class="headerlink" href="#equation-50e4cca8-cc52-4679-88f8-b2d1f6848bad" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\ell_{11} x_1 = b_1
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-ebd26b51-3065-4bab-9e1b-dd2cecee35de">
+<span class="eqno">()<a class="headerlink" href="#equation-ebd26b51-3065-4bab-9e1b-dd2cecee35de" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_1 = \frac{b_1}{\ell_{11}}
+\end{equation}\]</div>
+<p><strong>Step 2: Solve for <span class="math notranslate nohighlight">\(x_2\)</span></strong></p>
+<div class="amsmath math notranslate nohighlight" id="equation-6e8a8224-0d6a-4b25-a3cc-5c0f705e2891">
+<span class="eqno">()<a class="headerlink" href="#equation-6e8a8224-0d6a-4b25-a3cc-5c0f705e2891" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\ell_{21} x_1 + \ell_{22} x_2 = b_2
+\end{equation}\]</div>
+<p>Substitute <span class="math notranslate nohighlight">\(x_1\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e3cebb7e-2448-4273-8653-b877cb99e338">
+<span class="eqno">()<a class="headerlink" href="#equation-e3cebb7e-2448-4273-8653-b877cb99e338" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_2 = \frac{b_2 - \ell_{21} x_1}{\ell_{22}}
+\end{equation}\]</div>
+<p><strong>Step 3: General Step for <span class="math notranslate nohighlight">\(x_i\)</span></strong></p>
+<p>For <span class="math notranslate nohighlight">\(i = 1, 2, \dots, n\)</span>, we solve:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8a22f215-0dc8-4e9d-80af-7a0a2a261c97">
+<span class="eqno">()<a class="headerlink" href="#equation-8a22f215-0dc8-4e9d-80af-7a0a2a261c97" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\ell_{i1} x_1 + \ell_{i2} x_2 + \cdots + \ell_{ii} x_i = b_i
+\end{equation}\]</div>
+<p>Solving for <span class="math notranslate nohighlight">\(x_i\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f6b094b7-ee14-403a-80c9-2d3f33010289">
+<span class="eqno">()<a class="headerlink" href="#equation-f6b094b7-ee14-403a-80c9-2d3f33010289" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_i = \frac{b_i - \sum_{j=1}^{i-1} \ell_{ij} x_j}{\ell_{ii}}
+\end{equation}\]</div>
+<p><strong>Final Formula</strong></p>
+<p>The general formula for each <span class="math notranslate nohighlight">\(x_i\)</span> using forward substitution is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-0414b85c-afda-4dcc-9be6-0270373e2093">
+<span class="eqno">()<a class="headerlink" href="#equation-0414b85c-afda-4dcc-9be6-0270373e2093" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_i = \frac{b_i - \sum_{j=1}^{i-1} \ell_{ij} x_j}{\ell_{ii}}, \quad i = 1, 2, \dots, n
+\end{equation}\]</div>
+<p>Here is a Python code for forward substitution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">forward_sub</span><span class="p">(</span><span class="n">L</span><span class="p">,</span> <span class="n">b</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solves Ly = b for y using forward substitution,</span>
+<span class="sd">    where L is a lower triangular matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">L</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">b</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Matrix is singular.&quot;</span><span class="p">)</span>
+        <span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="p">:</span><span class="n">i</span><span class="p">],</span> <span class="n">y</span><span class="p">[:</span><span class="n">i</span><span class="p">]))</span> <span class="o">/</span> <span class="n">L</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">y</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="backward-substitution">
+<h2>Backward Substitution<a class="headerlink" href="#backward-substitution" title="Link to this heading">#</a></h2>
+<p>Given the system <span class="math notranslate nohighlight">\(U \mathbf{x} = \mathbf{b}\)</span>, where <span class="math notranslate nohighlight">\(U\)</span> is an upper triangular matrix, we aim to solve for the vector <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>. The matrix <span class="math notranslate nohighlight">\(U\)</span> is of the form:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ac67dab4-d07f-4b60-8db1-af468e6b9ec7">
+<span class="eqno">()<a class="headerlink" href="#equation-ac67dab4-d07f-4b60-8db1-af468e6b9ec7" title="Permalink to this equation">#</a></span>\[\begin{equation}
+U = \begin{bmatrix}
+u_{11} &amp; u_{12} &amp; \cdots &amp; u_{1n} \\
+0 &amp; u_{22} &amp; \cdots &amp; u_{2n} \\
+0 &amp; 0 &amp; \ddots &amp; \vdots \\
+0 &amp; 0 &amp; 0 &amp; u_{nn}
+\end{bmatrix}
+\end{equation}\]</div>
+<p>The system of equations is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-601a55bc-e281-4111-8b5d-6a15c0964fe2">
+<span class="eqno">()<a class="headerlink" href="#equation-601a55bc-e281-4111-8b5d-6a15c0964fe2" title="Permalink to this equation">#</a></span>\[\begin{equation}
+U \mathbf{x} = \mathbf{b} 
+\end{equation}\]</div>
+<p>This leads to the following system of equations:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-6a84e33d-36d1-41b8-8301-03f8d03172e7">
+<span class="eqno">()<a class="headerlink" href="#equation-6a84e33d-36d1-41b8-8301-03f8d03172e7" title="Permalink to this equation">#</a></span>\[\begin{equation}
+u_{11} x_1 + u_{12} x_2 + \cdots + u_{1n} x_n = b_1
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-64c3b1cc-86ea-4134-b394-ff4a33274d07">
+<span class="eqno">()<a class="headerlink" href="#equation-64c3b1cc-86ea-4134-b394-ff4a33274d07" title="Permalink to this equation">#</a></span>\[\begin{equation}
+u_{22} x_2 + \cdots + u_{2n} x_n = b_2
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-05729a33-600a-47b8-9a17-6e5084440735">
+<span class="eqno">()<a class="headerlink" href="#equation-05729a33-600a-47b8-9a17-6e5084440735" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\vdots
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-0eb9f7a5-63df-4435-9d02-31c4242eac96">
+<span class="eqno">()<a class="headerlink" href="#equation-0eb9f7a5-63df-4435-9d02-31c4242eac96" title="Permalink to this equation">#</a></span>\[\begin{equation}
+u_{nn} x_n = b_n
+\end{equation}\]</div>
+<p>We solve for <span class="math notranslate nohighlight">\(x\)</span> starting from the last equation and moving upwards.</p>
+<p><strong>Step 1: Solve for <span class="math notranslate nohighlight">\(x_n\)</span></strong></p>
+<p>From the last equation:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9749184d-1f63-42bb-8d54-58acad9a64ea">
+<span class="eqno">()<a class="headerlink" href="#equation-9749184d-1f63-42bb-8d54-58acad9a64ea" title="Permalink to this equation">#</a></span>\[\begin{equation}
+u_{nn} x_n = b_n
+\end{equation}\]</div>
+<p>Thus:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5e32d434-46d2-47d7-9e9c-5bfcfe935e47">
+<span class="eqno">()<a class="headerlink" href="#equation-5e32d434-46d2-47d7-9e9c-5bfcfe935e47" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_n = \frac{b_n}{u_{nn}}
+\end{equation}\]</div>
+<p><strong>Step 2: Solve for <span class="math notranslate nohighlight">\(x_{n-1}\)</span></strong></p>
+<div class="amsmath math notranslate nohighlight" id="equation-4b5254fd-e2cd-4dae-b594-c562b864ad57">
+<span class="eqno">()<a class="headerlink" href="#equation-4b5254fd-e2cd-4dae-b594-c562b864ad57" title="Permalink to this equation">#</a></span>\[\begin{equation}
+u_{n-1, n-1} x_{n-1} + u_{n-1, n} x_n = b_{n-1}
+\end{equation}\]</div>
+<p>Substitute <span class="math notranslate nohighlight">\(x_n\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7daa02c6-b950-4450-80d6-651486d77f63">
+<span class="eqno">()<a class="headerlink" href="#equation-7daa02c6-b950-4450-80d6-651486d77f63" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_{n-1} = \frac{b_{n-1} - u_{n-1, n} x_n}{u_{n-1, n-1}}
+\end{equation}\]</div>
+<p><strong>Step 3: General Step for <span class="math notranslate nohighlight">\(x_i\)</span></strong></p>
+<p>For each <span class="math notranslate nohighlight">\(i = n-2, n-3, \dots, 1\)</span>, we solve:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-daafef29-9305-474a-b932-8d41105c81bb">
+<span class="eqno">()<a class="headerlink" href="#equation-daafef29-9305-474a-b932-8d41105c81bb" title="Permalink to this equation">#</a></span>\[\begin{equation}
+u_{ii} x_i + u_{i, i+1} x_{i+1} + \cdots + u_{i, n} x_n = b_i
+\end{equation}\]</div>
+<p>Solving for <span class="math notranslate nohighlight">\(x_i\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-41210af7-aea6-4568-813b-ed3a55116f15">
+<span class="eqno">()<a class="headerlink" href="#equation-41210af7-aea6-4568-813b-ed3a55116f15" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_i = \frac{b_i - \sum_{j=i+1}^{n} u_{ij} x_j}{u_{ii}}
+\end{equation}\]</div>
+<p><strong>Final Formula</strong></p>
+<p>The general formula for backward substitution is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-00a9dbcf-352e-4ff6-ad7d-a10d65297585">
+<span class="eqno">()<a class="headerlink" href="#equation-00a9dbcf-352e-4ff6-ad7d-a10d65297585" title="Permalink to this equation">#</a></span>\[\begin{equation}
+x_i = \frac{b_i - \sum_{j=i+1}^{n} u_{ij} x_j}{u_{ii}}, \quad i = n, n-1, \dots, 1
+\end{equation}\]</div>
+<p>Here is a Python code for backward substitution.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">back_sub</span><span class="p">(</span><span class="n">U</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;</span>
+<span class="sd">    Solves Ux = y for x using back substitution,</span>
+<span class="sd">    where U is an upper triangular matrix.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">n</span> <span class="o">=</span> <span class="n">U</span><span class="o">.</span><span class="n">shape</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+    <span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">y</span><span class="p">,</span> <span class="n">dtype</span><span class="o">=</span><span class="nb">float</span><span class="p">)</span>
+
+    <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">reversed</span><span class="p">(</span><span class="nb">range</span><span class="p">(</span><span class="n">n</span><span class="p">)):</span>
+        <span class="k">if</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;Matrix is singular.&quot;</span><span class="p">)</span>
+        <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">=</span> <span class="p">(</span><span class="n">y</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="o">-</span> <span class="n">np</span><span class="o">.</span><span class="n">dot</span><span class="p">(</span><span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:],</span> <span class="n">x</span><span class="p">[</span><span class="n">i</span><span class="o">+</span><span class="mi">1</span><span class="p">:]))</span> <span class="o">/</span> <span class="n">U</span><span class="p">[</span><span class="n">i</span><span class="p">,</span> <span class="n">i</span><span class="p">]</span>
+
+    <span class="k">return</span> <span class="n">x</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Matrices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#forward-substitution">Forward Substitution</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#backward-substitution">Backward Substitution</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joe McEwen & Jesse Loi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

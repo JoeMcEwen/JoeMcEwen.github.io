@@ -1,0 +1,954 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.3. Automatic Differentiation with Jax &#8212; Getting to the Bottom of It \n  Numerical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Mathematics/JaxAutoDiff';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.4. Derivatives, a Helpful Lesson" href="DerivativesLesson.html" />
+    <link rel="prev" title="4.2. Multivariable Calculus" href="MultiVariableCalculus.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../cover.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/numerical_methods_logo.svg" class="logo__image only-light" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/numerical_methods_logo.svg" class="logo__image only-dark" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../cover.html">
+                    Getting to the Bottom of It: Numerical Methods for Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../About.html">1. What is this?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Before%20We%20Begin/guidance.html">2. Guidance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/job.html">2.1. Do You Want a Job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/good_coding.html">2.2. Good Coding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Arrays/array_cover.html">3. Array Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/ArrayBasics.html">3.1. Arrays in Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/DotProduct.html">3.2. Dot Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixMultiplication.html">3.3. Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixInversion.html">3.4. Solving Systems of Equations</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="math_cover.html">4. Differential Calculus</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SingleVariableCalculus.html">4.1. Single Variable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MultiVariableCalculus.html">4.2. Multivariable Calculus</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.3. Automatic Differentiation with Jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DerivativesLesson.html">4.4. Derivatives, a Helpful Lesson</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Matrices/matrix_cover.html">5. Matrices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Matrices/TransposeInverseNorm.html">5.1. Transpose, Inverse, and Norm</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Mathematics/JaxAutoDiff.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Automatic Differentiation with Jax</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-differentiation">4.3.1. Automatic Differentiation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivative-with-jax-grad-function">4.3.2. Derivative with Jax grad function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#faster-with-jax-jit-jax-jit-and-jax-vmap-jax-vmap">4.3.3. Faster with JAX JIT (<code class="docutils literal notranslate"><span class="pre">jax.jit</span></code>) and JAX VMAP (<code class="docutils literal notranslate"><span class="pre">jax.vmap</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-with-grad-function">4.3.4. Gradient with grad function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jacobian">4.3.5. Jacobian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hessian">4.3.6. Hessian</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="automatic-differentiation-with-jax">
+<h1><span class="section-number">4.3. </span>Automatic Differentiation with Jax<a class="headerlink" href="#automatic-differentiation-with-jax" title="Link to this heading">#</a></h1>
+<p>In previous notebooks, you gained familiarity with symbolic manipulations using SymPy, for example, taking derivatives. You could use SymPy to take a derivative and evaluate it, though this is not generally practical in machine learning. Automatic differentiation (AD) is. Many packages have automatic differentiation capabilities, including PyTorch and TensorFlow. I prefer <a class="reference external" href="https://github.com/jax-ml/jax">JAX</a>; hence, it is what we will use in this course.</p>
+<p><a class="reference external" href="https://github.com/jax-ml/jax">JAX</a> is a high-performance library for numerical computing that enables automatic differentiation, making it useful for machine learning, scientific computing, and optimization tasks.</p>
+<p>In this notebook we will learn how to calculate gradients, Jacobians, and Hessians using JAX. These derivative operators are used in numerical optimization. Most neural networks use gradient-based numerical optimization methods to solve for the network parameters. Understanding how derivatives work and how to calculate them is necessary to have a deep understanding of how many machine learning methods work.</p>
+<section id="automatic-differentiation">
+<h2><span class="section-number">4.3.1. </span>Automatic Differentiation<a class="headerlink" href="#automatic-differentiation" title="Link to this heading">#</a></h2>
+<p>Automatic differentiation is a technique that computes partial derivatives using the chain rule. Unlike numerical differentiation (finite difference methods), which can suffer from precision issues (round-off error and truncation error), or symbolic differentiation (which can be computationally expensive), AD provides a balance of accuracy and performance.</p>
+<p>In this notebook we will use the following automatic derivative methods:</p>
+<ol class="arabic simple">
+<li><p><code class="docutils literal notranslate"><span class="pre">jax.grad()</span></code> – Computes gradients of scalar-valued functions</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jax.jacobian()</span></code> – Computes Jacobians (partial derivatives of vector-valued functions)</p></li>
+<li><p><code class="docutils literal notranslate"><span class="pre">jax.hessian()</span></code> – Computes second-order derivatives</p></li>
+</ol>
+<p><strong>JAX NumPy versus NumPy</strong></p>
+<p>JAX provides an alternative to NumPy that is optimized for automatic differentiation and accelerated computations (GPU/TPU support) while maintaining a familiar NumPy-like API.</p>
+<p>We will use <code class="docutils literal notranslate"><span class="pre">jnp</span></code> for <code class="docutils literal notranslate"><span class="pre">jax.numpy</span></code>, as shown in the code below.</p>
+<p><strong>Two things to keep in mind:</strong></p>
+<ul class="simple">
+<li><p>JAX arrays are immutable</p></li>
+<li><p>JAX derivatives use floats</p></li>
+</ul>
+<p>This notebook follows a <strong>learn by example</strong> approach. You might find it useful to code along with the examples on your own.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">grad</span><span class="p">,</span> <span class="n">jacobian</span><span class="p">,</span> <span class="n">hessian</span><span class="p">,</span> <span class="n">jacfwd</span><span class="p">,</span> <span class="n">jacrev</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">jax</span><span class="w"> </span><span class="kn">import</span> <span class="n">vmap</span><span class="p">,</span> <span class="n">jit</span>
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">timeit</span>
+
+<span class="o">%</span><span class="k">matplotlib</span> inline 
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span>
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="derivative-with-jax-grad-function">
+<h2><span class="section-number">4.3.2. </span>Derivative with Jax grad function<a class="headerlink" href="#derivative-with-jax-grad-function" title="Link to this heading">#</a></h2>
+<p>Use Jax grad function to take the derivative of
+$<span class="math notranslate nohighlight">\(f(x) = x^2\)</span>$.</p>
+<p>An example code.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="n">dfunc</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>Note that for the Jax grad function:</p>
+<ul class="simple">
+<li><p>the argument must be a float</p></li>
+<li><p>it only works for scalar inputs, not arrays</p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># derivative of the above function </span>
+<span class="n">dfunc</span><span class="o">=</span><span class="n">grad</span><span class="p">(</span><span class="n">func</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># test output </span>
+<span class="n">dfunc</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array(6., dtype=float32, weak_type=True)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">3</span><span class="p">,</span><span class="mi">3</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span> 
+
+<span class="n">fig</span><span class="o">=</span><span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span><span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x$&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$f(x)$&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+
+<span class="n">df_array</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dfunc</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span> 
+
+<span class="n">ax</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x$&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$\frac{df(x)}</span><span class="si">{dx}</span><span class="s2">$&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">df_array</span><span class="p">)</span> 
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">()</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/a760518c2b504092885210b6b37db61df8c1701085d68b32b94e59eecb327e1c.png" src="../_images/a760518c2b504092885210b6b37db61df8c1701085d68b32b94e59eecb327e1c.png" />
+</div>
+</div>
+<p><strong>Suggested Problem</strong>
+Use the Jax grad function to code you own example, in the same manner as above. Be sure you have a plot too.</p>
+</section>
+<section id="faster-with-jax-jit-jax-jit-and-jax-vmap-jax-vmap">
+<h2><span class="section-number">4.3.3. </span>Faster with JAX JIT (<code class="docutils literal notranslate"><span class="pre">jax.jit</span></code>) and JAX VMAP (<code class="docutils literal notranslate"><span class="pre">jax.vmap</span></code>)<a class="headerlink" href="#faster-with-jax-jit-jax-jit-and-jax-vmap-jax-vmap" title="Link to this heading">#</a></h2>
+<p>JAX can be sped up by using Just-In-Time (JIT) compilation and vectorized mapping (VMAP).</p>
+<p><strong>Example: Using <code class="docutils literal notranslate"><span class="pre">jax.jit</span></code></strong></p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">jax</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">jax.numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">jnp</span>
+
+<span class="c1"># Define a function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">slow_fn</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>
+
+<span class="c1"># Compile it with jit</span>
+<span class="n">fast_fn</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">slow_fn</span><span class="p">)</span>
+
+<span class="c1"># Run it</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">(</span><span class="mf">3.0</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fast_fn</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Faster execution</span>
+</pre></div>
+</div>
+<p>Note that the first call is slow due to compilation, but later calls are faster once the function is precompiled.</p>
+<p>Vectorized mapping allows you to vectorize operations, similar to how NumPy vectorization works. This eliminates slow Python loops.</p>
+<p><strong>Example: combining <code class="docutils literal notranslate"><span class="pre">jit</span></code> and <code class="docutils literal notranslate"><span class="pre">vmap</span></code></strong></p>
+<p>For maximum performance, you can <strong>combine <code class="docutils literal notranslate"><span class="pre">jit</span></code> and <code class="docutils literal notranslate"><span class="pre">vmap</span></code></strong>:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">fast_vectorized_fn</span> <span class="o">=</span> <span class="n">jax</span><span class="o">.</span><span class="n">jit</span><span class="p">(</span><span class="n">jax</span><span class="o">.</span><span class="n">vmap</span><span class="p">(</span><span class="n">slow_fn</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">fast_vectorized_fn</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>  <span class="c1"># Runs very fast</span>
+</pre></div>
+</div>
+<p><strong>Below is an example of using <code class="docutils literal notranslate"><span class="pre">jit</span></code> and <code class="docutils literal notranslate"><span class="pre">vmap</span></code>, applied to our first example of <code class="docutils literal notranslate"><span class="pre">grad</span></code>.</strong> I used <code class="docutils literal notranslate"><span class="pre">timeit</span></code> to compare execution times.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">list_comprehension</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">dfunc</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="n">x</span><span class="p">])</span> 
+    
+
+<span class="n">df_vec</span><span class="o">=</span><span class="n">vmap</span><span class="p">(</span><span class="n">dfunc</span><span class="p">)</span>
+
+<span class="n">fx_vec</span><span class="o">=</span><span class="n">jit</span><span class="p">(</span><span class="n">vmap</span><span class="p">(</span><span class="n">dfunc</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span> <span class="p">:</span><span class="n">list_comprehension</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.43837591700139455
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">df_vec</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.024662292009452358
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># run this twice to make sure it is compiled </span>
+<span class="n">timeit</span><span class="o">.</span><span class="n">timeit</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">fx_vec</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="n">number</span><span class="o">=</span><span class="mi">10</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>0.00779341600718908
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="gradient-with-grad-function">
+<h2><span class="section-number">4.3.4. </span>Gradient with grad function<a class="headerlink" href="#gradient-with-grad-function" title="Link to this heading">#</a></h2>
+<p>The gradient is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-cc0aad6f-3e52-4768-8a7d-61f5c734987a">
+<span class="eqno">(4.52)<a class="headerlink" href="#equation-cc0aad6f-3e52-4768-8a7d-61f5c734987a" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\nabla f(x_1, x_2, ...., x_N) = \begin{bmatrix} \frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \\ \vdots \\ \frac{\partial f}{\partial x_N}
+\end{bmatrix} 
+\end{equation} \]</div>
+<p><strong>Example</strong>
+Let us try a two dimensional case, <span class="math notranslate nohighlight">\(f(x,y) = x^2 + 3y^3\)</span>.
+The gradient is <span class="math notranslate nohighlight">\( \nabla f = 2x + 9y^2\)</span>.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">3</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> 
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">x</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="mi">3</span><span class="o">*</span><span class="n">x</span><span class="p">[</span><span class="mi">1</span><span class="p">]</span><span class="o">**</span><span class="mi">3</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">grad</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span> <span class="o">=</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">1.</span><span class="p">,</span><span class="mf">2.</span><span class="p">])</span> 
+<span class="n">func</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">])</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>25
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">df</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([ 2., 36.], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Example</strong>
+Use the jax grad function to take the gradient of</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d31d4a31-7498-4533-8145-91995d63a797">
+<span class="eqno">(4.53)<a class="headerlink" href="#equation-d31d4a31-7498-4533-8145-91995d63a797" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+&amp; f(x,y,z)= x^2 + xy^3 + \sin(z) \\
+&amp; \nabla f = \begin{bmatrix} 2x + y^3 \\ 3xy^2 \\ \cos(z) \end{bmatrix} 
+\end{split} 
+\end{equation} \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">func</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">z</span> <span class="o">=</span> <span class="n">x</span>
+    
+
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="n">jnp</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">z</span><span class="p">)</span>
+
+<span class="n">dfunc</span><span class="o">=</span><span class="n">grad</span><span class="p">(</span><span class="n">func</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">2</span><span class="p">,</span><span class="mi">2</span><span class="p">,</span><span class="n">jnp</span><span class="o">.</span><span class="n">pi</span><span class="p">])</span> 
+<span class="n">func</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array(20., dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">dfunc</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>Array([12., 24., -1.], dtype=float32)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="jacobian">
+<h2><span class="section-number">4.3.5. </span>Jacobian<a class="headerlink" href="#jacobian" title="Link to this heading">#</a></h2>
+<p>For a function <span class="math notranslate nohighlight">\(f : \mathbb{R}^n \to \mathbb{R}^m\)</span>, the Jacobian is defined as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-cf6251b4-6503-4e1c-92eb-e5b5d975cfba">
+<span class="eqno">(4.54)<a class="headerlink" href="#equation-cf6251b4-6503-4e1c-92eb-e5b5d975cfba" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+J_f =
+\begin{bmatrix}
+\frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_1}{\partial x_n} \\
+\frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_2}{\partial x_n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial f_m}{\partial x_1} &amp; \frac{\partial f_m}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_m}{\partial x_n}
+\end{bmatrix}.
+\end{equation}\]</div>
+<p>The elements in index notation for the Jacobian are</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f5a67983-896d-46ed-b89a-194aaeaecaa6">
+<span class="eqno">(4.55)<a class="headerlink" href="#equation-f5a67983-896d-46ed-b89a-194aaeaecaa6" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+[J_f]_{ij} = \frac{\partial f_i}{\partial x_j}.
+\end{equation} \]</div>
+<p><strong>Example</strong>
+Consider the vector valued function</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5d3d8bb1-2929-4f94-b62b-0cb39b1f098d">
+<span class="eqno">(4.56)<a class="headerlink" href="#equation-5d3d8bb1-2929-4f94-b62b-0cb39b1f098d" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\mathbf{f}(x,y) = \begin{bmatrix} x^2 + y^2 \\ x^2 + xy \end{bmatrix} .
+\end{equation} \]</div>
+<p>The Jacobian is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d989b8a7-4066-48de-be0b-e80667ebce7c">
+<span class="eqno">(4.57)<a class="headerlink" href="#equation-d989b8a7-4066-48de-be0b-e80667ebce7c" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+J_f = \begin{bmatrix} 2x &amp; 2y \\
+2x + y &amp; x 
+\end{bmatrix} 
+\end{equation} \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span>
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="p">,</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">])</span> 
+
+<span class="k">def</span><span class="w"> </span><span class="nf">df</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+    <span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">x</span>
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="o">*</span><span class="n">y</span><span class="p">],</span> <span class="p">[</span><span class="mi">2</span><span class="o">*</span><span class="n">x</span> <span class="o">+</span> <span class="n">y</span><span class="p">,</span> <span class="n">x</span><span class="p">]])</span> 
+
+<span class="n">J</span> <span class="o">=</span> <span class="n">jacobian</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> 
+<span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">2.</span><span class="p">,</span> <span class="mf">3.</span><span class="p">])</span> 
+
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;function evaluation&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coded Jacobian&quot;</span><span class="p">,</span> <span class="n">df</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AD Jacobian&quot;</span><span class="p">,</span> <span class="n">J</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>function evaluation [13. 10.]
+coded Jacobian [[4. 6.]
+ [7. 2.]]
+AD Jacobian [[4. 6.]
+ [7. 2.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Example</strong>
+Using Jax code the Jacobian for</p>
+<div class="amsmath math notranslate nohighlight" id="equation-75a55d15-2920-49b4-aad3-4ae6d1603512">
+<span class="eqno">(4.58)<a class="headerlink" href="#equation-75a55d15-2920-49b4-aad3-4ae6d1603512" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+f(x, y) =
+\begin{bmatrix}
+x^2 + y \\
+\sin(x) + y^2
+\end{bmatrix}, 
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-c3613181-f829-4278-aa7a-d7e687f06eb3">
+<span class="eqno">(4.59)<a class="headerlink" href="#equation-c3613181-f829-4278-aa7a-d7e687f06eb3" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+J_f(x, y) =
+\begin{bmatrix}
+\frac{\partial f_1}{\partial x} &amp; \frac{\partial f_1}{\partial y} \\
+\frac{\partial f_2}{\partial x} &amp; \frac{\partial f_2}{\partial y}
+\end{bmatrix}
+\end{equation} \]</div>
+</section>
+<section id="hessian">
+<h2><span class="section-number">4.3.6. </span>Hessian<a class="headerlink" href="#hessian" title="Link to this heading">#</a></h2>
+<p>The <strong>Hessian matrix</strong> is a square matrix of second-order partial derivatives of a scalar function. Given a twice-differentiable function <span class="math notranslate nohighlight">\(( f: \mathbb{R}^n \to \mathbb{R} )\)</span>, the Hessian matrix <span class="math notranslate nohighlight">\(H\)</span> is defined as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2a2ab476-d474-4321-ae5d-08ebf10e39c4">
+<span class="eqno">(4.60)<a class="headerlink" href="#equation-2a2ab476-d474-4321-ae5d-08ebf10e39c4" title="Permalink to this equation">#</a></span>\[\begin{equation}
+H_f=
+\begin{bmatrix}
+\frac{\partial^2 f}{\partial x_1^2} &amp; \frac{\partial^2 f}{\partial x_1 \partial x_2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_1 \partial x_n} \\
+\frac{\partial^2 f}{\partial x_2 \partial x_1} &amp; \frac{\partial^2 f}{\partial x_2^2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_2 \partial x_n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial^2 f}{\partial x_n \partial x_1} &amp; \frac{\partial^2 f}{\partial x_n \partial x_2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_n^2}
+\end{bmatrix}
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-11afe51b-cbdd-42b1-9cc7-0dfba46bfc80">
+<span class="eqno">(4.61)<a class="headerlink" href="#equation-11afe51b-cbdd-42b1-9cc7-0dfba46bfc80" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+[H_f]_{ij} = \frac{\partial^2 f}{\partial x_i \partial x_j}
+\end{equation} \]</div>
+<p><strong>Example</strong></p>
+<div class="amsmath math notranslate nohighlight" id="equation-d893eaa2-b41e-4253-aee8-d396681a0498">
+<span class="eqno">(4.62)<a class="headerlink" href="#equation-d893eaa2-b41e-4253-aee8-d396681a0498" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+f(x, y) = x^3 + y^2 + xy
+\end{equation} \]</div>
+<p>Computing second-order derivatives:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d82aa185-567b-4715-a498-be43e2e45de4">
+<span class="eqno">(4.63)<a class="headerlink" href="#equation-d82aa185-567b-4715-a498-be43e2e45de4" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x} (3x^2 + y) = 6x
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-2112be93-12e2-4bde-951c-81c658bb9027">
+<span class="eqno">(4.64)<a class="headerlink" href="#equation-2112be93-12e2-4bde-951c-81c658bb9027" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y} (2y + x) = 2
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-c41f87ad-4dd1-48ae-a6ee-59a1ce158e50">
+<span class="eqno">(4.65)<a class="headerlink" href="#equation-c41f87ad-4dd1-48ae-a6ee-59a1ce158e50" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial y} (3x^2 + y) = 1
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-db50476b-6a88-4903-88b1-084a4d5bccd0">
+<span class="eqno">(4.66)<a class="headerlink" href="#equation-db50476b-6a88-4903-88b1-084a4d5bccd0" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial y \partial x} = \frac{\partial}{\partial x} (2y + x) = 1
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-3b71e628-b2f2-41f3-959b-76781da9830b">
+<span class="eqno">(4.67)<a class="headerlink" href="#equation-3b71e628-b2f2-41f3-959b-76781da9830b" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+H_f= \begin{bmatrix} 6x &amp; 1 \\
+1 &amp; 2 \end{bmatrix} 
+\end{equation} \]</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">x</span> 
+
+    <span class="k">return</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+
+<span class="k">def</span><span class="w"> </span><span class="nf">ddf</span><span class="p">(</span><span class="n">x</span><span class="p">):</span> 
+    <span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="o">=</span><span class="n">x</span> 
+    <span class="k">return</span> <span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">6</span><span class="o">*</span><span class="n">x</span><span class="p">,</span> <span class="mi">1</span><span class="p">],[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">]])</span> 
+
+<span class="n">H</span><span class="o">=</span><span class="n">hessian</span><span class="p">(</span><span class="n">f</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="o">=</span><span class="n">jnp</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.</span><span class="p">,</span><span class="mf">2.</span><span class="p">])</span> 
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;function evaluation&quot;</span><span class="p">,</span> <span class="n">f</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;coded Hessian&quot;</span><span class="p">,</span> <span class="n">ddf</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+<span class="nb">print</span><span class="p">(</span><span class="s2">&quot;AD Hessian&quot;</span><span class="p">,</span> <span class="n">H</span><span class="p">(</span><span class="n">x</span><span class="p">))</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>function evaluation 37.0
+coded Hessian [[18.  1.]
+ [ 1.  2.]]
+</pre></div>
+</div>
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>AD Hessian [[18.  1.]
+ [ 1.  2.]]
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>Suggested Problem</strong>
+Code your own example of using Jax hessian, in the same manner as the above example.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Mathematics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="MultiVariableCalculus.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4.2. </span>Multivariable Calculus</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DerivativesLesson.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.4. </span>Derivatives, a Helpful Lesson</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#automatic-differentiation">4.3.1. Automatic Differentiation</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#derivative-with-jax-grad-function">4.3.2. Derivative with Jax grad function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#faster-with-jax-jit-jax-jit-and-jax-vmap-jax-vmap">4.3.3. Faster with JAX JIT (<code class="docutils literal notranslate"><span class="pre">jax.jit</span></code>) and JAX VMAP (<code class="docutils literal notranslate"><span class="pre">jax.vmap</span></code>)</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#gradient-with-grad-function">4.3.4. Gradient with grad function</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#jacobian">4.3.5. Jacobian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hessian">4.3.6. Hessian</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joe McEwen & Jesse Loi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,3807 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>3.1. Arrays in Numpy &#8212; Getting to the Bottom of It \n  Numerical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Arrays/ArrayBasics';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="3.2. Dot Product" href="DotProduct.html" />
+    <link rel="prev" title="3. Array Basics" href="array_cover.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../cover.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/numerical_methods_logo.svg" class="logo__image only-light" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/numerical_methods_logo.svg" class="logo__image only-dark" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../cover.html">
+                    Getting to the Bottom of It: Numerical Methods for Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../About.html">1. What is this?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Before%20We%20Begin/guidance.html">2. Guidance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/job.html">2.1. Do You Want a Job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/good_coding.html">2.2. Good Coding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="array_cover.html">3. Array Basics</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">3.1. Arrays in Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DotProduct.html">3.2. Dot Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MatrixMultiplication.html">3.3. Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="MatrixInversion.html">3.4. Solving Systems of Equations</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Mathematics/math_cover.html">4. Differential Calculus</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/SingleVariableCalculus.html">4.1. Single Variable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/MultiVariableCalculus.html">4.2. Multivariable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/JaxAutoDiff.html">4.3. Automatic Differentiation with Jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/DerivativesLesson.html">4.4. Derivatives, a Helpful Lesson</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Matrices/matrix_cover.html">5. Matrices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Matrices/TransposeInverseNorm.html">5.1. Transpose, Inverse, and Norm</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Arrays/ArrayBasics.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Arrays in Numpy</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-arrays-the-foundation-of-scientific-computing">3.1.1. NumPy Arrays: The Foundation of Scientific Computing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-notation-for-arrays-and-matrices">3.1.2. Mathematical Notation for Arrays and Matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-for-array-and-matrix-dimensions">3.1.3. Notation for Array and Matrix Dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#size-shape-indexing-and-all-that">3.1.4. Size, Shape, Indexing, and All That</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-size-and-shape-of-a-numpy-array">3.1.5. The Size and Shape of a NumPy Array</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing">3.1.6. Indexing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">3.1.6.1. Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-array-slicing">3.1.6.2. 1D Array Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.1.6.3. 2D Array Slicing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#higher-dimensional-arrays">3.1.7. Higher Dimensional Arrays</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#element-wise-operations">3.1.8. Element-Wise Operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-array-axes">3.1.9. NumPy Array Axes</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="arrays-in-numpy">
+<h1><span class="section-number">3.1. </span>Arrays in Numpy<a class="headerlink" href="#arrays-in-numpy" title="Link to this heading">#</a></h1>
+<p><strong>Draft version - do not distribute</strong></p>
+<section id="numpy-arrays-the-foundation-of-scientific-computing">
+<h2><span class="section-number">3.1.1. </span>NumPy Arrays: The Foundation of Scientific Computing<a class="headerlink" href="#numpy-arrays-the-foundation-of-scientific-computing" title="Link to this heading">#</a></h2>
+<p><strong><a class="reference external" href="https://numpy.org/doc/2.1/reference/arrays.ndarray.html">NumPy arrays</a> are the foundation of scientific computing in Python.</strong> Arrays are the data structure that makes Python a usable tool for data science, machine learning, and numerical analysis (i.e., scientific computing). Without arrays, Python would be impractical as a scientific programming language.</p>
+<p>Ultimately, all data has to be represented as numbers. And all data science methods are mathematical manipulations of these numbers. Arrays are the natural—perhaps the only—way to organize data.</p>
+<p>NumPy arrays are multi-dimensional grids of values that can represent vectors, matrices, or higher-dimensional data structures. Each element in an array has a specific location identified by a tuple of integer indices. Python uses <a class="reference external" href="https://en.wikipedia.org/wiki/Zero-based_numbering">zero-based indexing</a>, so the first element is always at index 0.</p>
+<p>These arrays are specifically designed and optimized for efficient numerical computation and data manipulation, making them far superior to standard Python lists for mathematical operations. Objects like data frames or dictionaries cannot operate like arrays.</p>
+<p><strong>Vectorization</strong> allows NumPy to perform operations on entire arrays simultaneously, eliminating the need for explicit loops and dramatically improving performance.</p>
+<p><strong>Broadcasting</strong> enables mathematical operations between arrays of different shapes through <a class="reference external" href="https://numpy.org/doc/stable/user/basics.broadcasting.html">NumPy’s broadcasting rules</a>, providing flexibility in how you combine data.</p>
+<p>Understanding NumPy arrays is essential for anyone working in scientific computing with Python. They form the foundation for virtually every major scientific Python library, including pandas, scikit-learn, and matplotlib. <strong>You must be able to think in arrays.</strong> (Goodbye dataframes, lists, dictionaries, etc.)</p>
+</section>
+<section id="mathematical-notation-for-arrays-and-matrices">
+<h2><span class="section-number">3.1.2. </span>Mathematical Notation for Arrays and Matrices<a class="headerlink" href="#mathematical-notation-for-arrays-and-matrices" title="Link to this heading">#</a></h2>
+<p><strong>Real Numbers</strong>
+A real number is any number that can be found on the number line. This includes:</p>
+<ul class="simple">
+<li><p><strong>Natural numbers</strong>: 1, 2, 3, 4, …</p></li>
+<li><p><strong>Whole numbers</strong>: 0, 1, 2, 3, 4, …</p></li>
+<li><p><strong>Integers</strong>: …, -2, -1, 0, 1, 2, …</p></li>
+<li><p><strong>Rational numbers</strong>: Any number that can be expressed as a fraction (like 1/2, -3/4, or 0.75)</p></li>
+<li><p><strong>Irrational numbers</strong>: Numbers that cannot be expressed as fractions (like π, √2, or e)</p></li>
+</ul>
+<p>Real numbers are called “real” to distinguish them from imaginary numbers or complex numbers.</p>
+<p>Any measurement you make in the physical world—length, weight, temperature, time—will be a real number. In this course, we will deal exclusively with real numbers.</p>
+<p>The mathematical symbol for the set of real numbers is <span class="math notranslate nohighlight">\(\mathbb{R}\)</span>.</p>
+</section>
+<section id="notation-for-array-and-matrix-dimensions">
+<h2><span class="section-number">3.1.3. </span>Notation for Array and Matrix Dimensions<a class="headerlink" href="#notation-for-array-and-matrix-dimensions" title="Link to this heading">#</a></h2>
+<p>Consider the array <span class="math notranslate nohighlight">\(A = [ 1, 3.3, -10, 5.78 ]\)</span>. All the elements of <span class="math notranslate nohighlight">\(A\)</span> are real numbers. Additionally, <span class="math notranslate nohighlight">\(A\)</span> has 4 elements. We say that <span class="math notranslate nohighlight">\(A\)</span> is an element of <span class="math notranslate nohighlight">\(\mathbb{R}^4\)</span>, an array of size 4 with real elements.</p>
+<p>Consider the matrix</p>
+<div class="amsmath math notranslate nohighlight" id="equation-25639d93-6ea9-4765-9a7e-4c8eb28f3792">
+<span class="eqno">(3.1)<a class="headerlink" href="#equation-25639d93-6ea9-4765-9a7e-4c8eb28f3792" title="Permalink to this equation">#</a></span>\[\begin{align} 
+B = \begin{bmatrix} 10 &amp; 3.3 &amp; -10 \\ 5.8 &amp; 10.3 &amp; -20.1 \\ 6 &amp; \pi &amp; 0.0 \\ -80 &amp; 56 &amp; 0.003 
+\end{bmatrix} .
+\end{align}\]</div>
+<p>The matrix <span class="math notranslate nohighlight">\(B\)</span> has 4 rows and 3 columns, and is composed of real numbers; it is a member of <span class="math notranslate nohighlight">\(\mathbb{R}^{4 \times 3}\)</span>.</p>
+<p>In general, an array that is a member of <span class="math notranslate nohighlight">\(\mathbb{R}^{n\times m}\)</span> has <span class="math notranslate nohighlight">\(n\)</span> rows and <span class="math notranslate nohighlight">\(m\)</span> columns and <span class="math notranslate nohighlight">\(n\times m\)</span> elements.</p>
+<p>Likewise, an array that is a member of <span class="math notranslate nohighlight">\(\mathbb{R}^{n\times m\times l}\)</span> has <span class="math notranslate nohighlight">\(n\)</span> elements along the first dimension, <span class="math notranslate nohighlight">\(m\)</span> elements along the second dimension, <span class="math notranslate nohighlight">\(l\)</span> elements along the third dimension, and <span class="math notranslate nohighlight">\(n\times m\times l\)</span> total elements.</p>
+</section>
+<section id="size-shape-indexing-and-all-that">
+<h2><span class="section-number">3.1.4. </span>Size, Shape, Indexing, and All That<a class="headerlink" href="#size-shape-indexing-and-all-that" title="Link to this heading">#</a></h2>
+<p>Let us consider two arrays, one a vector, the other a matrix.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f8b0b5d3-a7ba-4f0f-92c4-affa2a926fae">
+<span class="eqno">(3.2)<a class="headerlink" href="#equation-f8b0b5d3-a7ba-4f0f-92c4-affa2a926fae" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+a= \begin{bmatrix} 3.0 \\ -2.0 \\ 8.0 
+\end{bmatrix} 
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-428fdf1a-4cb7-4dd1-8feb-efc0818af219">
+<span class="eqno">(3.3)<a class="headerlink" href="#equation-428fdf1a-4cb7-4dd1-8feb-efc0818af219" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+b =\begin{bmatrix} 4.0 &amp; 3.0 &amp; 1.0 \\ -2.0 &amp; 0 &amp; 1.0  \\ 6.0 &amp; 10.0 &amp; -5.0 
+\end{bmatrix}
+\end{equation} \]</div>
+<p>Note that <span class="math notranslate nohighlight">\(a\)</span> is an member of <span class="math notranslate nohighlight">\(\mathbb{R}^3\)</span> and <span class="math notranslate nohighlight">\(b\)</span> is a memeber of <span class="math notranslate nohighlight">\(\mathbb{R}^{3 \times 3}\)</span>.</p>
+<p>These two arrays have Python representations written as:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">8.0</span><span class="p">])</span> 
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">4.0</span><span class="p">,</span> <span class="mf">3.0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mf">1.0</span><span class="p">],</span> <span class="p">[</span><span class="mf">6.0</span><span class="p">,</span> <span class="mf">10.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">]])</span>
+</pre></div>
+</div>
+</section>
+<section id="the-size-and-shape-of-a-numpy-array">
+<h2><span class="section-number">3.1.5. </span>The Size and Shape of a NumPy Array<a class="headerlink" href="#the-size-and-shape-of-a-numpy-array" title="Link to this heading">#</a></h2>
+<p>The <strong>size</strong> of the array is the total number of elements. You can obtain the size by using the attribute <code class="docutils literal notranslate"><span class="pre">array.size</span></code>. Here is a code snippet example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>For our example arrays, <span class="math notranslate nohighlight">\(a\)</span> has size 3, and <span class="math notranslate nohighlight">\(b\)</span> has size 9.</p>
+<p>The <strong>shape</strong> of the array is the number of elements along each dimension of the array. You can obtain the shape by using the attribute <code class="docutils literal notranslate"><span class="pre">array.shape</span></code>. Here is a code snippet example:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
+</pre></div>
+</div>
+<p>The attribute <code class="docutils literal notranslate"><span class="pre">shape</span></code> returns a tuple. The first element of the tuple is the size of the first dimension, the second element is the size of the second dimension, and so on.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+
+<span class="n">a</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">3.0</span><span class="p">,</span> <span class="o">-</span><span class="mf">2.0</span><span class="p">,</span> <span class="mf">8.0</span> <span class="p">])</span> 
+
+<span class="n">b</span><span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mf">4.0</span> <span class="p">,</span> <span class="mf">3.0</span> <span class="p">,</span> <span class="mf">1.0</span><span class="p">],[</span> <span class="o">-</span><span class="mf">2.0</span> <span class="p">,</span> <span class="mi">0</span> <span class="p">,</span> <span class="mf">1.0</span><span class="p">],[</span> <span class="mf">6.0</span> <span class="p">,</span> <span class="mf">10.0</span> <span class="p">,</span> <span class="o">-</span><span class="mf">5.0</span><span class="p">]])</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">size</span><span class="p">)</span>
+
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
+<span class="nb">print</span><span class="p">(</span><span class="n">b</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>3
+9
+(3,)
+(3, 3)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="indexing">
+<h2><span class="section-number">3.1.6. </span>Indexing<a class="headerlink" href="#indexing" title="Link to this heading">#</a></h2>
+<p>The elements of an array are marked by an integer called the index. Consider our example, a= np.array([3.0, -2.0, 8.0 ]) .</p>
+<ul class="simple">
+<li><p>the 0 element is 3.0</p></li>
+<li><p>the 1 element is -2.0</p></li>
+<li><p>the 2 element is 8.0</p></li>
+</ul>
+<p>For our matrix example, the index is two dimensional. The first index marks the row location, while the second index marks the column location. Consider our example,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-3176e84d-b5f8-4a9f-9276-d6205d262f76">
+<span class="eqno">(3.4)<a class="headerlink" href="#equation-3176e84d-b5f8-4a9f-9276-d6205d262f76" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+b =\begin{bmatrix} 4.0 &amp; 3.0 &amp; 1.0 \\ -2.0 &amp; 0 &amp; 1.0  \\ 6.0 &amp; 10.0 &amp; -5.0, 
+\end{bmatrix}
+\end{equation}\]</div>
+<p>below is code to loop through each element and display its value.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> 
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> 
+        <span class="n">val</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The value at row </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> and column </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> 
+    <span class="k">for</span> <span class="n">j</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">3</span><span class="p">):</span> 
+        <span class="n">val</span> <span class="o">=</span> <span class="n">b</span><span class="p">[</span><span class="n">i</span><span class="p">,</span><span class="n">j</span><span class="p">]</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;The value at row </span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2"> and column </span><span class="si">{</span><span class="n">j</span><span class="si">}</span><span class="s2"> is </span><span class="si">{</span><span class="n">val</span><span class="si">}</span><span class="s2">.&quot;</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output stream highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>The value at row 0 and column 0 is 4.0.
+The value at row 0 and column 1 is 3.0.
+The value at row 0 and column 2 is 1.0.
+The value at row 1 and column 0 is -2.0.
+The value at row 1 and column 1 is 0.0.
+The value at row 1 and column 2 is 1.0.
+The value at row 2 and column 0 is 6.0.
+The value at row 2 and column 1 is 10.0.
+The value at row 2 and column 2 is -5.0.
+</pre></div>
+</div>
+</div>
+</div>
+<section id="slicing">
+<h3><span class="section-number">3.1.6.1. </span>Slicing<a class="headerlink" href="#slicing" title="Link to this heading">#</a></h3>
+<p>Slicing is the process of extracting a subset of an array.</p>
+</section>
+<section id="d-array-slicing">
+<h3><span class="section-number">3.1.6.2. </span>1D Array Slicing<a class="headerlink" href="#d-array-slicing" title="Link to this heading">#</a></h3>
+<p>Let:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">10</span><span class="p">,</span> <span class="mi">20</span><span class="p">,</span> <span class="mi">30</span><span class="p">,</span> <span class="mi">40</span><span class="p">,</span> <span class="mi">50</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Slice Syntax</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">a[1:4]</span></code></p></td>
+<td><p>Elements from index 1 to 3</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[20</span> <span class="pre">30</span> <span class="pre">40]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">a[:3]</span></code></p></td>
+<td><p>First 3 elements</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[10</span> <span class="pre">20</span> <span class="pre">30]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">a[2:]</span></code></p></td>
+<td><p>Last 3 elements</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[30</span> <span class="pre">40</span> <span class="pre">50]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">a[::2]</span></code></p></td>
+<td><p>Every 2nd element</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[10</span> <span class="pre">30</span> <span class="pre">50]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">a[::-1]</span></code></p></td>
+<td><p>Reversed array</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[50</span> <span class="pre">40</span> <span class="pre">30</span> <span class="pre">20</span> <span class="pre">10]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">a[1]</span></code></p></td>
+<td><p>Single element at index 1</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">20</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">a[1:2]</span></code></p></td>
+<td><p>Slice containing one element</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[20]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+<section id="id1">
+<h3><span class="section-number">3.1.6.3. </span>2D Array Slicing<a class="headerlink" href="#id1" title="Link to this heading">#</a></h3>
+<p>Let:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">],</span>
+              <span class="p">[</span><span class="mi">7</span><span class="p">,</span> <span class="mi">8</span><span class="p">,</span> <span class="mi">9</span><span class="p">]])</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Slice Syntax</p></th>
+<th class="head"><p>Description</p></th>
+<th class="head"><p>Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">b[0,</span> <span class="pre">:]</span></code></p></td>
+<td><p>First row</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1</span> <span class="pre">2</span> <span class="pre">3]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">b[:,</span> <span class="pre">1]</span></code></p></td>
+<td><p>Second column</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[2</span> <span class="pre">5</span> <span class="pre">8]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">b[1:3,</span> <span class="pre">0:2]</span></code></p></td>
+<td><p>Sub-matrix (2 rows, 2 cols)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[[4</span> <span class="pre">5],</span> <span class="pre">[7</span> <span class="pre">8]]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">b[::-1,</span> <span class="pre">:]</span></code></p></td>
+<td><p>Reverse rows</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[[7</span> <span class="pre">8</span> <span class="pre">9],</span> <span class="pre">[4</span> <span class="pre">5</span> <span class="pre">6],</span> <span class="pre">[1</span> <span class="pre">2</span> <span class="pre">3]]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p><code class="docutils literal notranslate"><span class="pre">b[:,</span> <span class="pre">::-1]</span></code></p></td>
+<td><p>Reverse columns</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[[3</span> <span class="pre">2</span> <span class="pre">1],</span> <span class="pre">[6</span> <span class="pre">5</span> <span class="pre">4],</span> <span class="pre">[9</span> <span class="pre">8</span> <span class="pre">7]]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p><code class="docutils literal notranslate"><span class="pre">b[1,</span> <span class="pre">1]</span></code></p></td>
+<td><p>Center value (row 1, col 1)</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">5</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+</section>
+</section>
+<section id="higher-dimensional-arrays">
+<h2><span class="section-number">3.1.7. </span>Higher Dimensional Arrays<a class="headerlink" href="#higher-dimensional-arrays" title="Link to this heading">#</a></h2>
+<p>Higher dimensional arrays are possible but hard to visualize.</p>
+<p>Here is an example, using the random.rand function to generate random numbers between 0 and 1:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">C</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">C</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[[0.25060032, 0.5528924 ],
+        [0.14310774, 0.79490853],
+        [0.32453858, 0.92561687],
+        [0.9482668 , 0.81905191]],
+
+       [[0.48424438, 0.90384056],
+        [0.39929387, 0.27576556],
+        [0.15513952, 0.19756278],
+        [0.71002714, 0.13738918]],
+
+       [[0.96344744, 0.46978386],
+        [0.04935364, 0.73575459],
+        [0.55098985, 0.160741  ],
+        [0.67380631, 0.80383724]]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">C</span><span class="o">.</span><span class="n">shape</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>(3, 4, 2)
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+<section id="element-wise-operations">
+<h2><span class="section-number">3.1.8. </span>Element-Wise Operations<a class="headerlink" href="#element-wise-operations" title="Link to this heading">#</a></h2>
+<p>Element-wise operations apply an operation individually to each element in an array or between matching elements of two arrays.
+Here are some examples.
+Let:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">3</span><span class="p">])</span>
+<span class="n">b</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">6</span><span class="p">])</span>
+</pre></div>
+</div>
+<div class="pst-scrollable-table-container"><table class="table">
+<thead>
+<tr class="row-odd"><th class="head"><p>Operation</p></th>
+<th class="head"><p>Code</p></th>
+<th class="head"><p>Output</p></th>
+</tr>
+</thead>
+<tbody>
+<tr class="row-even"><td><p>Addition</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">+</span> <span class="pre">b</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[5</span> <span class="pre">7</span> <span class="pre">9]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Subtraction</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">-</span> <span class="pre">b</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[-3</span> <span class="pre">-3</span> <span class="pre">-3]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Multiplication</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">*</span> <span class="pre">b</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[4</span> <span class="pre">10</span> <span class="pre">18]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Division</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">/</span> <span class="pre">a</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[4.</span> <span class="pre">2.5</span> <span class="pre">2.]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Power</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">a</span> <span class="pre">**</span> <span class="pre">2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[1</span> <span class="pre">4</span> <span class="pre">9]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Scalar Addition</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">+</span> <span class="pre">2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[6</span> <span class="pre">7</span> <span class="pre">8]</span></code></p></td>
+</tr>
+<tr class="row-even"><td><p>Scalar Multiplication</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">*</span> <span class="pre">2</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[8</span> <span class="pre">10</span> <span class="pre">12]</span></code></p></td>
+</tr>
+<tr class="row-odd"><td><p>Modulo</p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">b</span> <span class="pre">%</span> <span class="pre">a</span></code></p></td>
+<td><p><code class="docutils literal notranslate"><span class="pre">[0</span> <span class="pre">1</span> <span class="pre">0]</span></code></p></td>
+</tr>
+</tbody>
+</table>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Import quiz functions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">quiz_indexing_utils</span><span class="w"> </span><span class="kn">import</span> <span class="n">get_all_quizzes</span>
+<span class="c1"># Import Markdown functions</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Markdown</span><span class="p">,</span> <span class="n">display</span>
+
+<span class="n">quizzes</span> <span class="o">=</span> <span class="n">get_all_quizzes</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 1&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-1">Problem 1</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following NumPy array:
+    
+<div class="code-block">arr = np.array([12, 35, 7, 89, 23, 56, 41, 18, 94, 67])</div>
+
+What element corresponds to index 6?</div>
+        
+        <form id="quizForm_7803">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_7803_0" name="quiz_7803" value="0">
+            <label for="option_7803_0">56</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_7803_1" name="quiz_7803" value="1">
+            <label for="option_7803_1">41</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_7803_2" name="quiz_7803" value="2">
+            <label for="option_7803_2">18</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_7803()" id="submitBtn_7803">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_7803()" id="solutionBtn_7803" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_7803()" id="resetBtn_7803" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_7803" class="quiz-feedback"></div>
+        <div id="solution_7803" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> 41<br>
+            <strong>Explanation:</strong> Remember that Python uses zero-based indexing. Let's trace through the array:
+<br><br>
+<div class="code-block">
+Index:  0   1   2   3   4   5   6   7   8   9<br>
+Value: 12  35   7  89  23  56  41  18  94  67
+</div>
+<br>
+So arr[6] = 41. The element at index 6 is 41.
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_7803() {
+        const form = document.getElementById('quizForm_7803');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_7803');
+        const feedback = document.getElementById('feedback_7803');
+        const submitBtn = document.getElementById('submitBtn_7803');
+        const solutionBtn = document.getElementById('solutionBtn_7803');
+        const resetBtn = document.getElementById('resetBtn_7803');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 1) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_7803() {
+        const solution = document.getElementById('solution_7803');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_7803').style.display = 'none';
+    }
+    
+    function resetQuiz_7803() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_7803"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_7803').style.display = 'none';
+        document.getElementById('solution_7803').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_7803').style.display = 'inline-block';
+        document.getElementById('solutionBtn_7803').style.display = 'none';
+        document.getElementById('resetBtn_7803').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 2&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-2">Problem 2</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following NumPy array:
+    
+<div class="code-block">arr = np.array([12, 35, 7, 89, 23, 56, 41, 18, 94, 67])</div>
+
+What element corresponds to index 6?</div>
+        
+        <form id="quizForm_7803">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_7803_0" name="quiz_7803" value="0">
+            <label for="option_7803_0">56</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_7803_1" name="quiz_7803" value="1">
+            <label for="option_7803_1">41</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_7803_2" name="quiz_7803" value="2">
+            <label for="option_7803_2">18</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_7803()" id="submitBtn_7803">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_7803()" id="solutionBtn_7803" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_7803()" id="resetBtn_7803" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_7803" class="quiz-feedback"></div>
+        <div id="solution_7803" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> 41<br>
+            <strong>Explanation:</strong> Remember that Python uses zero-based indexing. Let's trace through the array:
+<br><br>
+<div class="code-block">
+Index:  0   1   2   3   4   5   6   7   8   9<br>
+Value: 12  35   7  89  23  56  41  18  94  67
+</div>
+<br>
+So arr[6] = 41. The element at index 6 is 41.
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_7803() {
+        const form = document.getElementById('quizForm_7803');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_7803');
+        const feedback = document.getElementById('feedback_7803');
+        const submitBtn = document.getElementById('submitBtn_7803');
+        const solutionBtn = document.getElementById('solutionBtn_7803');
+        const resetBtn = document.getElementById('resetBtn_7803');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 1) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_7803() {
+        const solution = document.getElementById('solution_7803');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_7803').style.display = 'none';
+    }
+    
+    function resetQuiz_7803() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_7803"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_7803').style.display = 'none';
+        document.getElementById('solution_7803').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_7803').style.display = 'inline-block';
+        document.getElementById('solutionBtn_7803').style.display = 'none';
+        document.getElementById('resetBtn_7803').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 3&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">2</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-3">Problem 3</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following NumPy array:
+    
+<div class="code-block">numbers = np.array([5, 15, 25, 35, 45, 55])</div>
+
+What element corresponds to index -2?</div>
+        
+        <form id="quizForm_6081">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_6081_0" name="quiz_6081" value="0">
+            <label for="option_6081_0">45</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6081_1" name="quiz_6081" value="1">
+            <label for="option_6081_1">55</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6081_2" name="quiz_6081" value="2">
+            <label for="option_6081_2">35</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_6081()" id="submitBtn_6081">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_6081()" id="solutionBtn_6081" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_6081()" id="resetBtn_6081" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_6081" class="quiz-feedback"></div>
+        <div id="solution_6081" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> 45<br>
+            <strong>Explanation:</strong> Negative indexing counts from the end of the array:
+<br><br>
+<div class="code-block">
+Positive Index:  0   1   2   3   4   5<br>
+Value:           5  15  25  35  45  55<br>
+Negative Index: -6  -5  -4  -3  -2  -1
+</div>
+<br>
+So numbers[-2] = 45. The element at index -2 is the second-to-last element, which is 45.
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_6081() {
+        const form = document.getElementById('quizForm_6081');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_6081');
+        const feedback = document.getElementById('feedback_6081');
+        const submitBtn = document.getElementById('submitBtn_6081');
+        const solutionBtn = document.getElementById('solutionBtn_6081');
+        const resetBtn = document.getElementById('resetBtn_6081');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 0) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_6081() {
+        const solution = document.getElementById('solution_6081');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_6081').style.display = 'none';
+    }
+    
+    function resetQuiz_6081() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_6081"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_6081').style.display = 'none';
+        document.getElementById('solution_6081').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_6081').style.display = 'inline-block';
+        document.getElementById('solutionBtn_6081').style.display = 'none';
+        document.getElementById('resetBtn_6081').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 4&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">3</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-4">Problem 4</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following NumPy array:
+    
+<div class="code-block">arr = np.array([10, 20, 30, 40, 50, 60, 70, 80])</div>
+
+What is the result of <code>arr[2:5]</code>?</div>
+        
+        <form id="quizForm_6200">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_6200_0" name="quiz_6200" value="0">
+            <label for="option_6200_0">[20, 30, 40]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6200_1" name="quiz_6200" value="1">
+            <label for="option_6200_1">[30, 40, 50]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6200_2" name="quiz_6200" value="2">
+            <label for="option_6200_2">[30, 40, 50, 60]</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_6200()" id="submitBtn_6200">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_6200()" id="solutionBtn_6200" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_6200()" id="resetBtn_6200" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_6200" class="quiz-feedback"></div>
+        <div id="solution_6200" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> [30, 40, 50]<br>
+            <strong>Explanation:</strong> Array slicing uses [start:end] where end is exclusive:
+<br><br>
+<div class="code-block">
+Index:  0   1   2   3   4   5   6   7<br>
+Value: 10  20  30  40  50  60  70  80
+</div>
+<br>
+arr[2:5] selects indices 2, 3, and 4 (index 5 is excluded).<br>
+So arr[2:5] = [30, 40, 50].
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_6200() {
+        const form = document.getElementById('quizForm_6200');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_6200');
+        const feedback = document.getElementById('feedback_6200');
+        const submitBtn = document.getElementById('submitBtn_6200');
+        const solutionBtn = document.getElementById('solutionBtn_6200');
+        const resetBtn = document.getElementById('resetBtn_6200');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 1) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_6200() {
+        const solution = document.getElementById('solution_6200');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_6200').style.display = 'none';
+    }
+    
+    function resetQuiz_6200() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_6200"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_6200').style.display = 'none';
+        document.getElementById('solution_6200').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_6200').style.display = 'inline-block';
+        document.getElementById('solutionBtn_6200').style.display = 'none';
+        document.getElementById('resetBtn_6200').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 5&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">4</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-5">Problem 5</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following NumPy array:
+    
+<div class="code-block">values = np.array([2, 4, 6, 8, 10, 12, 14, 16, 18, 20])</div>
+
+What is the result of <code>values[1::3]</code>?</div>
+        
+        <form id="quizForm_7722">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_7722_0" name="quiz_7722" value="0">
+            <label for="option_7722_0">[4, 10, 16]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_7722_1" name="quiz_7722" value="1">
+            <label for="option_7722_1">[4, 12, 20]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_7722_2" name="quiz_7722" value="2">
+            <label for="option_7722_2">[2, 8, 14, 20]</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_7722()" id="submitBtn_7722">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_7722()" id="solutionBtn_7722" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_7722()" id="resetBtn_7722" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_7722" class="quiz-feedback"></div>
+        <div id="solution_7722" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> [4, 10, 16]<br>
+            <strong>Explanation:</strong> The slice [1::3] means start at index 1, go to the end, with step 3:
+<br><br>
+<div class="code-block">
+Index:  0   1   2   3   4   5   6   7   8   9<br>
+Value:  2   4   6   8  10  12  14  16  18  20
+</div>
+<br>
+Starting at index 1 (value 4), then every 3rd element:<br>
+• Index 1: 4<br>
+• Index 4: 10<br>
+• Index 7: 16<br>
+So values[1::3] = [4, 10, 16].
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_7722() {
+        const form = document.getElementById('quizForm_7722');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_7722');
+        const feedback = document.getElementById('feedback_7722');
+        const submitBtn = document.getElementById('submitBtn_7722');
+        const solutionBtn = document.getElementById('solutionBtn_7722');
+        const resetBtn = document.getElementById('resetBtn_7722');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 0) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_7722() {
+        const solution = document.getElementById('solution_7722');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_7722').style.display = 'none';
+    }
+    
+    function resetQuiz_7722() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_7722"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_7722').style.display = 'none';
+        document.getElementById('solution_7722').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_7722').style.display = 'inline-block';
+        document.getElementById('solutionBtn_7722').style.display = 'none';
+        document.getElementById('resetBtn_7722').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 6&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">5</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-6">Problem 6</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following NumPy array:
+    
+<div class="code-block">letters = np.array(['A', 'B', 'C', 'D', 'E', 'F'])</div>
+
+What is the result of <code>letters[4:1:-1]</code>?</div>
+        
+        <form id="quizForm_6273">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_6273_0" name="quiz_6273" value="0">
+            <label for="option_6273_0">['E', 'D', 'C']</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6273_1" name="quiz_6273" value="1">
+            <label for="option_6273_1">['E', 'D', 'C', 'B']</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6273_2" name="quiz_6273" value="2">
+            <label for="option_6273_2">['D', 'C', 'B']</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_6273()" id="submitBtn_6273">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_6273()" id="solutionBtn_6273" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_6273()" id="resetBtn_6273" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_6273" class="quiz-feedback"></div>
+        <div id="solution_6273" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> ['E', 'D', 'C']<br>
+            <strong>Explanation:</strong> The slice [4:1:-1] means start at index 4, go to index 1 (exclusive), with step -1 (reverse):
+<br><br>
+<div class="code-block">
+Index:  0   1   2   3   4   5<br>
+Value: 'A' 'B' 'C' 'D' 'E' 'F'
+</div>
+<br>
+Starting at index 4 ('E'), going backwards to index 1 (exclusive):<br>
+• Index 4: 'E'<br>
+• Index 3: 'D'<br>
+• Index 2: 'C'<br>
+So letters[4:1:-1] = ['E', 'D', 'C'].
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_6273() {
+        const form = document.getElementById('quizForm_6273');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_6273');
+        const feedback = document.getElementById('feedback_6273');
+        const submitBtn = document.getElementById('submitBtn_6273');
+        const solutionBtn = document.getElementById('solutionBtn_6273');
+        const resetBtn = document.getElementById('resetBtn_6273');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 0) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_6273() {
+        const solution = document.getElementById('solution_6273');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_6273').style.display = 'none';
+    }
+    
+    function resetQuiz_6273() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_6273"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_6273').style.display = 'none';
+        document.getElementById('solution_6273').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_6273').style.display = 'inline-block';
+        document.getElementById('solutionBtn_6273').style.display = 'none';
+        document.getElementById('resetBtn_6273').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 7&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">6</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-7">Problem 7</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following 3×3 NumPy matrix:
+    
+<div class="matrix-display">
+matrix = np.array([[10, 20, 30],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[40, 50, 60],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[70, 80, 90]])
+</div>
+
+What is the value of <code>matrix[1, 2]</code>?</div>
+        
+        <form id="quizForm_6634">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_6634_0" name="quiz_6634" value="0">
+            <label for="option_6634_0">50</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6634_1" name="quiz_6634" value="1">
+            <label for="option_6634_1">60</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6634_2" name="quiz_6634" value="2">
+            <label for="option_6634_2">80</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_6634()" id="submitBtn_6634">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_6634()" id="solutionBtn_6634" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_6634()" id="resetBtn_6634" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_6634" class="quiz-feedback"></div>
+        <div id="solution_6634" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> 60<br>
+            <strong>Explanation:</strong> For 2D arrays, indexing works as [row, column] with zero-based indexing:
+<br><br>
+<div class="matrix-display">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col 0&nbsp;&nbsp;Col 1&nbsp;&nbsp;Col 2<br>
+Row 0: &nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30<br>
+Row 1: &nbsp;&nbsp;40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60<br>
+Row 2: &nbsp;&nbsp;70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90
+</div>
+<br>
+So matrix[1, 2] means row 1, column 2, which is 60.
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_6634() {
+        const form = document.getElementById('quizForm_6634');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_6634');
+        const feedback = document.getElementById('feedback_6634');
+        const submitBtn = document.getElementById('submitBtn_6634');
+        const solutionBtn = document.getElementById('solutionBtn_6634');
+        const resetBtn = document.getElementById('resetBtn_6634');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 1) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_6634() {
+        const solution = document.getElementById('solution_6634');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_6634').style.display = 'none';
+    }
+    
+    function resetQuiz_6634() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_6634"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_6634').style.display = 'none';
+        document.getElementById('solution_6634').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_6634').style.display = 'inline-block';
+        document.getElementById('solutionBtn_6634').style.display = 'none';
+        document.getElementById('resetBtn_6634').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 8&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">7</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-8">Problem 8</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following 3×3 NumPy matrix:
+    
+<div class="matrix-display">
+grid = np.array([[1, 3, 5],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[7, 9, 11],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[13, 15, 17]])
+</div>
+
+What is the value of <code>grid[2, 0]</code>?</div>
+        
+        <form id="quizForm_6932">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_6932_0" name="quiz_6932" value="0">
+            <label for="option_6932_0">7</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6932_1" name="quiz_6932" value="1">
+            <label for="option_6932_1">13</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_6932_2" name="quiz_6932" value="2">
+            <label for="option_6932_2">15</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_6932()" id="submitBtn_6932">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_6932()" id="solutionBtn_6932" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_6932()" id="resetBtn_6932" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_6932" class="quiz-feedback"></div>
+        <div id="solution_6932" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> 13<br>
+            <strong>Explanation:</strong> Using [row, column] indexing with zero-based indexing:
+<br><br>
+<div class="matrix-display">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col 0&nbsp;&nbsp;Col 1&nbsp;&nbsp;Col 2<br>
+Row 0: &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5<br>
+Row 1: &nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11<br>
+Row 2: &nbsp;&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;17
+</div>
+<br>
+So grid[2, 0] means row 2, column 0, which is 13.
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_6932() {
+        const form = document.getElementById('quizForm_6932');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_6932');
+        const feedback = document.getElementById('feedback_6932');
+        const submitBtn = document.getElementById('submitBtn_6932');
+        const solutionBtn = document.getElementById('solutionBtn_6932');
+        const resetBtn = document.getElementById('resetBtn_6932');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 1) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_6932() {
+        const solution = document.getElementById('solution_6932');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_6932').style.display = 'none';
+    }
+    
+    function resetQuiz_6932() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_6932"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_6932').style.display = 'none';
+        document.getElementById('solution_6932').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_6932').style.display = 'inline-block';
+        document.getElementById('solutionBtn_6932').style.display = 'none';
+        document.getElementById('resetBtn_6932').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 9&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">8</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-9">Problem 9</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following 3×3 NumPy matrix:
+    
+<div class="matrix-display">
+data = np.array([[2, 4, 6],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[8, 10, 12],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[14, 16, 18]])
+</div>
+
+What is the value of <code>data[-1, -2]</code>?</div>
+        
+        <form id="quizForm_1781">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_1781_0" name="quiz_1781" value="0">
+            <label for="option_1781_0">10</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_1781_1" name="quiz_1781" value="1">
+            <label for="option_1781_1">16</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_1781_2" name="quiz_1781" value="2">
+            <label for="option_1781_2">14</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_1781()" id="submitBtn_1781">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_1781()" id="solutionBtn_1781" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_1781()" id="resetBtn_1781" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_1781" class="quiz-feedback"></div>
+        <div id="solution_1781" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> 16<br>
+            <strong>Explanation:</strong> Negative indexing works in 2D arrays too:
+<br><br>
+<div class="matrix-display">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col -3&nbsp;&nbsp;Col -2&nbsp;&nbsp;Col -1<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col 0&nbsp;&nbsp;&nbsp;Col 1&nbsp;&nbsp;&nbsp;Col 2<br>
+Row -3/0: &nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6<br>
+Row -2/1: &nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12<br>
+Row -1/2: &nbsp;&nbsp;&nbsp;14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;18
+</div>
+<br>
+So data[-1, -2] means last row, second-to-last column, which is 16.
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_1781() {
+        const form = document.getElementById('quizForm_1781');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_1781');
+        const feedback = document.getElementById('feedback_1781');
+        const submitBtn = document.getElementById('submitBtn_1781');
+        const solutionBtn = document.getElementById('solutionBtn_1781');
+        const resetBtn = document.getElementById('resetBtn_1781');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 1) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_1781() {
+        const solution = document.getElementById('solution_1781');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_1781').style.display = 'none';
+    }
+    
+    function resetQuiz_1781() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_1781"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_1781').style.display = 'none';
+        document.getElementById('solution_1781').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_1781').style.display = 'inline-block';
+        document.getElementById('solutionBtn_1781').style.display = 'none';
+        document.getElementById('resetBtn_1781').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 10&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">9</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-10">Problem 10</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following 3×3 NumPy matrix:
+    
+<div class="matrix-display">
+matrix = np.array([[1, 2, 3],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[4, 5, 6],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[7, 8, 9]])
+</div>
+
+What is the result of <code>matrix[0:2, 1:3]</code>?</div>
+        
+        <form id="quizForm_4467">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_4467_0" name="quiz_4467" value="0">
+            <label for="option_4467_0">[[2, 3], [5, 6]]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_4467_1" name="quiz_4467" value="1">
+            <label for="option_4467_1">[[1, 2], [4, 5]]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_4467_2" name="quiz_4467" value="2">
+            <label for="option_4467_2">[[5, 6], [8, 9]]</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_4467()" id="submitBtn_4467">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_4467()" id="solutionBtn_4467" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_4467()" id="resetBtn_4467" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_4467" class="quiz-feedback"></div>
+        <div id="solution_4467" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> [[2, 3], [5, 6]]<br>
+            <strong>Explanation:</strong> For 2D slicing, the syntax is [row_slice, column_slice]:
+<br><br>
+<div class="matrix-display">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col 0&nbsp;&nbsp;Col 1&nbsp;&nbsp;Col 2<br>
+Row 0: &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3<br>
+Row 1: &nbsp;&nbsp;&nbsp;4&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6<br>
+Row 2: &nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;9
+</div>
+<br>
+• 0:2 means rows 0 and 1 (row 2 excluded)<br>
+• 1:3 means columns 1 and 2 (column 3 excluded)<br>
+<br>
+So we get the intersection: [[2, 3], [5, 6]]
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_4467() {
+        const form = document.getElementById('quizForm_4467');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_4467');
+        const feedback = document.getElementById('feedback_4467');
+        const submitBtn = document.getElementById('submitBtn_4467');
+        const solutionBtn = document.getElementById('solutionBtn_4467');
+        const resetBtn = document.getElementById('resetBtn_4467');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 0) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_4467() {
+        const solution = document.getElementById('solution_4467');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_4467').style.display = 'none';
+    }
+    
+    function resetQuiz_4467() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_4467"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_4467').style.display = 'none';
+        document.getElementById('solution_4467').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_4467').style.display = 'inline-block';
+        document.getElementById('solutionBtn_4467').style.display = 'none';
+        document.getElementById('resetBtn_4467').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 11&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">10</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-11">Problem 11</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following 4×3 NumPy matrix:
+    
+<div class="matrix-display">
+data = np.array([[10, 20, 30],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[40, 50, 60],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[70, 80, 90],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[100, 110, 120]])
+</div>
+
+What is the result of <code>data[:, 1]</code>?</div>
+        
+        <form id="quizForm_8832">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_8832_0" name="quiz_8832" value="0">
+            <label for="option_8832_0">[20, 50, 80, 110]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_8832_1" name="quiz_8832" value="1">
+            <label for="option_8832_1">[40, 50, 60]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_8832_2" name="quiz_8832" value="2">
+            <label for="option_8832_2">[10, 20, 30]</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_8832()" id="submitBtn_8832">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_8832()" id="solutionBtn_8832" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_8832()" id="resetBtn_8832" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_8832" class="quiz-feedback"></div>
+        <div id="solution_8832" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> [20, 50, 80, 110]<br>
+            <strong>Explanation:</strong> The slice [:, 1] means all rows, column 1:
+<br><br>
+<div class="matrix-display">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col 0&nbsp;&nbsp;Col 1&nbsp;&nbsp;Col 2<br>
+Row 0: &nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;20&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;30<br>
+Row 1: &nbsp;&nbsp;&nbsp;40&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;50&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;60<br>
+Row 2: &nbsp;&nbsp;&nbsp;70&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;80&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;90<br>
+Row 3: &nbsp;&nbsp;100&nbsp;&nbsp;&nbsp;&nbsp;110&nbsp;&nbsp;&nbsp;&nbsp;120
+</div>
+<br>
+Column 1 contains: [20, 50, 80, 110]
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_8832() {
+        const form = document.getElementById('quizForm_8832');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_8832');
+        const feedback = document.getElementById('feedback_8832');
+        const submitBtn = document.getElementById('submitBtn_8832');
+        const solutionBtn = document.getElementById('solutionBtn_8832');
+        const resetBtn = document.getElementById('resetBtn_8832');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 0) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_8832() {
+        const solution = document.getElementById('solution_8832');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_8832').style.display = 'none';
+    }
+    
+    function resetQuiz_8832() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_8832"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_8832').style.display = 'none';
+        document.getElementById('solution_8832').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_8832').style.display = 'inline-block';
+        document.getElementById('solutionBtn_8832').style.display = 'none';
+        document.getElementById('resetBtn_8832').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">display</span><span class="p">(</span><span class="n">Markdown</span><span class="p">(</span><span class="s2">&quot;### Problem 12&quot;</span><span class="p">))</span>
+<span class="n">quizzes</span><span class="p">[</span><span class="mi">11</span><span class="p">]</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<h3 class="rubric" id="problem-12">Problem 12</h3>
+<div class="output text_html">
+    <style>
+    .quiz-container {
+        border: 2px solid #30363d;
+        border-radius: 8px;
+        padding: 20px;
+        margin: 15px 0;
+        background-color: #0d1117;
+        color: #f0f6fc;
+        font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
+    }
+    .quiz-question {
+        font-size: 16px;
+        font-weight: 600;
+        margin-bottom: 15px;
+        color: #f0f6fc;
+    }
+    .quiz-option {
+        margin: 8px 0;
+        padding: 8px 12px;
+        border-radius: 4px;
+        transition: background-color 0.2s;
+        color: #f0f6fc;
+    }
+    .quiz-option:hover {
+        background-color: #21262d;
+    }
+    .quiz-option input[type="radio"] {
+        margin-right: 10px;
+        accent-color: #238636;
+    }
+    .quiz-option label {
+        color: #f0f6fc;
+        cursor: pointer;
+    }
+    .quiz-buttons {
+        margin-top: 15px;
+    }
+    .quiz-btn {
+        background-color: #238636;
+        color: white;
+        border: none;
+        padding: 10px 20px;
+        border-radius: 4px;
+        cursor: pointer;
+        margin-right: 10px;
+        font-size: 14px;
+        transition: background-color 0.2s;
+        font-weight: 500;
+    }
+    .quiz-btn:hover {
+        background-color: #2ea043;
+    }
+    .quiz-btn:disabled {
+        background-color: #6e7681;
+        cursor: not-allowed;
+    }
+    .quiz-feedback {
+        margin-top: 15px;
+        padding: 12px;
+        border-radius: 4px;
+        font-weight: 500;
+        display: none;
+    }
+    .quiz-correct {
+        background-color: #dafbe1;
+        color: #0f5132;
+        border: 1px solid #a3cfbb;
+    }
+    .quiz-incorrect {
+        background-color: #ffdcd7;
+        color: #842029;
+        border: 1px solid #f1aeb5;
+    }
+    .quiz-solution {
+        background-color: #21262d;
+        color: #f0f6fc;
+        border: 1px solid #30363d;
+        margin-top: 10px;
+        padding: 12px;
+        border-radius: 4px;
+        display: none;
+    }
+    .quiz-solution-title {
+        font-weight: 600;
+        margin-bottom: 8px;
+        color: #f0f6fc;
+    }
+    .code-block {
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        border-radius: 4px;
+        padding: 10px;
+        font-family: 'Courier New', monospace;
+        margin: 10px 0;
+        font-size: 14px;
+        color: #f0f6fc;
+    }
+    .matrix-display {
+        font-family: 'Courier New', monospace;
+        font-size: 14px;
+        line-height: 1.4;
+        background-color: #161b22;
+        border: 1px solid #30363d;
+        padding: 10px;
+        border-radius: 4px;
+        margin: 10px 0;
+        color: #f0f6fc;
+    }
+    </style>
+    
+    <div class="quiz-container">
+        <div class="quiz-question">Consider the following 4×4 NumPy matrix:
+    
+<div class="matrix-display">
+grid = np.array([[1, 2, 3, 4],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[5, 6, 7, 8],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[9, 10, 11, 12],<br>
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;[13, 14, 15, 16]])
+</div>
+
+What is the result of <code>grid[::2, ::2]</code>?</div>
+        
+        <form id="quizForm_5125">
+            
+        <div class="quiz-option">
+            <input type="radio" id="option_5125_0" name="quiz_5125" value="0">
+            <label for="option_5125_0">[[1, 3], [9, 11]]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_5125_1" name="quiz_5125" value="1">
+            <label for="option_5125_1">[[1, 2], [5, 6]]</label>
+        </div>
+        
+        <div class="quiz-option">
+            <input type="radio" id="option_5125_2" name="quiz_5125" value="2">
+            <label for="option_5125_2">[[6, 8], [14, 16]]</label>
+        </div>
+        
+        </form>
+        
+        <div class="quiz-buttons">
+            <button type="button" class="quiz-btn" onclick="checkAnswer_5125()" id="submitBtn_5125">
+                Submit Answer
+            </button>
+            <button type="button" class="quiz-btn" onclick="showSolution_5125()" id="solutionBtn_5125" style="display: none;">
+                Show Solution
+            </button>
+            <button type="button" class="quiz-btn" onclick="resetQuiz_5125()" id="resetBtn_5125" style="display: none;">
+                Reset Quiz
+            </button>
+        </div>
+        
+        <div id="feedback_5125" class="quiz-feedback"></div>
+        <div id="solution_5125" class="quiz-solution">
+            <div class="quiz-solution-title">Solution:</div>
+            <strong>Correct Answer:</strong> [[1, 3], [9, 11]]<br>
+            <strong>Explanation:</strong> The slice [::2, ::2] means every 2nd row and every 2nd column:
+<br><br>
+<div class="matrix-display">
+&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Col 0&nbsp;&nbsp;Col 1&nbsp;&nbsp;Col 2&nbsp;&nbsp;Col 3<br>
+Row 0: &nbsp;&nbsp;&nbsp;1&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;2&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;3&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;4<br>
+Row 1: &nbsp;&nbsp;&nbsp;5&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;6&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;7&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;8<br>
+Row 2: &nbsp;&nbsp;&nbsp;9&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;10&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;11&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;12<br>
+Row 3: &nbsp;&nbsp;13&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;14&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;15&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;16
+</div>
+<br>
+Selecting rows 0, 2 (every 2nd row) and columns 0, 2 (every 2nd column):<br>
+Result: [[1, 3], [9, 11]]
+        </div>
+    </div>
+    
+    <script>
+    function checkAnswer_5125() {
+        const form = document.getElementById('quizForm_5125');
+        const formData = new FormData(form);
+        const selectedAnswer = formData.get('quiz_5125');
+        const feedback = document.getElementById('feedback_5125');
+        const submitBtn = document.getElementById('submitBtn_5125');
+        const solutionBtn = document.getElementById('solutionBtn_5125');
+        const resetBtn = document.getElementById('resetBtn_5125');
+        
+        if (selectedAnswer === null) {
+            feedback.innerHTML = '⚠️ Please select an answer before submitting.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+            feedback.style.display = 'block';
+            return;
+        }
+        
+        // Disable form inputs
+        const inputs = form.querySelectorAll('input[type="radio"]');
+        inputs.forEach(input => input.disabled = true);
+        
+        if (parseInt(selectedAnswer) === 0) {
+            feedback.innerHTML = '✅ Correct! Well done.';
+            feedback.className = 'quiz-feedback quiz-correct';
+        } else {
+            feedback.innerHTML = '❌ Incorrect. Try reviewing the material and check the solution.';
+            feedback.className = 'quiz-feedback quiz-incorrect';
+        }
+        
+        feedback.style.display = 'block';
+        submitBtn.style.display = 'none';
+        solutionBtn.style.display = 'inline-block';
+        resetBtn.style.display = 'inline-block';
+    }
+    
+    function showSolution_5125() {
+        const solution = document.getElementById('solution_5125');
+        solution.style.display = 'block';
+        document.getElementById('solutionBtn_5125').style.display = 'none';
+    }
+    
+    function resetQuiz_5125() {
+        // Re-enable all inputs
+        const inputs = document.querySelectorAll('input[name="quiz_5125"]');
+        inputs.forEach(input => {
+            input.disabled = false;
+            input.checked = false;
+        });
+        
+        // Hide feedback and solution
+        document.getElementById('feedback_5125').style.display = 'none';
+        document.getElementById('solution_5125').style.display = 'none';
+        
+        // Reset button visibility
+        document.getElementById('submitBtn_5125').style.display = 'inline-block';
+        document.getElementById('solutionBtn_5125').style.display = 'none';
+        document.getElementById('resetBtn_5125').style.display = 'none';
+    }
+    </script>
+    </div></div>
+</div>
+</section>
+<section id="numpy-array-axes">
+<h2><span class="section-number">3.1.9. </span>NumPy Array Axes<a class="headerlink" href="#numpy-array-axes" title="Link to this heading">#</a></h2>
+<p><img alt="From: https://nustat.github.io/DataScience_Intro_python/NumPy.html " src="../_images/NorthWesternArrayImage.png" /></p>
+<p>Many NumPy operations can be performed on a single dimension of a multidimensional array.</p>
+<p>Consider generating a 3 by 4 array of random numbers from 0 to 1.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="nb">print</span><span class="p">(</span><span class="n">a</span><span class="o">.</span><span class="n">shape</span><span class="p">)</span>
+</pre></div>
+</div>
+<p>You can take the mean of the array as follows:</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>You can take the mean along the columns by specifying <code class="docutils literal notranslate"><span class="pre">axis=0</span></code>; operations down rows correspond to axis 0.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The result is a 4-element array of means along each column.</p>
+<p>Likewise, you can take the mean along each row by specifying <code class="docutils literal notranslate"><span class="pre">axis=1</span></code>; operations across columns correspond to axis 1.</p>
+<div class="highlight-python notranslate"><div class="highlight"><pre><span></span><span class="nb">print</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span> <span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">))</span>
+</pre></div>
+</div>
+<p>The result is a 3-element array of means along each row.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">a</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">rand</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">a</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[0.4453254 , 0.65688402, 0.82108484, 0.52454507],
+       [0.93316817, 0.35987666, 0.89077031, 0.46817709],
+       [0.23308358, 0.19237167, 0.74233149, 0.84497469]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>np.float64(0.5927160823585441)
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">0</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.53719238, 0.40304412, 0.81806221, 0.61256562])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">np</span><span class="o">.</span><span class="n">mean</span><span class="p">(</span><span class="n">a</span><span class="p">,</span><span class="n">axis</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([0.61195983, 0.66299806, 0.50319036])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Arrays"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="array_cover.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">3. </span>Array Basics</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="DotProduct.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">3.2. </span>Dot Product</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-arrays-the-foundation-of-scientific-computing">3.1.1. NumPy Arrays: The Foundation of Scientific Computing</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#mathematical-notation-for-arrays-and-matrices">3.1.2. Mathematical Notation for Arrays and Matrices</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#notation-for-array-and-matrix-dimensions">3.1.3. Notation for Array and Matrix Dimensions</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#size-shape-indexing-and-all-that">3.1.4. Size, Shape, Indexing, and All That</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-size-and-shape-of-a-numpy-array">3.1.5. The Size and Shape of a NumPy Array</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#indexing">3.1.6. Indexing</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#slicing">3.1.6.1. Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#d-array-slicing">3.1.6.2. 1D Array Slicing</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#id1">3.1.6.3. 2D Array Slicing</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#higher-dimensional-arrays">3.1.7. Higher Dimensional Arrays</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#element-wise-operations">3.1.8. Element-Wise Operations</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#numpy-array-axes">3.1.9. NumPy Array Axes</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joe McEwen & Jesse Loi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

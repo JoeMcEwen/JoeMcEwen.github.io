@@ -1,0 +1,651 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>Orthogonal Matrix (Unitary for Real Matrices) &#8212; Getting to the Bottom of It \n  Numerical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Matrices/UnitaryMatrixReal';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+        
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../cover.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/numerical_methods_logo.svg" class="logo__image only-light" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/numerical_methods_logo.svg" class="logo__image only-dark" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../cover.html">
+                    Getting to the Bottom of It: Numerical Methods for Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../About.html">1. What is this?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Before%20We%20Begin/guidance.html">2. Guidance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/job.html">2.1. Do You Want a Job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/good_coding.html">2.2. Good Coding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Arrays/array_cover.html">3. Array Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/ArrayBasics.html">3.1. Arrays in Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/DotProduct.html">3.2. Dot Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixMultiplication.html">3.3. Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixInversion.html">3.4. Solving Systems of Equations</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Mathematics/math_cover.html">4. Differential Calculus</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/SingleVariableCalculus.html">4.1. Single Variable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/MultiVariableCalculus.html">4.2. Multivariable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/JaxAutoDiff.html">4.3. Automatic Differentiation with Jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Mathematics/DerivativesLesson.html">4.4. Derivatives, a Helpful Lesson</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="matrix_cover.html">5. Matrices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="TransposeInverseNorm.html">5.1. Transpose, Inverse, and Norm</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Matrices/UnitaryMatrixReal.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Orthogonal Matrix (Unitary for Real Matrices)</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draft-version-do-not-distribution-alert-if-errors-found">draft version - do not distribution - alert if errors found</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-real-unitary-matrices">Properties of Real Unitary Matrices:</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="orthogonal-matrix-unitary-for-real-matrices">
+<h1>Orthogonal Matrix (Unitary for Real Matrices)<a class="headerlink" href="#orthogonal-matrix-unitary-for-real-matrices" title="Link to this heading">#</a></h1>
+<section id="draft-version-do-not-distribution-alert-if-errors-found">
+<h2>draft version - do not distribution - alert if errors found<a class="headerlink" href="#draft-version-do-not-distribution-alert-if-errors-found" title="Link to this heading">#</a></h2>
+<p>A square real matrix <span class="math notranslate nohighlight">\(Q\)</span> is called an <strong><a class="reference external" href="https://en.wikipedia.org/wiki/Orthogonal_matrix">orthogonal</a></strong> if its transpose, denoted by <span class="math notranslate nohighlight">\(Q^T\)</span>, is equal to its inverse, <span class="math notranslate nohighlight">\(Q^{-1}\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ebc38f1c-122f-4f3e-a4b7-a48ebac7d32b">
+<span class="eqno">()<a class="headerlink" href="#equation-ebc38f1c-122f-4f3e-a4b7-a48ebac7d32b" title="Permalink to this equation">#</a></span>\[\begin{equation}
+Q^T = Q^{-1}.
+\end{equation} \]</div>
+<p>Therefore multiplication of <span class="math notranslate nohighlight">\(Q\)</span> by <span class="math notranslate nohighlight">\(Q^T\)</span> results in the identity matrix <span class="math notranslate nohighlight">\(\mathbf{I}\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-60e0e235-b138-4fa4-a575-c0a912d0cdc8">
+<span class="eqno">()<a class="headerlink" href="#equation-60e0e235-b138-4fa4-a575-c0a912d0cdc8" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+Q^T Q = Q^{-1}Q = \mathbf{I}.
+\end{equation} \]</div>
+<p><strong>Unitary versus Orthogonal</strong>
+A unitary matrix <span class="math notranslate nohighlight">\(U\)</span> is a complex matrix such that its complex conjugate transpose equals its inverse, <span class="math notranslate nohighlight">\(U^\dagger=U^{-1}\)</span>.</p>
+<p>Here is an example of complex conjugate transpose (if you don’t know)</p>
+<div class="amsmath math notranslate nohighlight" id="equation-6dac5267-971a-42f9-bb4c-0c22d84ab2f3">
+<span class="eqno">()<a class="headerlink" href="#equation-6dac5267-971a-42f9-bb4c-0c22d84ab2f3" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+A = \begin{bmatrix} a_{11} + i b_{11} &amp; a_{12} + ib_{12} \\ a_{21} + ib_{21} &amp; a_{22} + ib_{22}\end{bmatrix} \\
+A^\dagger = \begin{bmatrix} a_{11} - i b_{11} &amp; a_{21} - ib_{21} \\ a_{12} - ib_{12} &amp; a_{22} - ib_{22}\end{bmatrix} 
+\end{split}
+\end{equation} \]</div>
+<p>If the matrix is real, then its complex conjugate transpose is the transpose, and the unitary condition is the orthogonal condition above. We will mostly be using real matrices in this course and will likely refer to the matrix as unitary when technically it is orthogonal (I am known to get a bit flimsy with my verbiage).</p>
+<p>Below I list the properties of a real unitary matrix. Some (or all) of which may be unknown to you. <strong>The one thing you should take away from these notes is that a real matrix is unitary/orthogonal if its transpose is equal to its inverse <span class="math notranslate nohighlight">\(Q^T=Q^{-1}.\)</span></strong></p>
+</section>
+<section id="properties-of-real-unitary-matrices">
+<h2>Properties of Real Unitary Matrices:<a class="headerlink" href="#properties-of-real-unitary-matrices" title="Link to this heading">#</a></h2>
+<ul>
+<li><p><strong>It Has an Inverse</strong>: The tranpose must exist, therefore it has an inverse.</p></li>
+<li><p><strong>Preserves Norm (Length) of Real Vectors:</strong> Orthogonal matrices preserve the Euclidean norm of real vectors:
+\begin{equation}
+|Q\mathbf{x}|^2 = \mathbf{x}Q^T Q \mathbf{x} = \mathbf{x}^T \mathbf{x}
+\end{equation}</p></li>
+<li><p><strong>Preserves Dot Product (Real Vectors):</strong> For any two real vectors <span class="math notranslate nohighlight">\(\mathbf{x}\)</span> and <span class="math notranslate nohighlight">\(\mathbf{y}\)</span>, the dot product  is preserved under orthogonal transformation:
+\begin{equation}
+Q\mathbf{x} \cdot Q\mathbf{y} = \mathbf{x}^T Q^T  Q\mathbf{y} = \mathbf{x}^T \mathbf{y}
+\end{equation}</p></li>
+<li><p><strong>Determinant is <span class="math notranslate nohighlight">\(\pm 1\)</span>:</strong> The determinant of an orthogonal matrix is either +1 or -1:
+<span class="math notranslate nohighlight">\(\det(Q) = \pm 1\)</span></p>
+<p>Proof: <span class="math notranslate nohighlight">\(\det(QQ^T) = \det(I) = 1\)</span>. Also, <span class="math notranslate nohighlight">\(\det(QQ^T) = \det(Q) \det(Q^T) = \det(Q) \det(Q) = (\det(Q))^2\)</span>. Therefore, <span class="math notranslate nohighlight">\((\det(Q))^2 = 1\)</span>, which implies <span class="math notranslate nohighlight">\(\det(Q) = \pm 1\)</span>.</p>
+<ul class="simple">
+<li><p>Orthogonal matrices with a determinant of +1 represent rotations (and combinations of rotations).</p></li>
+<li><p>Orthogonal matrices with a determinant of -1 represent reflections (and combinations involving reflections).</p></li>
+</ul>
+</li>
+<li><p><strong>Eigenvalues have Magnitude 1 (Real or Complex Conjugate Pairs):</strong> The real eigenvalues of an orthogonal matrix are either +1 or -1. Complex eigenvalues occur in conjugate pairs (<span class="math notranslate nohighlight">\(a + bi\)</span>, <span class="math notranslate nohighlight">\(a - bi\)</span>) and have a magnitude of 1 (<span class="math notranslate nohighlight">\(a^2 + b^2 = 1\)</span>).</p></li>
+<li><p><strong>Columns (and Rows) are Orthonormal (Real Vectors):</strong> The columns of an orthogonal matrix form an orthonormal basis for <span class="math notranslate nohighlight">\(\mathbb{R}^n\)</span>. Similarly, the rows also form an orthonormal basis. Let</p>
+<div class="amsmath math notranslate nohighlight" id="equation-9886544e-4ff6-46eb-b2ce-fa266e58c02e">
+<span class="eqno">()<a class="headerlink" href="#equation-9886544e-4ff6-46eb-b2ce-fa266e58c02e" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+Q = \left[\mathbf{c}_1 ~ \mathbf{c}_2 ~ \dots ~ \mathbf{c}_n \right]
+\end{equation}  \]</div>
+<p>where <span class="math notranslate nohighlight">\(\mathbf{c}_i\)</span> are the column vectors. Then <span class="math notranslate nohighlight">\(Q^T Q = I\)</span> implies that <span class="math notranslate nohighlight">\(\mathbf{c}_i^T \mathbf{c}_j = \delta_{ij}\)</span>, which means the columns are orthonormal (their dot product is 1 if <span class="math notranslate nohighlight">\(i=j\)</span>, and 0 if <span class="math notranslate nohighlight">\(i \neq j\)</span>). The same logic applies to the rows of <span class="math notranslate nohighlight">\(Q\)</span>.</p>
+</li>
+</ul>
+<p><strong>Examples:</strong></p>
+<ul>
+<li><p><strong>Identity Matrix (<span class="math notranslate nohighlight">\(I\)</span>):</strong> <span class="math notranslate nohighlight">\(I^T = I\)</span> and <span class="math notranslate nohighlight">\(I^{-1} = I\)</span>, so <span class="math notranslate nohighlight">\(I^T = I^{-1}\)</span>.</p></li>
+<li><p><strong>Rotation Matrix in 2D:</strong></p>
+<div class="amsmath math notranslate nohighlight" id="equation-61d1ee4d-9cc5-4429-b5cc-e46b8d02c284">
+<span class="eqno">()<a class="headerlink" href="#equation-61d1ee4d-9cc5-4429-b5cc-e46b8d02c284" title="Permalink to this equation">#</a></span>\[\begin{equation}
+Q(\theta) = \begin{bmatrix} \cos(\theta) &amp; -\sin(\theta) \\ \sin(\theta) &amp; \cos(\theta)   \end{bmatrix}
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-aa2b5dd7-e47b-4c9b-8d45-58352a37f978">
+<span class="eqno">()<a class="headerlink" href="#equation-aa2b5dd7-e47b-4c9b-8d45-58352a37f978" title="Permalink to this equation">#</a></span>\[\begin{equation}Q(\theta)^T = \begin{bmatrix} \cos(\theta) &amp; \sin(\theta) \\ -\sin(\theta) &amp; \cos(\theta) \end{bmatrix}\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-55d29987-4b15-443f-be1e-e70804a5e908">
+<span class="eqno">()<a class="headerlink" href="#equation-55d29987-4b15-443f-be1e-e70804a5e908" title="Permalink to this equation">#</a></span>\[\begin{equation} Q(\theta)Q(\theta)^T = \begin{bmatrix} \cos^2(\theta) + \sin^2(\theta) &amp; \cos(\theta)\sin(\theta) - \sin(\theta)\cos(\theta) \\ \sin(\theta)\cos(\theta) - \cos(\theta)\sin(\theta) &amp; \sin^2(\theta) + \cos^2(\theta) \end{bmatrix} = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix} = I
+\end{equation} \]</div>
+</li>
+<li><p><strong>Reflection Matrix in 2D (across the x-axis):</strong></p>
+<div class="amsmath math notranslate nohighlight" id="equation-bbfed631-b65e-402b-82af-4ebbf01331f2">
+<span class="eqno">()<a class="headerlink" href="#equation-bbfed631-b65e-402b-82af-4ebbf01331f2" title="Permalink to this equation">#</a></span>\[\begin{equation}
+Q = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix}
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-9b867ff1-8b36-45ba-aea6-6f90c4bb516f">
+<span class="eqno">()<a class="headerlink" href="#equation-9b867ff1-8b36-45ba-aea6-6f90c4bb516f" title="Permalink to this equation">#</a></span>\[\begin{equation}
+Q^T = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix} = Q
+\end{equation}\]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-e4ca486b-c90a-4d26-bc1d-5fd91484c62c">
+<span class="eqno">()<a class="headerlink" href="#equation-e4ca486b-c90a-4d26-bc1d-5fd91484c62c" title="Permalink to this equation">#</a></span>\[\begin{equation}
+QQ^T = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix} \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; -1 \end{bmatrix} = \begin{bmatrix} 1 &amp; 0 \\ 0 &amp; 1 \end{bmatrix}
+ \end{equation} \]</div>
+</li>
+</ul>
+<p>A SymPy example of the unitary nature of a rotation matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sym</span>
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">theta</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;theta&quot;</span><span class="p">)</span>
+<span class="n">Q</span><span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([[</span><span class="n">sym</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="o">-</span><span class="n">sym</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],[</span><span class="n">sym</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">sym</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)]])</span> 
+<span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(\theta \right)} &amp; - \sin{\left(\theta \right)}\\\sin{\left(\theta \right)} &amp; \cos{\left(\theta \right)}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span><span class="o">.</span><span class="n">T</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\cos{\left(\theta \right)} &amp; \sin{\left(\theta \right)}\\- \sin{\left(\theta \right)} &amp; \cos{\left(\theta \right)}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">Q</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}\sin^{2}{\left(\theta \right)} + \cos^{2}{\left(\theta \right)} &amp; 0\\0 &amp; \sin^{2}{\left(\theta \right)} + \cos^{2}{\left(\theta \right)}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">sym</span><span class="o">.</span><span class="n">simplify</span><span class="p">(</span><span class="n">Q</span><span class="o">.</span><span class="n">T</span><span class="o">*</span><span class="n">Q</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}1 &amp; 0\\0 &amp; 1\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<p>NumPy example of rotation matrix.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># define theta</span>
+<span class="c1"># use theta to make Q</span>
+
+<span class="n">theta</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">pi</span><span class="o">/</span><span class="mi">3</span> 
+
+<span class="n">Q</span><span class="o">=</span><span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([[</span><span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="o">-</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">)],</span> <span class="p">[</span><span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">theta</span><span class="p">),</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">theta</span><span class="p">)]])</span> 
+<span class="n">Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 0.5      , -0.8660254],
+       [ 0.8660254,  0.5      ]])
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Q.T Q should be 1</span>
+<span class="n">Q</span><span class="o">.</span><span class="n">T</span><span class="nd">@Q</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_plain highlight-myst-ansi notranslate"><div class="highlight"><pre><span></span>array([[ 1.00000000e+00, -1.48741681e-17],
+       [-1.48741681e-17,  1.00000000e+00]])
+</pre></div>
+</div>
+</div>
+</div>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Matrices"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#draft-version-do-not-distribution-alert-if-errors-found">draft version - do not distribution - alert if errors found</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#properties-of-real-unitary-matrices">Properties of Real Unitary Matrices:</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joe McEwen & Jesse Loi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,1103 @@
+
+<!DOCTYPE html>
+
+
+<html lang="en" data-content_root="../" >
+
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" /><meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    <title>4.2. Multivariable Calculus &#8212; Getting to the Bottom of It \n  Numerical Methods for Machine Learning</title>
+  
+  
+  
+  <script data-cfasync="false">
+    document.documentElement.dataset.mode = localStorage.getItem("mode") || "";
+    document.documentElement.dataset.theme = localStorage.getItem("theme") || "";
+  </script>
+  
+  <!-- Loaded before other Sphinx assets -->
+  <link href="../_static/styles/theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/bootstrap.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+<link href="../_static/styles/pydata-sphinx-theme.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+
+  
+  <link href="../_static/vendor/fontawesome/6.5.2/css/all.min.css?digest=dfe6caa3a7d634c4db9b" rel="stylesheet" />
+  <link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-solid-900.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-brands-400.woff2" />
+<link rel="preload" as="font" type="font/woff2" crossorigin href="../_static/vendor/fontawesome/6.5.2/webfonts/fa-regular-400.woff2" />
+
+    <link rel="stylesheet" type="text/css" href="../_static/pygments.css?v=03e43079" />
+    <link rel="stylesheet" type="text/css" href="../_static/styles/sphinx-book-theme.css?v=eba8b062" />
+    <link rel="stylesheet" type="text/css" href="../_static/togglebutton.css?v=13237357" />
+    <link rel="stylesheet" type="text/css" href="../_static/copybutton.css?v=76b2166b" />
+    <link rel="stylesheet" type="text/css" href="../_static/mystnb.8ecb98da25f57f5357bf6f572d296f466b2cfe2517ffebfabe82451661e28f02.css?v=6644e6bb" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-thebe.css?v=4fa983c6" />
+    <link rel="stylesheet" type="text/css" href="../_static/sphinx-design.min.css?v=95c83b7e" />
+  
+  <!-- Pre-loaded scripts that we'll load fully later -->
+  <link rel="preload" as="script" href="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b" />
+<link rel="preload" as="script" href="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b" />
+  <script src="../_static/vendor/fontawesome/6.5.2/js/all.min.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+    <script src="../_static/documentation_options.js?v=9eb32ce0"></script>
+    <script src="../_static/doctools.js?v=9a2dae69"></script>
+    <script src="../_static/sphinx_highlight.js?v=dc90522c"></script>
+    <script src="../_static/clipboard.min.js?v=a7894cd8"></script>
+    <script src="../_static/copybutton.js?v=f281be69"></script>
+    <script src="../_static/scripts/sphinx-book-theme.js?v=887ef09a"></script>
+    <script>let toggleHintShow = 'Click to show';</script>
+    <script>let toggleHintHide = 'Click to hide';</script>
+    <script>let toggleOpenOnPrint = 'true';</script>
+    <script src="../_static/togglebutton.js?v=4a39c7ea"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script src="../_static/design-tabs.js?v=f930bc37"></script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script async="async" src="../_static/sphinx-thebe.js?v=c100c467"></script>
+    <script>var togglebuttonSelector = '.toggle, .admonition.dropdown';</script>
+    <script>const THEBE_JS_URL = "https://unpkg.com/thebe@0.8.2/lib/index.js"; const thebe_selector = ".thebe,.cell"; const thebe_selector_input = "pre"; const thebe_selector_output = ".output, .cell_output"</script>
+    <script>window.MathJax = {"options": {"processHtmlClass": "tex2jax_process|mathjax_process|math|output_area"}}</script>
+    <script defer="defer" src="https://cdn.jsdelivr.net/npm/mathjax@3/es5/tex-mml-chtml.js"></script>
+    <script>DOCUMENTATION_OPTIONS.pagename = 'Mathematics/MultiVariableCalculus';</script>
+    <link rel="index" title="Index" href="../genindex.html" />
+    <link rel="search" title="Search" href="../search.html" />
+    <link rel="next" title="4.3. Automatic Differentiation with Jax" href="JaxAutoDiff.html" />
+    <link rel="prev" title="4.1. Single Variable Calculus" href="SingleVariableCalculus.html" />
+  <meta name="viewport" content="width=device-width, initial-scale=1"/>
+  <meta name="docsearch:language" content="en"/>
+  </head>
+  
+  
+  <body data-bs-spy="scroll" data-bs-target=".bd-toc-nav" data-offset="180" data-bs-root-margin="0px 0px -60%" data-default-mode="">
+
+  
+  
+  <div id="pst-skip-link" class="skip-link d-print-none"><a href="#main-content">Skip to main content</a></div>
+  
+  <div id="pst-scroll-pixel-helper"></div>
+  
+  <button type="button" class="btn rounded-pill" id="pst-back-to-top">
+    <i class="fa-solid fa-arrow-up"></i>Back to top</button>
+
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-primary-sidebar-checkbox"/>
+  <label class="overlay overlay-primary" for="pst-primary-sidebar-checkbox"></label>
+  
+  <input type="checkbox"
+          class="sidebar-toggle"
+          id="pst-secondary-sidebar-checkbox"/>
+  <label class="overlay overlay-secondary" for="pst-secondary-sidebar-checkbox"></label>
+  
+  <div class="search-button__wrapper">
+    <div class="search-button__overlay"></div>
+    <div class="search-button__search-container">
+<form class="bd-search d-flex align-items-center"
+      action="../search.html"
+      method="get">
+  <i class="fa-solid fa-magnifying-glass"></i>
+  <input type="search"
+         class="form-control"
+         name="q"
+         id="search-input"
+         placeholder="Search this book..."
+         aria-label="Search this book..."
+         autocomplete="off"
+         autocorrect="off"
+         autocapitalize="off"
+         spellcheck="false"/>
+  <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd>K</kbd></span>
+</form></div>
+  </div>
+
+  <div class="pst-async-banner-revealer d-none">
+  <aside id="bd-header-version-warning" class="d-none d-print-none" aria-label="Version warning"></aside>
+</div>
+
+  
+    <header class="bd-header navbar navbar-expand-lg bd-navbar d-print-none">
+    </header>
+  
+
+  <div class="bd-container">
+    <div class="bd-container__inner bd-page-width">
+      
+      
+      
+      <div class="bd-sidebar-primary bd-sidebar">
+        
+
+  
+  <div class="sidebar-header-items sidebar-primary__section">
+    
+    
+    
+    
+  </div>
+  
+    <div class="sidebar-primary-items__start sidebar-primary__section">
+        <div class="sidebar-primary-item">
+
+  
+    
+  
+
+<a class="navbar-brand logo" href="../cover.html">
+  
+  
+  
+  
+  
+    
+    
+      
+    
+    
+    <img src="../_static/numerical_methods_logo.svg" class="logo__image only-light" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>
+    <script>document.write(`<img src="../_static/numerical_methods_logo.svg" class="logo__image only-dark" alt="Getting to the Bottom of It \n  Numerical Methods for Machine Learning - Home"/>`);</script>
+  
+  
+</a></div>
+        <div class="sidebar-primary-item">
+
+ <script>
+ document.write(`
+   <button class="btn search-button-field search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass"></i>
+    <span class="search-button__default-text">Search</span>
+    <span class="search-button__kbd-shortcut"><kbd class="kbd-shortcut__modifier">Ctrl</kbd>+<kbd class="kbd-shortcut__modifier">K</kbd></span>
+   </button>
+ `);
+ </script></div>
+        <div class="sidebar-primary-item"><nav class="bd-links bd-docs-nav" aria-label="Main">
+    <div class="bd-toc-item navbar-nav active">
+        
+        <ul class="nav bd-sidenav bd-sidenav__home-link">
+            <li class="toctree-l1">
+                <a class="reference internal" href="../cover.html">
+                    Getting to the Bottom of It: Numerical Methods for Machine Learning
+                </a>
+            </li>
+        </ul>
+        <ul class="current nav bd-sidenav">
+<li class="toctree-l1"><a class="reference internal" href="../About.html">1. What is this?</a></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Before%20We%20Begin/guidance.html">2. Guidance</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/job.html">2.1. Do You Want a Job?</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Before%20We%20Begin/good_coding.html">2.2. Good Coding</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Arrays/array_cover.html">3. Array Basics</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/ArrayBasics.html">3.1. Arrays in Numpy</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/DotProduct.html">3.2. Dot Product</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixMultiplication.html">3.3. Matrix Multiplication</a></li>
+<li class="toctree-l2"><a class="reference internal" href="../Arrays/MatrixInversion.html">3.4. Solving Systems of Equations</a></li>
+
+
+</ul>
+</details></li>
+<li class="toctree-l1 current active has-children"><a class="reference internal" href="math_cover.html">4. Differential Calculus</a><details open="open"><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul class="current">
+<li class="toctree-l2"><a class="reference internal" href="SingleVariableCalculus.html">4.1. Single Variable Calculus</a></li>
+<li class="toctree-l2 current active"><a class="current reference internal" href="#">4.2. Multivariable Calculus</a></li>
+<li class="toctree-l2"><a class="reference internal" href="JaxAutoDiff.html">4.3. Automatic Differentiation with Jax</a></li>
+<li class="toctree-l2"><a class="reference internal" href="DerivativesLesson.html">4.4. Derivatives, a Helpful Lesson</a></li>
+</ul>
+</details></li>
+<li class="toctree-l1 has-children"><a class="reference internal" href="../Matrices/matrix_cover.html">5. Matrices</a><details><summary><span class="toctree-toggle" role="presentation"><i class="fa-solid fa-chevron-down"></i></span></summary><ul>
+<li class="toctree-l2"><a class="reference internal" href="../Matrices/TransposeInverseNorm.html">5.1. Transpose, Inverse, and Norm</a></li>
+</ul>
+</details></li>
+</ul>
+
+    </div>
+</nav></div>
+    </div>
+  
+  
+  <div class="sidebar-primary-items__end sidebar-primary__section">
+  </div>
+  
+  <div id="rtd-footer-container"></div>
+
+
+      </div>
+      
+      <main id="main-content" class="bd-main" role="main">
+        
+        
+
+<div class="sbt-scroll-pixel-helper"></div>
+
+          <div class="bd-content">
+            <div class="bd-article-container">
+              
+              <div class="bd-header-article d-print-none">
+<div class="header-article-items header-article__inner">
+  
+    <div class="header-article-items__start">
+      
+        <div class="header-article-item"><button class="sidebar-toggle primary-toggle btn btn-sm" title="Toggle primary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+  <span class="fa-solid fa-bars"></span>
+</button></div>
+      
+    </div>
+  
+  
+    <div class="header-article-items__end">
+      
+        <div class="header-article-item">
+
+<div class="article-header-buttons">
+
+
+
+
+
+<div class="dropdown dropdown-download-buttons">
+  <button class="btn dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" aria-label="Download this page">
+    <i class="fas fa-download"></i>
+  </button>
+  <ul class="dropdown-menu">
+      
+      
+      
+      <li><a href="../_sources/Mathematics/MultiVariableCalculus.ipynb" target="_blank"
+   class="btn btn-sm btn-download-source-button dropdown-item"
+   title="Download source file"
+   data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file"></i>
+  </span>
+<span class="btn__text-container">.ipynb</span>
+</a>
+</li>
+      
+      
+      
+      
+      <li>
+<button onclick="window.print()"
+  class="btn btn-sm btn-download-pdf-button dropdown-item"
+  title="Print to PDF"
+  data-bs-placement="left" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-file-pdf"></i>
+  </span>
+<span class="btn__text-container">.pdf</span>
+</button>
+</li>
+      
+  </ul>
+</div>
+
+
+
+
+<button onclick="toggleFullScreen()"
+  class="btn btn-sm btn-fullscreen-button"
+  title="Fullscreen mode"
+  data-bs-placement="bottom" data-bs-toggle="tooltip"
+>
+  
+
+<span class="btn__icon-container">
+  <i class="fas fa-expand"></i>
+  </span>
+
+</button>
+
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm nav-link pst-navbar-icon theme-switch-button" title="light/dark" aria-label="light/dark" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="theme-switch fa-solid fa-sun fa-lg" data-mode="light"></i>
+    <i class="theme-switch fa-solid fa-moon fa-lg" data-mode="dark"></i>
+    <i class="theme-switch fa-solid fa-circle-half-stroke fa-lg" data-mode="auto"></i>
+  </button>
+`);
+</script>
+
+
+<script>
+document.write(`
+  <button class="btn btn-sm pst-navbar-icon search-button search-button__button" title="Search" aria-label="Search" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <i class="fa-solid fa-magnifying-glass fa-lg"></i>
+  </button>
+`);
+</script>
+<button class="sidebar-toggle secondary-toggle btn btn-sm" title="Toggle secondary sidebar" data-bs-placement="bottom" data-bs-toggle="tooltip">
+    <span class="fa-solid fa-list"></span>
+</button>
+</div></div>
+      
+    </div>
+  
+</div>
+</div>
+              
+              
+
+<div id="jb-print-docs-body" class="onlyprint">
+    <h1>Multivariable Calculus</h1>
+    <!-- Table of contents -->
+    <div id="print-main-content">
+        <div id="jb-print-toc">
+            
+            <div>
+                <h2> Contents </h2>
+            </div>
+            <nav aria-label="Page">
+                <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-functions-and-partial-derivatives">4.2.1. Multivariate Functions and Partial Derivatives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-function">4.2.1.1. Multivariate Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#partial-derivatives">4.2.1.2. Partial Derivatives</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#higher-order-partial-derivatives">4.2.1.3. Higher Order Partial Derivatives</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-partial-derivatives">4.2.1.4. Mixed Partial Derivatives</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient">4.2.2. The Gradient</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-jacobian">4.2.3. The Jacobian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hessian">4.2.4. Hessian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chain-rule">4.2.5. The Chain Rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariable-taylor-series">4.2.6. Multivariable Taylor Series</a></li>
+</ul>
+            </nav>
+        </div>
+    </div>
+</div>
+
+              
+                
+<div id="searchbox"></div>
+                <article class="bd-article">
+                  
+  <section class="tex2jax_ignore mathjax_ignore" id="multivariable-calculus">
+<h1><span class="section-number">4.2. </span>Multivariable Calculus<a class="headerlink" href="#multivariable-calculus" title="Link to this heading">#</a></h1>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
+<span class="o">%</span><span class="k">matplotlib</span> inline 
+<span class="kn">import</span><span class="w"> </span><span class="nn">matplotlib.pyplot</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">plt</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">matplotlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">animation</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">mpl_toolkits.mplot3d</span><span class="w"> </span><span class="kn">import</span> <span class="n">Axes3D</span>
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">HTML</span>
+
+
+<span class="kn">import</span><span class="w"> </span><span class="nn">sympy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">sym</span> 
+<span class="kn">from</span><span class="w"> </span><span class="nn">scipy.special</span><span class="w"> </span><span class="kn">import</span> <span class="n">factorial</span> 
+
+<span class="kn">from</span><span class="w"> </span><span class="nn">IPython.display</span><span class="w"> </span><span class="kn">import</span> <span class="n">Javascript</span><span class="p">,</span> <span class="n">HTML</span><span class="p">,</span> <span class="n">display</span>
+<span class="o">%</span><span class="k">load_ext</span> jsxgraph-magic
+</pre></div>
+</div>
+</div>
+</div>
+<p><strong>draft version of notes</strong>
+<strong>disclaimer: these notes are very much in their initial stages, typos and erros may be present.</strong>
+<strong>notice: you do not have permission to distribute these notes</strong></p>
+<section id="multivariate-functions-and-partial-derivatives">
+<h2><span class="section-number">4.2.1. </span>Multivariate Functions and Partial Derivatives<a class="headerlink" href="#multivariate-functions-and-partial-derivatives" title="Link to this heading">#</a></h2>
+<section id="multivariate-function">
+<h3><span class="section-number">4.2.1.1. </span>Multivariate Function<a class="headerlink" href="#multivariate-function" title="Link to this heading">#</a></h3>
+<p>A <strong>multivariate function</strong> is a function that takes <strong>two or more variables</strong> as inputs and produces a single output. In general a multivariate function maps from <span class="math notranslate nohighlight">\( \mathbb{R}^n \)</span> to <span class="math notranslate nohighlight">\( \mathbb{R} \)</span>:<span class="math notranslate nohighlight">\((f(x_1,~ x_2,~ ...~,~x_{n})\)</span></p>
+<p>Here are some two examples:</p>
+<ul class="simple">
+<li><p><strong>Two-variable function</strong>, <span class="math notranslate nohighlight">\(f(x,y) = x^2 + y^2\)</span></p></li>
+<li><p><strong>Three-variable function</strong>, <span class="math notranslate nohighlight">\(f(x,y,z)=x + 2y -z \)</span></p></li>
+</ul>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the complex surface function</span>
+<span class="k">def</span><span class="w"> </span><span class="nf">f</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">np</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> <span class="o">*</span> <span class="n">np</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">+</span> <span class="o">-</span><span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span> 
+
+<span class="c1"># Create a grid of x and y values</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">linspace</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">4</span><span class="p">,</span> <span class="mi">100</span><span class="p">)</span>
+<span class="n">X</span><span class="p">,</span> <span class="n">Y</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">meshgrid</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">)</span>
+<span class="n">Z</span> <span class="o">=</span> <span class="n">f</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">)</span>
+
+<span class="c1"># Plot the 3D surface</span>
+<span class="n">fig</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">figure</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">14</span><span class="p">,</span> <span class="mi">6</span><span class="p">))</span>
+<span class="n">ax</span> <span class="o">=</span> <span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">121</span><span class="p">,</span> <span class="n">projection</span><span class="o">=</span><span class="s1">&#39;3d&#39;</span><span class="p">)</span>
+<span class="n">surf</span> <span class="o">=</span> <span class="n">ax</span><span class="o">.</span><span class="n">plot_surface</span><span class="p">(</span><span class="n">X</span><span class="p">,</span> <span class="n">Y</span><span class="p">,</span> <span class="n">Z</span><span class="p">,</span> <span class="n">cmap</span><span class="o">=</span><span class="s1">&#39;gray&#39;</span><span class="p">,</span> <span class="n">edgecolor</span><span class="o">=</span><span class="s1">&#39;none&#39;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.7</span><span class="p">)</span>
+
+<span class="n">x0</span><span class="o">=</span><span class="mi">1</span>
+<span class="n">y0</span><span class="o">=-</span><span class="mi">2</span>
+<span class="n">f0</span><span class="o">=</span><span class="n">f</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span><span class="n">y0</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">f0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;red&quot;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">40</span><span class="p">,</span> <span class="n">label</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$f(x_0, y_0)$&quot;</span><span class="p">)</span>
+
+<span class="c1"># Add labels and title</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s1">&#39;Surface Plot of $f(x, y) = \sin(x)\cos(y) - \frac{x^2 + y^2}</span><span class="si">{10}</span><span class="s1">$&#39;</span><span class="p">,</span> <span class="n">fontsize</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s1">&#39;x&#39;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s1">&#39;y&#39;</span><span class="p">,</span><span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_zlabel</span><span class="p">(</span><span class="s1">&#39;f(x, y)&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">legend</span><span class="p">(</span><span class="n">fontsize</span><span class="o">=</span><span class="s2">&quot;xx-large&quot;</span><span class="p">)</span>
+
+<span class="c1"># Plot the grid</span>
+<span class="n">ax</span><span class="o">=</span><span class="n">fig</span><span class="o">.</span><span class="n">add_subplot</span><span class="p">(</span><span class="mi">122</span><span class="p">,</span> <span class="n">aspect</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlim</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylim</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span><span class="mi">4</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">xticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">yticks</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="o">-</span><span class="mi">4</span><span class="p">,</span> <span class="mi">5</span><span class="p">,</span> <span class="mi">1</span><span class="p">))</span>
+
+<span class="c1"># Add a specific point at (x = 2, y = 1)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">scatter</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s1">&#39;red&#39;</span><span class="p">,</span> <span class="n">s</span><span class="o">=</span><span class="mi">100</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">arrow</span><span class="p">(</span><span class="n">x0</span><span class="p">,</span> <span class="n">y0</span><span class="p">,</span> <span class="mi">0</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="n">head_width</span><span class="o">=</span><span class="mf">0.2</span><span class="p">,</span> <span class="n">head_length</span><span class="o">=</span><span class="mf">0.3</span><span class="p">,</span> <span class="n">fc</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">,</span> <span class="n">ec</span><span class="o">=</span><span class="s1">&#39;black&#39;</span><span class="p">)</span>
+
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="o">-</span><span class="mf">.5</span><span class="p">,</span><span class="o">-</span><span class="mi">2</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$(x_0, y_0)$&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">60</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.75</span><span class="p">,</span><span class="o">-</span><span class="mf">2.75</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$(x_0+\Delta x, y_0)$&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">plot</span><span class="p">(</span><span class="mf">2.5</span><span class="p">,</span><span class="mi">0</span><span class="p">,</span> <span class="n">marker</span><span class="o">=</span><span class="sa">r</span><span class="s2">&quot;$(x_0, y_0 + \Delta y)$&quot;</span><span class="p">,</span> <span class="n">markersize</span><span class="o">=</span><span class="mi">90</span><span class="p">,</span> <span class="n">color</span><span class="o">=</span><span class="s2">&quot;black&quot;</span><span class="p">,</span> <span class="n">alpha</span><span class="o">=</span><span class="mf">.5</span><span class="p">)</span>
+
+
+<span class="n">ax</span><span class="o">.</span><span class="n">set_title</span><span class="p">(</span><span class="sa">r</span><span class="s2">&quot;$x-y$ grid&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_xlabel</span><span class="p">(</span><span class="s2">&quot;x&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">set_ylabel</span><span class="p">(</span><span class="s2">&quot;y&quot;</span><span class="p">,</span> <span class="n">size</span><span class="o">=</span><span class="mi">20</span><span class="p">)</span>
+<span class="c1">#ax.gca().set_aspect(&#39;equal&#39;)</span>
+<span class="n">ax</span><span class="o">.</span><span class="n">grid</span><span class="p">(</span><span class="kc">True</span><span class="p">)</span>
+<span class="n">plt</span><span class="o">.</span><span class="n">tight_layout</span><span class="p">()</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<img alt="../_images/b45dfcb9853116a61ecc4fa4bf717c379fb712029d0ed47a13b44918d1359073.png" src="../_images/b45dfcb9853116a61ecc4fa4bf717c379fb712029d0ed47a13b44918d1359073.png" />
+</div>
+</div>
+</section>
+<section id="partial-derivatives">
+<h3><span class="section-number">4.2.1.2. </span>Partial Derivatives<a class="headerlink" href="#partial-derivatives" title="Link to this heading">#</a></h3>
+<p>Above is the plot of the function</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5d8a0989-a258-4375-9a72-aae65f3ceec5">
+<span class="eqno">(4.19)<a class="headerlink" href="#equation-5d8a0989-a258-4375-9a72-aae65f3ceec5" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+f(x, y) = \sin(x)\cos(y) - \frac{x^2 + y^2}{10},
+\end{equation} \]</div>
+<p>an upside-down paraboloid with oscillations, i.e., a lumpy hill. (Scroll up to see the plot.)</p>
+<p>Let’s take a stroll down imagination lane. Imagine the surface as a hill. The height of the hill above ground level corresponds <span class="math notranslate nohighlight">\(f(x,~y)\)</span>.  You are a surveyor, currently at position <span class="math notranslate nohighlight">\((x_0,~ y_0)\)</span>, the red dot marked on the right plot below (the x-y grid). You record the height at <span class="math notranslate nohighlight">\((x_0,~ y_0)\)</span>, let us call this <span class="math notranslate nohighlight">\(f_0=f(x_0,~ y_0)\)</span> (this is the red dot on the left panel). You then take a step in the x-direction, <span class="math notranslate nohighlight">\(\Delta x\)</span>, maintaining your y-position at <span class="math notranslate nohighlight">\(y_0\)</span>. You measure the height at this location, <span class="math notranslate nohighlight">\(f(x_0 + \Delta x, y_0)\)</span>. Now you compute the slope from <span class="math notranslate nohighlight">\(x_0\)</span> to <span class="math notranslate nohighlight">\(x_0 + \Delta x\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7d65af82-94c2-413a-ab4a-830fd134890f">
+<span class="eqno">(4.20)<a class="headerlink" href="#equation-7d65af82-94c2-413a-ab4a-830fd134890f" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\text{slope in x-direction} = \frac{f(x_0 + \Delta x, ~y_0) - f(x_0, ~y_0)}{\Delta x}. 
+\end{equation} \]</div>
+<p>You return to your original location at <span class="math notranslate nohighlight">\((x_0,~ y_0)\)</span>. You repeat the process but decrease your step <span class="math notranslate nohighlight">\(\Delta x\)</span>. Your measurement tools enable you to decrease the step <span class="math notranslate nohighlight">\(\Delta x\)</span> as much as you like, however small you want to make it (this is imagination lane after all). In the limit as <span class="math notranslate nohighlight">\(\Delta x\)</span> goes to zero, you have measured the partial derivative of <span class="math notranslate nohighlight">\(f(x,y)\)</span> with respect to <span class="math notranslate nohighlight">\(x\)</span> at the point <span class="math notranslate nohighlight">\((x_0,~y_0)\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-acf59f57-547a-456f-9852-ee306561bb79">
+<span class="eqno">(4.21)<a class="headerlink" href="#equation-acf59f57-547a-456f-9852-ee306561bb79" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial f}{\partial x} = \lim_{\Delta x \to 0}  \frac{f(x_0 + \Delta x,~ y_0) - f(x_0,~ y_0)}{\Delta x}.
+\end{equation} \]</div>
+<p>Notice that you held the value of <span class="math notranslate nohighlight">\(y\)</span> constant at <span class="math notranslate nohighlight">\(y_0\)</span>.</p>
+<p>You return to your original location at <span class="math notranslate nohighlight">\((x_0,~ y_0)\)</span>. You repeat the process but take step <span class="math notranslate nohighlight">\(\Delta y\)</span> in the y-direction while maintaining your position at <span class="math notranslate nohighlight">\(x_0\)</span>. You construct a slope in the y-direction,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-561acf9e-2f2a-4282-baef-261ad6a199dd">
+<span class="eqno">(4.22)<a class="headerlink" href="#equation-561acf9e-2f2a-4282-baef-261ad6a199dd" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\text{slope in y-direction} = \frac{f(x_0 ,~ y_0 + \Delta y) - f(x_0, ~y_0)}{\Delta y}. 
+\end{equation} \]</div>
+<p>You employ your ability to make <span class="math notranslate nohighlight">\(\Delta y\)</span> as small as possible. You have measured the partial derivative of f(x,y) with respect to y at the point <span class="math notranslate nohighlight">\((x_0,~y_0)\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-4c3219f6-2fdb-4c11-a691-470fec9ee88b">
+<span class="eqno">(4.23)<a class="headerlink" href="#equation-4c3219f6-2fdb-4c11-a691-470fec9ee88b" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial f}{\partial y} = \lim_{\Delta y \to 0}  \frac{f(x_0 ,~ y_0 + \Delta y) - f(x_0,~ y_0)}{\Delta y}.
+\end{equation} \]</div>
+<p><strong>Definition</strong></p>
+<p>Given a function <span class="math notranslate nohighlight">\(f(x_1, x_2, \dots, x_n)\)</span>, the <strong>partial derivative</strong> of <span class="math notranslate nohighlight">\(f\)</span> with respect to <span class="math notranslate nohighlight">\(x_i\)</span> is the derivative of <span class="math notranslate nohighlight">\(f\)</span> treating all other variables <span class="math notranslate nohighlight">\(x_j\)</span> (<span class="math notranslate nohighlight">\(j \neq i\)</span>) as constants, denoted by</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial x_i}.
+\]</div>
+<p>You can reduce particle derivatives to the single variable case by keeping all but one variable constant. For example, consider the function, <span class="math notranslate nohighlight">\(f=f(x_1, x_2, x_3)\)</span>. Suppose we keep the last two slots constant, i.e., <span class="math notranslate nohighlight">\(x_2\)</span> and <span class="math notranslate nohighlight">\(x_3\)</span>, and consider the single variable function, <span class="math notranslate nohighlight">\(g(t) = f(t, x_1, x_2)\)</span>. The partial derivative of <span class="math notranslate nohighlight">\(f\)</span> with respect to <span class="math notranslate nohighlight">\(x_1\)</span> is the derivative of the single variable function <span class="math notranslate nohighlight">\(g(t)\)</span>.</p>
+<p><strong>Interpretations</strong>:</p>
+<ul class="simple">
+<li><p>It is the rate of change of <span class="math notranslate nohighlight">\(f\)</span> in the direction of the <span class="math notranslate nohighlight">\(x_i\)</span> axis, while all other variables are held constant.</p></li>
+<li><p>The partial derivative with respect to <span class="math notranslate nohighlight">\(x_i\)</span> represents the slope of the function in the direction of the <span class="math notranslate nohighlight">\(x_i\)</span>-axis, holding all other <span class="math notranslate nohighlight">\(x_j\)</span> constant.</p></li>
+</ul>
+<p><strong>Example</strong></p>
+<p>Let <span class="math notranslate nohighlight">\(f(x, y) = x^2y + 3xy^2\)</span>.</p>
+<ul class="simple">
+<li><p>The <strong>partial derivative with respect to <span class="math notranslate nohighlight">\(x\)</span></strong> is found by treating <span class="math notranslate nohighlight">\(y\)</span> as a constant:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial x} = \frac{\partial}{\partial x} \left( x^2y + 3xy^2 \right) = 2xy + 3y^2
+\]</div>
+<ul class="simple">
+<li><p>The <strong>partial derivative with respect to <span class="math notranslate nohighlight">\(y\)</span></strong> is found by treating <span class="math notranslate nohighlight">\(x\)</span> as a constant:</p></li>
+</ul>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial f}{\partial y} = \frac{\partial}{\partial y} \left( x^2y + 3xy^2 \right) = x^2 + 6xy
+\]</div>
+</section>
+<section id="higher-order-partial-derivatives">
+<h3><span class="section-number">4.2.1.3. </span>Higher Order Partial Derivatives<a class="headerlink" href="#higher-order-partial-derivatives" title="Link to this heading">#</a></h3>
+<p>Partial derivatives can be taken multiple times. For example, the second partial derivative of <span class="math notranslate nohighlight">\(f\)</span> with respect to <span class="math notranslate nohighlight">\(x\)</span> and <span class="math notranslate nohighlight">\(y\)</span> is:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 f}{\partial x \partial y}
+\]</div>
+</section>
+<section id="mixed-partial-derivatives">
+<h3><span class="section-number">4.2.1.4. </span>Mixed Partial Derivatives<a class="headerlink" href="#mixed-partial-derivatives" title="Link to this heading">#</a></h3>
+<p>If the function is smooth enough, mixed partial derivatives are equal. That is, if <span class="math notranslate nohighlight">\(f(x, y)\)</span> has continuous second partial derivatives:</p>
+<div class="math notranslate nohighlight">
+\[
+\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial^2 f}{\partial y \partial x}
+\]</div>
+<p>This is known as <strong><a class="reference external" href="https://en.wikipedia.org/wiki/Symmetry_of_second_derivatives">Clairaut’s Theorem</a></strong>.</p>
+<p><strong>Back to the initial example</strong>
+Let’s go back to the initial example,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-7857192c-0147-4377-bab8-c434ea85023f">
+<span class="eqno">(4.24)<a class="headerlink" href="#equation-7857192c-0147-4377-bab8-c434ea85023f" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+f(x, y) = \sin(x)\cos(y) - \frac{x^2 + y^2}{10}.
+\end{equation} \]</div>
+<p>I could write out the partial derivatives here, well, “to heck with that”, I will just use SymPy. See the code below. I will let you to check if SymPy is correct.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;x y&quot;</span><span class="p">)</span> 
+<span class="n">f</span><span class="o">=</span><span class="n">sym</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">*</span><span class="n">sym</span><span class="o">.</span><span class="n">cos</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> <span class="o">-</span> <span class="p">(</span><span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span><span class="n">y</span><span class="o">**</span><span class="mi">2</span><span class="p">)</span><span class="o">/</span><span class="mi">10</span> 
+</pre></div>
+</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># partial derivative with respect to x</span>
+<span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - \frac{x}{5} + \cos{\left(x \right)} \cos{\left(y \right)}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># partial derivative with respect to y</span>
+<span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - \frac{y}{5} - \sin{\left(x \right)} \sin{\left(y \right)}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># second partial derivative with respect to x</span>
+<span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - (\sin{\left(x \right)} \cos{\left(y \right)} + \frac{1}{5})\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># second partial derivative with respect to y</span>
+<span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">,</span><span class="mi">2</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - (\sin{\left(x \right)} \cos{\left(y \right)} + \frac{1}{5})\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># second partial derivative with respect to x and y, f_{x,y}, method 1</span>
+<span class="n">sym</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">f</span><span class="p">,</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - \sin{\left(y \right)} \cos{\left(x \right)}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># second partial derivative with respect to x and y, f_{x,y}, method 2</span>
+<span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - \sin{\left(y \right)} \cos{\left(x \right)}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># second partial derivative with respect to x and y, f_{x,y}, method 3</span>
+<span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)</span>
+<span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">x</span><span class="p">)</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">y</span><span class="p">)</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle - \sin{\left(y \right)} \cos{\left(x \right)}\]</div>
+</div>
+</div>
+</section>
+</section>
+<section id="the-gradient">
+<h2><span class="section-number">4.2.2. </span>The Gradient<a class="headerlink" href="#the-gradient" title="Link to this heading">#</a></h2>
+<p>The <strong>gradient</strong> of a scalar function <span class="math notranslate nohighlight">\(f(x_1,x_2,...,x_n)\)</span> is a vector that contains all the  partial derivatives of <span class="math notranslate nohighlight">\(f\)</span> with respect to <span class="math notranslate nohighlight">\(x_1,x_2,...,x_n\)</span>,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-d5ccf0e6-4969-4252-b30b-c592572bb6e3">
+<span class="eqno">(4.25)<a class="headerlink" href="#equation-d5ccf0e6-4969-4252-b30b-c592572bb6e3" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\nabla f(x_1, x_2, ..., x_n) = \begin{bmatrix}\frac{\partial f}{\partial x_1} \\ \frac{\partial f}{\partial x_2} \\ \vdots \\ \frac{\partial f}{\partial x_n} \end{bmatrix}.
+\end{equation}\]</div>
+<p>The symbol for the gradient is called the nabla or dell operator <span class="math notranslate nohighlight">\(\nabla\)</span> (the upside down triangle).</p>
+<p>For a function of two variables:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-2bcd9f57-a517-47a6-97be-ad75aece8c8a">
+<span class="eqno">(4.26)<a class="headerlink" href="#equation-2bcd9f57-a517-47a6-97be-ad75aece8c8a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+f(x, y)
+\end{equation}\]</div>
+<p>The gradient is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f38b1637-49e8-4858-90cd-5d9366bfc68e">
+<span class="eqno">(4.27)<a class="headerlink" href="#equation-f38b1637-49e8-4858-90cd-5d9366bfc68e" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\nabla f(x, y) = \begin{bmatrix} \frac{\partial f}{\partial x} \\ \frac{\partial f}{\partial y} \end{bmatrix} 
+\end{equation}\]</div>
+<p>Back to imagination lane. Recall you are a surveyor, measuring the change in height of a hill; think of <span class="math notranslate nohighlight">\(f(x,~y)\)</span> as the height map. The partial derivative in the x-direction measures the rate of change of height as you move in the x-direction. The partial derivative in the y-direction measures the rate of change of height as you move in the y-direction.</p>
+<p>You ask yourself a question, “In which direction should I walk so that the path I take is the steepest?” (Ignoring the fact that no one would want to take the steepest path, again, it’s imagination lane here). Now you don’t have to walk in either the x or y directions, you can choose a path in any direction. The direction you should choose is the direction of the gradient.</p>
+<ul class="simple">
+<li><p>The gradient points in the direction of the <strong>steepest rate of increase</strong> of the function (often called the direction of steepest ascent)</p></li>
+<li><p>The gradient tells us <strong>how the function changes</strong> in each direction at a given point.</p></li>
+<li><p>It is <strong>perpendicular to level curves</strong> (contour lines) of the function.</p></li>
+</ul>
+<p><strong>Optimization and the Gradient</strong></p>
+<p>In optimization, we don’t want to move in the direction that the function (i.e. the loss function) increases most rapidly. We want to move in the direction of the most rapid decrease, as we are trying to get to the minima of the loss function (“what I call the bottom of things”). This means we should move in the direction of the negative of the gradient. We can write the optimiation rule as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f020e321-0ca5-45f4-907d-e3ab2931f42b">
+<span class="eqno">(4.28)<a class="headerlink" href="#equation-f020e321-0ca5-45f4-907d-e3ab2931f42b" title="Permalink to this equation">#</a></span>\[\begin{equation} \text{new location = current location - the gradient of the loss function.}
+\end{equation} \]</div>
+<p>Gradient descent is one of the most common optimization algorithms. The gradient desent rule looks like this</p>
+<div class="amsmath math notranslate nohighlight" id="equation-40e5ce19-3c66-4818-85ee-eddb8e0d8eb7">
+<span class="eqno">(4.29)<a class="headerlink" href="#equation-40e5ce19-3c66-4818-85ee-eddb8e0d8eb7" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\mathbf{x}_{n+1} = \mathbf{x}_n - \eta \nabla L,
+\end{equation}\]</div>
+<p>where <span class="math notranslate nohighlight">\(L\)</span> is the loss function, <span class="math notranslate nohighlight">\(\mathbf{x}_n\)</span> are the function paramters at step <span class="math notranslate nohighlight">\(n\)</span>, likewise, <span class="math notranslate nohighlight">\(\mathbf{x}_{n+1}\)</span> are the function parameters at step <span class="math notranslate nohighlight">\(n+1\)</span>, and <span class="math notranslate nohighlight">\(\eta\)</span> is called the learning rate, which controls how large of a step to take.</p>
+<p><strong>Example of a Gradient</strong></p>
+<p>Let:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-93805ef1-43d9-43ba-8337-a252aaf9eee6">
+<span class="eqno">(4.30)<a class="headerlink" href="#equation-93805ef1-43d9-43ba-8337-a252aaf9eee6" title="Permalink to this equation">#</a></span>\[\begin{equation}
+f(x, y) = x^2y + \sin(xy)
+\end{equation}\]</div>
+<p>Then:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ac916d8a-4ceb-41d3-b3ae-ec0f11819cda">
+<span class="eqno">(4.31)<a class="headerlink" href="#equation-ac916d8a-4ceb-41d3-b3ae-ec0f11819cda" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\frac{\partial f}{\partial x} = 2xy + y\cos(xy)
+\end{equation}  \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-0ec3bfa3-cb1a-4b8a-8fc1-53ff33f0bfd0">
+<span class="eqno">(4.32)<a class="headerlink" href="#equation-0ec3bfa3-cb1a-4b8a-8fc1-53ff33f0bfd0" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\frac{\partial f}{\partial y} = x^2 + x\cos(xy)
+\end{equation}\]</div>
+<p>So the gradient is:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-f7305c4f-b3c5-4505-8171-80aaa2f080dc">
+<span class="eqno">(4.33)<a class="headerlink" href="#equation-f7305c4f-b3c5-4505-8171-80aaa2f080dc" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\nabla f(x, y) = \begin{bmatrix} 2xy + y\cos(xy) \\\ x^2 + x\cos(xy) \end{bmatrix} 
+\end{equation}\]</div>
+<p>Here is the above example in SymPy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;x y&quot;</span><span class="p">)</span> 
+<span class="n">f</span> <span class="o">=</span>  <span class="n">x</span><span class="o">**</span><span class="mi">2</span><span class="o">*</span><span class="n">y</span> <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">sin</span><span class="p">(</span><span class="n">x</span><span class="o">*</span><span class="n">y</span><span class="p">)</span>
+
+<span class="n">df</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">f</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">val</span><span class="p">)</span> <span class="k">for</span> <span class="n">val</span> <span class="ow">in</span> <span class="p">(</span><span class="n">x</span><span class="p">,</span><span class="n">y</span><span class="p">)])</span>
+<span class="n">df</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}2 x y + y \cos{\left(x y \right)}\\x^{2} + x \cos{\left(x y \right)}\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+</section>
+<section id="the-jacobian">
+<h2><span class="section-number">4.2.3. </span>The Jacobian<a class="headerlink" href="#the-jacobian" title="Link to this heading">#</a></h2>
+<p>For a function <span class="math notranslate nohighlight">\(f : \mathbb{R}^n \to \mathbb{R}^m\)</span>, the Jacobian is defined as</p>
+<div class="amsmath math notranslate nohighlight" id="equation-b638414d-b1a7-4cf4-a411-1c36a8ac5302">
+<span class="eqno">(4.34)<a class="headerlink" href="#equation-b638414d-b1a7-4cf4-a411-1c36a8ac5302" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+J_f =
+\begin{bmatrix}
+\frac{\partial f_1}{\partial x_1} &amp; \frac{\partial f_1}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_1}{\partial x_n} \\
+\frac{\partial f_2}{\partial x_1} &amp; \frac{\partial f_2}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_2}{\partial x_n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial f_m}{\partial x_1} &amp; \frac{\partial f_m}{\partial x_2} &amp; \cdots &amp; \frac{\partial f_m}{\partial x_n}
+\end{bmatrix}.
+\end{equation}\]</div>
+<p>The elements in index notation for the Jacobian are</p>
+<div class="amsmath math notranslate nohighlight" id="equation-1271dc36-8453-499d-a682-82ce0bb89927">
+<span class="eqno">(4.35)<a class="headerlink" href="#equation-1271dc36-8453-499d-a682-82ce0bb89927" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+[J_f]_{ij} = \frac{\partial f_i}{\partial x_j}.
+\end{equation} \]</div>
+<p>The i-th row of the Jacobian is the gradient of <span class="math notranslate nohighlight">\(f_i\)</span>.</p>
+<p><strong>Example</strong>
+Consider the vector valued function</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c758d87a-883b-4b1c-87ac-660a8631382f">
+<span class="eqno">(4.36)<a class="headerlink" href="#equation-c758d87a-883b-4b1c-87ac-660a8631382f" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\mathbf{f}(x,y) = \begin{bmatrix} x^2 + y^2 \\ x^2 + xy \end{bmatrix} .
+\end{equation} \]</div>
+<p>The Jacobian is</p>
+<div class="amsmath math notranslate nohighlight" id="equation-526357e7-2564-45ff-8af5-2f4a5bfd55c4">
+<span class="eqno">(4.37)<a class="headerlink" href="#equation-526357e7-2564-45ff-8af5-2f4a5bfd55c4" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+J_f = \begin{bmatrix} 2x &amp; 2y \\
+2x + y &amp; x 
+\end{bmatrix} 
+\end{equation} \]</div>
+<p>Here is the above example in SymPy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x y&#39;</span><span class="p">)</span>
+
+<span class="c1"># Define a vector-valued function (e.g., f(x, y) = [x^2 * y, sin(x + y)])</span>
+<span class="n">f1</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span>  <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span>
+<span class="n">f2</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span> 
+
+<span class="c1"># Create the vector-valued function</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">Matrix</span><span class="p">([</span><span class="n">f1</span><span class="p">,</span> <span class="n">f2</span><span class="p">])</span>
+
+<span class="c1"># Compute the Jacobian matrix</span>
+<span class="n">jacobian_matrix</span> <span class="o">=</span> <span class="n">f</span><span class="o">.</span><span class="n">jacobian</span><span class="p">([</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+
+<span class="n">f</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}x^{2} + y^{2}\\x^{2} + x y\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">jacobian_matrix</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}2 x &amp; 2 y\\2 x + y &amp; x\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+</section>
+<section id="hessian">
+<h2><span class="section-number">4.2.4. </span>Hessian<a class="headerlink" href="#hessian" title="Link to this heading">#</a></h2>
+<p>The <strong>Hessian matrix</strong> is a square matrix of second-order partial derivatives of a scalar function. Given a twice-differentiable function <span class="math notranslate nohighlight">\(( f: \mathbb{R}^n \to \mathbb{R} )\)</span>, the Hessian matrix <span class="math notranslate nohighlight">\(H\)</span> is defined as:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-5b2bea47-72b1-4e11-be47-a9972aa57b3a">
+<span class="eqno">(4.38)<a class="headerlink" href="#equation-5b2bea47-72b1-4e11-be47-a9972aa57b3a" title="Permalink to this equation">#</a></span>\[\begin{equation}
+H_f=
+\begin{bmatrix}
+\frac{\partial^2 f}{\partial x_1^2} &amp; \frac{\partial^2 f}{\partial x_1 \partial x_2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_1 \partial x_n} \\
+\frac{\partial^2 f}{\partial x_2 \partial x_1} &amp; \frac{\partial^2 f}{\partial x_2^2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_2 \partial x_n} \\
+\vdots &amp; \vdots &amp; \ddots &amp; \vdots \\
+\frac{\partial^2 f}{\partial x_n \partial x_1} &amp; \frac{\partial^2 f}{\partial x_n \partial x_2} &amp; \cdots &amp; \frac{\partial^2 f}{\partial x_n^2}
+\end{bmatrix}
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-69c7bd2c-4c72-40e1-8542-9fec433f9815">
+<span class="eqno">(4.39)<a class="headerlink" href="#equation-69c7bd2c-4c72-40e1-8542-9fec433f9815" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+[H_f]_{ij} = \frac{\partial^2 f}{\partial x_i \partial x_j}
+\end{equation} \]</div>
+<p>When we considered functions of a single variable, we learned that the second derivative contained information about the curvature of the curve. Likewise, the Hessian contains information about the local curvature of the multivariate function.</p>
+<p><strong>Example</strong></p>
+<div class="amsmath math notranslate nohighlight" id="equation-b04c805e-c8fe-4c4c-8f5e-427a4eb1c4f6">
+<span class="eqno">(4.40)<a class="headerlink" href="#equation-b04c805e-c8fe-4c4c-8f5e-427a4eb1c4f6" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+f(x, y) = x^3 + y^2 + xy
+\end{equation} \]</div>
+<p>Computing second-order derivatives:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-09cf66ee-27a0-456e-a28a-9ed51cc66b50">
+<span class="eqno">(4.41)<a class="headerlink" href="#equation-09cf66ee-27a0-456e-a28a-9ed51cc66b50" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial x^2} = \frac{\partial}{\partial x} (3x^2 + y) = 6x
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-54db9ec0-fdfd-4dcb-bca2-ddae9d22a36b">
+<span class="eqno">(4.42)<a class="headerlink" href="#equation-54db9ec0-fdfd-4dcb-bca2-ddae9d22a36b" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial y^2} = \frac{\partial}{\partial y} (2y + x) = 2
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-b40f928f-c272-471e-bc7f-0f8aca38eca3">
+<span class="eqno">(4.43)<a class="headerlink" href="#equation-b40f928f-c272-471e-bc7f-0f8aca38eca3" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial x \partial y} = \frac{\partial}{\partial y} (3x^2 + y) = 1
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-23021bca-2cce-4cf0-8433-35ae84306200">
+<span class="eqno">(4.44)<a class="headerlink" href="#equation-23021bca-2cce-4cf0-8433-35ae84306200" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{\partial^2 f}{\partial y \partial x} = \frac{\partial}{\partial x} (2y + x) = 1
+\end{equation} \]</div>
+<div class="amsmath math notranslate nohighlight" id="equation-c4b271b0-bf5b-4ffc-8ce3-e1efd28625d4">
+<span class="eqno">(4.45)<a class="headerlink" href="#equation-c4b271b0-bf5b-4ffc-8ce3-e1efd28625d4" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+H_f= \begin{bmatrix} 6x &amp; 1 \\
+1 &amp; 2 \end{bmatrix} 
+\end{equation} \]</div>
+<p>Here is the SymPy code for the example above.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="c1"># Define the variables</span>
+<span class="n">x</span><span class="p">,</span> <span class="n">y</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s1">&#39;x y&#39;</span><span class="p">)</span>
+
+<span class="c1"># Define a scalar-valued function (e.g., f(x, y) = x^2 + y^2)</span>
+<span class="n">f</span> <span class="o">=</span> <span class="n">x</span><span class="o">**</span><span class="mi">3</span> <span class="o">+</span> <span class="n">y</span><span class="o">**</span><span class="mi">2</span> <span class="o">+</span> <span class="n">x</span><span class="o">*</span><span class="n">y</span>
+
+<span class="c1"># Compute the Hessian matrix</span>
+<span class="n">hessian_matrix</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">hessian</span><span class="p">(</span><span class="n">f</span><span class="p">,</span> <span class="p">[</span><span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">])</span>
+<span class="n">hessian_matrix</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\begin{split}\displaystyle \left[\begin{matrix}6 x &amp; 1\\1 &amp; 2\end{matrix}\right]\end{split}\]</div>
+</div>
+</div>
+</section>
+<section id="the-chain-rule">
+<h2><span class="section-number">4.2.5. </span>The Chain Rule<a class="headerlink" href="#the-chain-rule" title="Link to this heading">#</a></h2>
+<p>The chain rule is used to compute the derivative of composite functions.</p>
+<p>For a composite function <span class="math notranslate nohighlight">\(f=f(g(x))\)</span> the chain rule provides the derivative:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e1e6c187-25cd-440a-a0ce-9ee14e0f8531">
+<span class="eqno">(4.46)<a class="headerlink" href="#equation-e1e6c187-25cd-440a-a0ce-9ee14e0f8531" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\frac{df}{dx} = \frac{d f}{d g}\frac{d g}{d x}. 
+\end{equation} \]</div>
+<p><strong>Example</strong>
+Let us consider a composite operation composed of a linear transformation of input data <span class="math notranslate nohighlight">\(x\)</span> followed by a non-linear transformation,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-8c61051e-3cd3-43c8-b201-96172957dbe5">
+<span class="eqno">(4.47)<a class="headerlink" href="#equation-8c61051e-3cd3-43c8-b201-96172957dbe5" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+&amp; z = \beta_0 + \beta_1 x , \quad \text{linear transformation of $x$} \\
+&amp; y  = \sigma(z)  , \quad \text{non linear transformation of $z$} \\
+&amp; \sigma(z) = \frac{1}{1 + e^{-z}} 
+\end{split} 
+\end{equation} \]</div>
+<p>where <span class="math notranslate nohighlight">\(y\)</span> is the output data and <span class="math notranslate nohighlight">\(\sigma\)</span> is called the sigmoid function.</p>
+<p>We want the partial derivatives of <span class="math notranslate nohighlight">\(y\)</span> with respect to the model parameters <span class="math notranslate nohighlight">\(\beta_0\)</span> and <span class="math notranslate nohighlight">\(\beta_1\)</span>:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-238b9d47-26e1-4904-bd0c-660e781a3ab5">
+<span class="eqno">(4.48)<a class="headerlink" href="#equation-238b9d47-26e1-4904-bd0c-660e781a3ab5" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+&amp; \frac{\partial y}{\partial \beta_0} = \frac{\partial \sigma}{\partial z} \frac{\partial z}{\partial \beta_0} \\
+&amp; \frac{\partial y}{\partial \beta_1} = \frac{\partial \sigma}{\partial z} \frac{\partial z}{\partial \beta_1} . 
+\end{split} 
+\end{equation} \]</div>
+<p>We compute each term individually.</p>
+<div class="amsmath math notranslate nohighlight" id="equation-ecec0e8c-0cbe-4053-a59f-33c2be3ec77f">
+<span class="eqno">(4.49)<a class="headerlink" href="#equation-ecec0e8c-0cbe-4053-a59f-33c2be3ec77f" title="Permalink to this equation">#</a></span>\[\begin{equation}
+\begin{split} 
+&amp; \frac{\partial \sigma}{\partial z} = \frac{e^{-z}}{(1 + e^{-z})^2} \\
+&amp; \frac{\partial z}{\partial \beta_0} = 1 \\
+&amp; \frac{\partial z}{\partial \beta_1} =1 .
+\end{split} 
+\end{equation}\]</div>
+<p>We now have:</p>
+<div class="amsmath math notranslate nohighlight" id="equation-c5c4f421-9828-4df5-b1d6-cdfe0f793e67">
+<span class="eqno">(4.50)<a class="headerlink" href="#equation-c5c4f421-9828-4df5-b1d6-cdfe0f793e67" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+\begin{split} 
+&amp; \frac{\partial y}{\partial \beta_0} = \frac{e^{-\beta_0 - \beta_1 x}}{(1 + e^{-\beta_0 - \beta_1 x})^2}  \\
+&amp; \frac{\partial y}{\partial \beta_1} = \frac{xe^{-\beta_0 - \beta_1 x}}{(1 + e^{-\beta_0 - \beta_1 x})^2} .  
+\end{split} 
+\end{equation} \]</div>
+<p>Below, I checked the result in SymPy.</p>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">x</span><span class="p">,</span><span class="n">z</span><span class="p">,</span><span class="n">beta_1</span><span class="p">,</span> <span class="n">beta_0</span> <span class="o">=</span> <span class="n">sym</span><span class="o">.</span><span class="n">symbols</span><span class="p">(</span><span class="s2">&quot;x z beta_1 beta_0&quot;</span><span class="p">)</span> 
+
+<span class="n">z</span><span class="o">=</span><span class="n">beta_0</span> <span class="o">+</span> <span class="n">beta_1</span> <span class="o">*</span><span class="n">x</span> 
+<span class="n">z</span>
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \beta_{0} + \beta_{1} x\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span> <span class="o">=</span> <span class="mi">1</span><span class="o">/</span><span class="p">(</span><span class="mi">1</span> <span class="o">+</span> <span class="n">sym</span><span class="o">.</span><span class="n">exp</span><span class="p">(</span><span class="o">-</span><span class="n">z</span><span class="p">))</span> 
+<span class="n">y</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \frac{1}{e^{- \beta_{0} - \beta_{1} x} + 1}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">beta_0</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \frac{e^{- \beta_{0} - \beta_{1} x}}{\left(e^{- \beta_{0} - \beta_{1} x} + 1\right)^{2}}\]</div>
+</div>
+</div>
+<div class="cell docutils container">
+<div class="cell_input docutils container">
+<div class="highlight-ipython3 notranslate"><div class="highlight"><pre><span></span><span class="n">y</span><span class="o">.</span><span class="n">diff</span><span class="p">(</span><span class="n">beta_1</span><span class="p">)</span> 
+</pre></div>
+</div>
+</div>
+<div class="cell_output docutils container">
+<div class="output text_latex math notranslate nohighlight">
+\[\displaystyle \frac{x e^{- \beta_{0} - \beta_{1} x}}{\left(e^{- \beta_{0} - \beta_{1} x} + 1\right)^{2}}\]</div>
+</div>
+</div>
+</section>
+<section id="multivariable-taylor-series">
+<h2><span class="section-number">4.2.6. </span>Multivariable Taylor Series<a class="headerlink" href="#multivariable-taylor-series" title="Link to this heading">#</a></h2>
+<p>A multivariable function has a Taylor series given by,</p>
+<div class="amsmath math notranslate nohighlight" id="equation-e43f0c54-0fba-4dfa-904d-8f25eff06546">
+<span class="eqno">(4.51)<a class="headerlink" href="#equation-e43f0c54-0fba-4dfa-904d-8f25eff06546" title="Permalink to this equation">#</a></span>\[\begin{equation} 
+f(\mathbf{x} + \mathbf{\Delta x}) = f(\mathbf{x}) + \nabla f(\mathbf{x}) \cdot \mathbf{\Delta x} + \frac{1}{2} \mathbf{\Delta x}^T H_f(\mathbf{x}) \mathbf{\Delta x} + \cdots.
+\end{equation} \]</div>
+<p>Explanation:</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{x} = \left[ x_1, x_2, ..., x_n\right]^T\)</span>:  A vector representing the point at which the Taylor series is expanded.</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\Delta x}= \left[\Delta x_1, \Delta x_2, ..., \Delta x_n\right]^T\)</span>: A vector representing the displacement from <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(f(\mathbf{x})\)</span>: The value of the function at <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>.</p>
+<p><span class="math notranslate nohighlight">\(\nabla f(\mathbf{x})\)</span>: The gradient of f at <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, which is a vector of the first partial derivatives.</p>
+<p><span class="math notranslate nohighlight">\(\nabla f(\mathbf{x}) \cdot \mathbf{\Delta x}\)</span>: The dot product of the gradient and the displacement vector.</p>
+<p><span class="math notranslate nohighlight">\(H_f(\mathbf{x})\)</span>: The Hessian matrix of f at <span class="math notranslate nohighlight">\(\mathbf{x}\)</span>, which is a matrix of the second partial derivatives.</p>
+<p><span class="math notranslate nohighlight">\(\mathbf{\Delta x}^T\)</span>: The transpose of the displacement vector.</p>
+<p><span class="math notranslate nohighlight">\(\frac{1}{2} \mathbf{\Delta x}^T H_f(\mathbf{x}) \mathbf{\Delta x}\)</span>: A quadratic form involving the Hessian and the displacement vector.</p>
+<p><span class="math notranslate nohighlight">\(\cdots\)</span>: Represents higher-order terms in the expansion.</p>
+</section>
+</section>
+
+    <script type="text/x-thebe-config">
+    {
+        requestKernel: true,
+        binderOptions: {
+            repo: "binder-examples/jupyter-stacks-datascience",
+            ref: "master",
+        },
+        codeMirrorConfig: {
+            theme: "abcdef",
+            mode: "python"
+        },
+        kernelOptions: {
+            name: "python3",
+            path: "./Mathematics"
+        },
+        predefinedOutput: true
+    }
+    </script>
+    <script>kernelName = 'python3'</script>
+
+                </article>
+              
+
+              
+              
+              
+              
+                <footer class="prev-next-footer d-print-none">
+                  
+<div class="prev-next-area">
+    <a class="left-prev"
+       href="SingleVariableCalculus.html"
+       title="previous page">
+      <i class="fa-solid fa-angle-left"></i>
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">previous</p>
+        <p class="prev-next-title"><span class="section-number">4.1. </span>Single Variable Calculus</p>
+      </div>
+    </a>
+    <a class="right-next"
+       href="JaxAutoDiff.html"
+       title="next page">
+      <div class="prev-next-info">
+        <p class="prev-next-subtitle">next</p>
+        <p class="prev-next-title"><span class="section-number">4.3. </span>Automatic Differentiation with Jax</p>
+      </div>
+      <i class="fa-solid fa-angle-right"></i>
+    </a>
+</div>
+                </footer>
+              
+            </div>
+            
+            
+              
+                <div class="bd-sidebar-secondary bd-toc"><div class="sidebar-secondary-items sidebar-secondary__inner">
+
+
+  <div class="sidebar-secondary-item">
+  <div class="page-toc tocsection onthispage">
+    <i class="fa-solid fa-list"></i> Contents
+  </div>
+  <nav class="bd-toc-nav page-toc">
+    <ul class="visible nav section-nav flex-column">
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-functions-and-partial-derivatives">4.2.1. Multivariate Functions and Partial Derivatives</a><ul class="nav section-nav flex-column">
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariate-function">4.2.1.1. Multivariate Function</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#partial-derivatives">4.2.1.2. Partial Derivatives</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#higher-order-partial-derivatives">4.2.1.3. Higher Order Partial Derivatives</a></li>
+<li class="toc-h3 nav-item toc-entry"><a class="reference internal nav-link" href="#mixed-partial-derivatives">4.2.1.4. Mixed Partial Derivatives</a></li>
+</ul>
+</li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-gradient">4.2.2. The Gradient</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-jacobian">4.2.3. The Jacobian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#hessian">4.2.4. Hessian</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#the-chain-rule">4.2.5. The Chain Rule</a></li>
+<li class="toc-h2 nav-item toc-entry"><a class="reference internal nav-link" href="#multivariable-taylor-series">4.2.6. Multivariable Taylor Series</a></li>
+</ul>
+  </nav></div>
+
+</div></div>
+              
+            
+          </div>
+          <footer class="bd-footer-content">
+            
+<div class="bd-footer-content__inner container">
+  
+  <div class="footer-item">
+    
+<p class="component-author">
+By Joe McEwen & Jesse Loi
+</p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+
+  <p class="copyright">
+    
+      © Copyright 2023.
+      <br/>
+    
+  </p>
+
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+  <div class="footer-item">
+    
+  </div>
+  
+</div>
+          </footer>
+        
+
+      </main>
+    </div>
+  </div>
+  
+  <!-- Scripts loaded after <body> so the DOM is not blocked -->
+  <script src="../_static/scripts/bootstrap.js?digest=dfe6caa3a7d634c4db9b"></script>
+<script src="../_static/scripts/pydata-sphinx-theme.js?digest=dfe6caa3a7d634c4db9b"></script>
+
+  <footer class="bd-footer">
+  </footer>
+  </body>
+</html>

@@ -1,0 +1,61 @@
+Traceback (most recent call last):
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/jupyter_cache/executors/utils.py", line 58, in single_nb_execution
+    executenb(
+    ~~~~~~~~~^
+        nb,
+        ^^^
+    ...<4 lines>...
+        **kwargs,
+        ^^^^^^^^^
+    )
+    ^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 1319, in execute
+    return NotebookClient(nb=nb, resources=resources, km=km, **kwargs).execute()
+           ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/jupyter_core/utils/__init__.py", line 165, in wrapped
+    return loop.run_until_complete(inner)
+           ~~~~~~~~~~~~~~~~~~~~~~~^^^^^^^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/asyncio/base_events.py", line 719, in run_until_complete
+    return future.result()
+           ~~~~~~~~~~~~~^^
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 709, in async_execute
+    await self.async_execute_cell(
+        cell, index, execution_count=self.code_cells_executed + 1
+    )
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 1062, in async_execute_cell
+    await self._check_raise_for_error(cell, cell_index, exec_reply)
+  File "/opt/homebrew/Caskroom/miniforge/base/envs/sci_comp/lib/python3.13/site-packages/nbclient/client.py", line 918, in _check_raise_for_error
+    raise CellExecutionError.from_cell_and_msg(cell, exec_reply_content)
+nbclient.exceptions.CellExecutionError: An error occurred while executing the following cell:
+------------------
+# example arrays to test arra_dot 
+a = np.random.rand(4)
+b = np.random.rand(4) 
+c= np.random.rand(3)
+
+print(np.dot(a,b))
+print(array_dot(a,b))
+print(array_dot(a,c))
+------------------
+
+----- stdout -----
+1.0729740452427476
+1.0729740452427476
+------------------
+
+[0;31m---------------------------------------------------------------------------[0m
+[0;31mValueError[0m                                Traceback (most recent call last)
+[0;32m/var/folders/mq/8_f0y54n1g3f0ht8yb9b6by40000gn/T/ipykernel_41738/4276148387.py[0m in [0;36m<cell line: 0>[0;34m()[0m
+[1;32m      6[0m [0mprint[0m[0;34m([0m[0mnp[0m[0;34m.[0m[0mdot[0m[0;34m([0m[0ma[0m[0;34m,[0m[0mb[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      7[0m [0mprint[0m[0;34m([0m[0marray_dot[0m[0;34m([0m[0ma[0m[0;34m,[0m[0mb[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 8[0;31m [0mprint[0m[0;34m([0m[0marray_dot[0m[0;34m([0m[0ma[0m[0;34m,[0m[0mc[0m[0;34m)[0m[0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m
+[0;32m/var/folders/mq/8_f0y54n1g3f0ht8yb9b6by40000gn/T/ipykernel_41738/2637734469.py[0m in [0;36marray_dot[0;34m(a, b)[0m
+[1;32m      4[0m     [0mn2[0m[0;34m=[0m[0mb[0m[0;34m.[0m[0msize[0m[0;34m[0m[0;34m[0m[0m
+[1;32m      5[0m     [0;32mif[0m [0mn1[0m [0;34m!=[0m [0mn2[0m[0;34m:[0m[0;34m[0m[0;34m[0m[0m
+[0;32m----> 6[0;31m         [0;32mraise[0m [0mValueError[0m[0;34m([0m[0;34m"The two arrays must be have the same number of elements to take the dot product."[0m [0;34m)[0m[0;34m[0m[0;34m[0m[0m
+[0m[1;32m      7[0m [0;34m[0m[0m
+[1;32m      8[0m     [0mc[0m[0;34m=[0m[0;36m0[0m[0;34m[0m[0;34m[0m[0m
+
+[0;31mValueError[0m: The two arrays must be have the same number of elements to take the dot product.
+
