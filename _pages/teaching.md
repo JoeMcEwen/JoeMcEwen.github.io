@@ -1,6 +1,6 @@
 ---
 layout: archive
-title: "teaching"
+title: "Teaching"
 permalink: /teaching/
 author_profile: true
 redirect_from:
@@ -9,22 +9,13 @@ redirect_from:
 
 {% include base_path %}
 
-
-
-
 I teach a number of courses. Below are some materials for those courses.
-
----
 
 ## Waves and Oscillations
 
 Here are some class notes for my *Waves and Oscillations* course:
 
-
-- [Travleing Waves](/files/traveling_waves.html)
-```
-
----
+- [Traveling Waves](/files/traveling_waves.html)
 
 ## Numerical Methods for Machine Learning
 
