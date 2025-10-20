@@ -47,9 +47,7 @@ Current professional research focuses on galactic dynamics, data science, and co
 
 ---
 
-## Selected Publications
-
-> *Author names in bold; links provided to publisher or preprint.*
+## Publications
 
 - **Forecasting Super-Sample Covariance in Future Weak Lensing Surveys with SuperSCRAM**  
   Mathew C. Digman, **Joseph E. McEwen**, Christopher M. Hirata  
