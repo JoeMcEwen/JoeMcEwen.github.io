@@ -9,7 +9,16 @@ redirect_from:
 
 {% include base_path %}
 
-I teach a number of courses. Below are some materials for those courses.
+Courses I have taught: 
+* Intro to Computer Science
+* Calculus based Phyiscs I, II, III
+* Algebra based Physics I, II, III
+* Statistical Mechanics
+* Quantum Mechanics
+* Numerical Methods
+* Numerical Methods for Data Science 
+
+Here are some of my notes. 
 
 ## Waves and Oscillations
 
