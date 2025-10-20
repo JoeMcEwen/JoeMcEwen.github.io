@@ -20,7 +20,9 @@ I teach a number of courses. Below are some materials for those courses.
 
 Here are some class notes for my *Waves and Oscillations* course:
 
-[Notes on Traveling Waves](/teaching/traveling_waves.html)
+
+- [Travleing Waves](/files/traveling_waves.html)
+```
 
 ---
 
