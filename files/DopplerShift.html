@@ -7563,7 +7563,7 @@ a.anchor-link {
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [1]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -7585,9 +7585,10 @@ a.anchor-link {
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h2 id="Example-of-stationary-source-and-stationary-observer">Example of stationary source and stationary observer<a class="anchor-link" href="#Example-of-stationary-source-and-stationary-observer">¶</a></h2><p>Suppose we have a wave source at $x=0~\text{m}$. Suppose Maria stands at $x=10~\text{m}$. Maria will measure the frequency of the wave by measuring the time it takes for the wave to repeat itself. Maria can mark any point on the wave to observe, but a natural point on the wave for Maria to observe is the wave crest. The animation below illustrates the situation. The top panel shows a wave traveling to the right. The location of two wave crests is marked with a blue and red vertical line. The source of the wave is at $x=0$, while Maria stands at $x=10~\text{m}$. The second panel (bottom) removes the wave and leaves only the two marked wave crests. (We remove the wave because the wave is continuous and it is beneficial to just examine one particular spot of the wave.) Maria is marked with a red diamond and the source is marked with a green diamond. Maria will start her stopwatch when the wave crest marked in blue passes her. She will stop her stopwatch when the wave crest marked in red passes her. The time she records will be the period. She will calculate the frequency as $f_o=1/T$, where the $o$ subscript stands for observer.</p>
+<h2 id="Example-of-stationary-source-and-stationary-observer">Example of stationary source and stationary observer<a class="anchor-link" href="#Example-of-stationary-source-and-stationary-observer">¶</a></h2><p>Suppose we have a wave source at $x=0~\text{m}$. Suppose Maria stands at $x=10~\text{m}$. Maria will measure the frequency of the wave by measuring the time it takes for the wave to repeat itself. Maria can mark any point on the wave to observe, but a natural point on the wave for Maria to observe is the wave crest. We will call the point that Maria is marking the "blip".</p>
+<p>The animation below illustrates the situation. The top panel shows a wave traveling to the right. The location of two wave crests (what we are now calling the blip) is marked with a blue and red vertical line. The source of the wave is at $x=0$, while Maria stands at $x=10~\text{m}$. The second panel (bottom) removes the wave and leaves only the two blips (wave crests). We remove the wave because the wave is continuous and it is beneficial to just focus on the blips. Maria is marked with a red diamond and the source is marked with a green diamond. Maria will start her stopwatch when the first blip, wave crest marked in blue passes her. She will stop her stopwatch when the second blip, wave crest marked in red passes her. The time she records will be the period. She will calculate the frequency as $f_o=1/T$, where the $o$ subscript stands for observer.</p>
 <p><strong>When will Maria make her recordings?</strong></p>
-<p>Suppose the wave crest marked in blue is emitted from the source at $t=0$. Maria will observe this wave crest at $d/v$ where $d=10~\text{m}$ and $v$ is the wave speed; this is the time it takes the signal to travel from the source to the observer. The wave crest marked in red will be emitted one period after the first, so the wave crest in red is emitted at $t=T$. Maria will record the second wave crest at $T + d/v$.</p>
+<p>Suppose the first blip, wave crest marked in blue, is emitted from the source at $t=0$. Maria will observe this wave crest at $d/v$ where $d=10~\text{m}$ and $v$ is the wave speed; this is the time it takes the signal to travel from the source to the observer. The second blip, wave crest marked in red, will be emitted one period after the first, so the wave crest in red is emitted at $t=T$. Maria will record the second wave crest at $T + d/v$.</p>
 <p>In general, the time that an observer measures a signal from a moving source is $t + d/v$, where $d$ is the distance from the source to the observer and $v$ is the speed of the wave.</p>
 <hr/>
 <p><strong>Problem 5</strong></p>
@@ -7632,7 +7633,7 @@ $$t_2 = T + \frac{d}{v} = 0.5~\text{s} + 10~\text{s} = 10.5~\text{s}$$</p>
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [2]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">anim</span><span class="o">=</span><span class="n">animate_wavefront</span><span class="p">()</span>
@@ -7647,7 +7648,7 @@ $$t_2 = T + \frac{d}{v} = 0.5~\text{s} + 10~\text{s} = 10.5~\text{s}$$</p>
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[2]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <video autoplay="" controls="" height="500" loop="" width="1400">
 <source src="data:video/mp4;base64,AAAAIGZ0eXBNNFYgAAACAE00ViBpc29taXNvMmF2YzEAAAAIZnJlZQAB2AhtZGF0AAACrgYF//+q
@@ -9810,10 +9811,10 @@ MDA=
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Source-moving-toward-observer">Source moving toward observer<a class="anchor-link" href="#Source-moving-toward-observer">¶</a></h3><p><strong>Note:</strong>
 Our everyday experience and intuition inform us that the observed frequency is larger (higher pitch) than the source frequency. So, we should expect that result in our derivation (one way to check if we did it right).</p>
-<p>Maria stands at a distance $d$ away from the source; in the animation $d=10~\text{m}$. The source is traveling toward Maria at a speed $v_s$. Maria measures the frequency of the observed wave by marking the time between observations of each wave crest. The experiment is set up so that when the source crosses $x=0$ the first wave crest is generated at time $t=0$.</p>
+<p>Maria stands at a distance away from the source. The source is traveling toward Maria at a speed $v_s$. Maria measures the frequency of the observed wave by marking the time between observations of consecutive blips (wave crests). The experiment is set up so that when the source crosses $x=0$ the first wave crest is generated at time $t=0$.</p>
 <ul>
-<li>The first wave crest will travel a distance $d$ at a speed $v$ (the wave speed) and therefore Maria will log the first observation of the wave crest at $t_{1,o}= d/v$ (the time is marked with a numerical subscript to indicate first measurement of the wave and $o$ subscript to indicate observer).</li>
-<li>The second wave crest will be generated at time $t=T$, where $T$ is the period of the wave.</li>
+<li>The first blip will travel a distance $d$ at a speed $v$ (the wave speed) and therefore Maria will log the first observation of the blip at $t_{1,o}= d/v$ (the time is marked with a numerical subscript to indicate first measurement of the wave and $o$ subscript to indicate observer).</li>
+<li>The second blip wave will be generated at time $t=T$, where $T$ is the period of the wave.</li>
 <li>At time $t=T$ the source has moved to location $x=v_s T$.</li>
 <li>The second wave crest will travel a distance $d-v_sT$ to reach Maria with a speed of $v$. The distance is shorter now because the source has moved. The time that Maria records the second observation is $t_{2,o}= T + (d-v_s T)/v$.</li>
 </ul>
@@ -9826,11 +9827,11 @@ T_o &amp; = t_{2,o} - t_{1,o} \\
 &amp; = T\left( \frac{v - v_s}{v} \right). 
 \end{split} 
 \end{align}</p>
-<p>Maria computes the observed frequency by taking the reciprocal of the observed period:</p>
+<p>Maria computes the observed frequency by taking the reciprocal of the observed period</p>
 <p>\begin{align} 
 f_o = \frac{v}{v-v_s} f. 
 \end{align}</p>
-<p>Note that the observed frequency is greater than the source frequency $f$. Also, the book by Knight denotes the above expression as $f_+$.</p>
+<p>Note that the observed frequency is greater than the source frequency $f$.</p>
 <p>The situation is illustrated in the animation below. Again, the wave is removed and we only concentrate on the wave crests. The green square represents the moving source. The red diamond represents the stationary observer. The wave variables are the same as the animation above, i.e., same period, wavelength, and amplitude. You should observe that the time between arrivals of the red and blue wave crests is shorter than the animation above.</p>
 </div>
 </div>
@@ -9840,7 +9841,7 @@ f_o = \frac{v}{v-v_s} f.
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [3]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [12]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">anim</span><span class="o">=</span><span class="n">animate_wavefront_doppler</span><span class="p">()</span>
@@ -9855,7 +9856,7 @@ f_o = \frac{v}{v-v_s} f.
 </div>
 <div class="jp-OutputArea jp-Cell-outputArea">
 <div class="jp-OutputArea-child jp-OutputArea-executeResult">
-<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[3]:</div>
+<div class="jp-OutputPrompt jp-OutputArea-prompt">Out[12]:</div>
 <div class="jp-RenderedHTMLCommon jp-RenderedHTML jp-OutputArea-output jp-OutputArea-executeResult" data-mime-type="text/html" tabindex="0">
 <video autoplay="" controls="" height="500" loop="" width="1400">
 <source src="data:video/mp4;base64,AAAAIGZ0eXBNNFYgAAACAE00ViBpc29taXNvMmF2YzEAAAAIZnJlZQAAb/9tZGF0AAACrgYF//+q
@@ -10405,15 +10406,15 @@ ABxkYXRhAAAAAQAAAABMYXZmNjEuNy4xMDA=
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
 <h3 id="Source-moving-away-from-the-observer">Source moving away from the observer<a class="anchor-link" href="#Source-moving-away-from-the-observer">¶</a></h3><p><strong>Note:</strong>
 Our everyday experience and intuition inform us that the observed frequency is smaller (lower pitch) than the source frequency.</p>
-<p>Maria stands at a distance $d$ away from the source. The source is traveling away from Maria at a speed $v_s$. Maria measures the frequency of the observed wave by marking the time between observations of each wave crest. The experiment is set up so that when the source crosses $x=0$ the first wave crest is generated at time $t=0$.</p>
+<p>Maria stands at a distance away from the source. The source is traveling away from Maria at a speed $v_s$. Maria measures the frequency of the observed wave by marking the time between observations of consecutive blips (wave crests). The experiment is set up so that when the source crosses $x=0$ the first blip is generated at time $t=0$.</p>
 <ul>
-<li>The first wave crest will travel a distance $d$ at a speed $v$ (the wave speed) and therefore Maria will log the first observation of the wave crest at $t_{1,o}= d/v$ (the time is marked with a numerical subscript to indicate first measurement of the wave and $o$ subscript to indicate observer).</li>
-<li>The second wave crest will be generated at time $t=T$, where $T$ is the period of the wave.</li>
+<li>The first blip will travel a distance $d$ at a speed $v$ (the wave speed) and therefore Maria will log the first blip observation at $t_{1,o}= d/v$ (the time is marked with a numerical subscript to indicate the first measurement of the wave and an $o$ subscript to indicate observer).</li>
+<li>The second blip will be generated at time $t=T$, where $T$ is the period of the wave.</li>
 <li>At time $t=T$ the source has moved to location $x=-v_s T$ (the source is moving to the left).</li>
-<li>The second wave crest will travel a distance $d + v_sT$ to reach Maria with a speed of $v$. Therefore the time that Maria records the second observation is $t_{2,o}= T + (d + v_s T)/v$.</li>
+<li>The second blip will travel a distance $d + v_sT$ to reach Maria with a speed of $v$. Therefore, the time that Maria records the second observation is $t_{2,o}= T + (d + v_s T)/v$.</li>
 </ul>
-<p>Maria will then take the difference in the two times to compute the observed period, which we will call $T_o$:</p>
-<p>\begin{align} 
+<p>Maria will then take the difference in the two times to compute the observed period, which we will call $T_o$:
+\begin{align} 
 \begin{split} 
 T_o &amp; = t_{2,o} - t_{1,o} \\
 &amp; = T + \frac{d+ v_s T}{v} - \frac{d}{v} \\
@@ -10421,11 +10422,10 @@ T_o &amp; = t_{2,o} - t_{1,o} \\
 &amp; = T\left( \frac{v +  v_s}{v} \right). 
 \end{split} 
 \end{align}</p>
-<p>Maria computes the observed frequency by taking the reciprocal of the observed period:</p>
-<p>\begin{align} 
+<p>Maria computes the observed frequency by taking the reciprocal of the observed period:
+\begin{align} 
 f_o = \frac{v}{v+v_s} f. 
 \end{align}</p>
-<p>Note that the observed frequency is less than the source frequency $f$. Also, the book by Knight denotes the above expression as $f_-$.</p>
 </div>
 </div>
 </div>
@@ -10436,18 +10436,94 @@ f_o = \frac{v}{v+v_s} f.
 </div>
 <div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
 </div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
-<h3 id="Stationary-source-and-moving-observer">Stationary source and moving observer<a class="anchor-link" href="#Stationary-source-and-moving-observer">¶</a></h3><p>In this experiment the source is stationary, but Maria is moving toward the source with velocity $v_o$. The observed frequency will be larger than the source frequency—Maria will hear a higher pitch.</p>
-<p>When the source is stationary, it emits wave crests separated by wavelength $\lambda = vT$, where $v$ is the wave speed and $T$ is the period.</p>
-<p>Maria moves toward the source at speed $v_o$. From her perspective, she encounters the oncoming wave crests at a relative speed of $v + v_o$ (the wave approaches at $v$, and she moves toward it at $v_o$).</p>
-<p>The time between successive wave crests passing Maria is
-\begin{align}
-T_o = \frac{\lambda}{v + v_o} = \frac{vT}{v + v_o}.
+<h3 id="Stationary-source,-observer-moving-toward-source">Stationary source, observer moving toward source<a class="anchor-link" href="#Stationary-source,-observer-moving-toward-source">¶</a></h3><p>In this experiment the source is stationary, but Maria is moving toward the source with velocity $v_o$. The observed frequency will be larger than the source frequency—Maria will hear a higher pitch.</p>
+<p>When the source is stationary, it emits blips separated by wavelength $\lambda = vT$, where $v$ is the wave speed and $T$ is the period.</p>
+<p>Maria moves toward the source at speed $v_o$. From her perspective, she encounters the oncoming wave crests at a speed of $v + v_o$ (the wave approaches at $v$, and she moves toward it at $v_o$).</p>
+<p>Similar to our earlier thought experiments, the time that it takes the first blip to travel to Maria is $t_{1,o}=d/(v + v_o)$. The time that it takes the second blip to reach Maria is $t_{2,o}= T + \frac{d - v_oT}{v+ v_o}$. This time is composed of two parts. One, the period $T$, the time between consecutive blips made by the source. Two, the travel time. The travel time includes the fact that Maria has moved a distance $v_oT$ closer to the source in time $T$.</p>
+<p>Maria computes the observed period as:
+\begin{align} 
+\begin{split} 
+T_o &amp; = t_{2,o} - t_{1,o} \\
+&amp; = T + \frac{d - v_o T}{v + v_o} - \frac{d}{v + v_o} \\
+&amp; = T\left( \frac{v + v_o - v_o}{v + v_o} \right) \\
+&amp; = T\left( \frac{v}{v + v_o} \right). 
+\end{split} 
 \end{align}</p>
-<p>Therefore, the observed frequency is
-\begin{align}
-f_o = \frac{1}{T_o} = \frac{v + v_o}{vT} = \frac{v + v_o}{v} f,
+<p>Maria computes the observed frequency by taking the reciprocal of the observed period:
+\begin{align} 
+f_o = \frac{v + v_o}{v} f. 
 \end{align}</p>
-<p>which confirms that the observed frequency is greater than the source frequency when the observer moves toward the source.</p>
+<p>As expected, the observed frequency $f_o$ is greater than the source frequency $f$ when Maria moves toward the source.</p>
+</div>
+</div>
+</div>
+</div>
+<div class="jp-Cell jp-MarkdownCell jp-Notebook-cell">
+<div class="jp-Cell-inputWrapper" tabindex="0">
+<div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
+</div>
+<div class="jp-InputArea jp-Cell-inputArea"><div class="jp-InputPrompt jp-InputArea-prompt">
+</div><div class="jp-RenderedHTMLCommon jp-RenderedMarkdown jp-MarkdownOutput" data-mime-type="text/markdown">
+<h3 id="The-Role-of-the-Medium-in-Sound-Doppler-Effect">The Role of the Medium in Sound Doppler Effect<a class="anchor-link" href="#The-Role-of-the-Medium-in-Sound-Doppler-Effect">¶</a></h3><p>The fact that sound propagates through a medium has some important consequences. If the source is moving toward the observer, the wave crests get bunched up, and the wavelength decreases: $\lambda \to (v - v_s)T$. If the source is moving away, the wavelength increases: $\lambda \to (v + v_s)T$.</p>
+<p>If the observer is moving, then they observe a different wave speed: $v \to v + v_o$ if the observer is moving toward the source, and $v \to v - v_o$ if the observer is moving away from the source.</p>
+<p>Because sound propagates through a medium, it is not the relative velocity between source and observer that matters, but the velocities with respect to the medium. This means you don't get the same frequency change if the source is moving toward a stationary observer with speed $v_{experiment}$ as you would if an observer is moving toward a stationary source with speed $v_{experiment}$.</p>
+<p><strong>Example:</strong></p>
+<p>Consider $v_{experiment} = 10$ m/s and the speed of sound $v = 340$ m/s (about 760 mph). Suppose the source emits a frequency $f = 1000$ Hz.</p>
+<ul>
+<li><p><strong>Source moving toward stationary observer:</strong>
+\begin{equation}
+f_o = \frac{v}{v - v_s} f = \frac{340}{340 - 10} (1000) = \frac{340}{330} (1000) \approx 1030.3 \text{ Hz}
+\end{equation}</p>
+</li>
+<li><p><strong>Observer moving toward stationary source:</strong>
+\begin{equation}
+f_o = \frac{v + v_o}{v} f = \frac{340 + 10}{340} (1000) = \frac{350}{340} (1000) \approx 1029.4 \text{ Hz}
+\end{equation}</p>
+</li>
+</ul>
+<p>The observed frequencies are different. This asymmetry arises because sound propagates through a medium (air).</p>
+<p>This is unlike the Doppler effect for light (electromagnetic waves). For electromagnetic waves, the symmetry between source and observer velocity is maintained. Electromagnetic waves don't propagate in a medium and therefore do not have this asymmetry.</p>
+<p><strong>Challenge Problem</strong></p>
+<p>Phooey on you, Joe! That numerical experiment might show the results are different, but they are pretty close. After all, the speed of sound is 760 mph. For everyday velocities, we are never going to notice this asymmetry.</p>
+<p>Yes, you are right, but can you walk the talk and put your math where your mouth is? Show that to first order the results are the same. <strong>Hint</strong>: use the binomial expansion or a Taylor expansion.</p>
+<details>
+<summary><strong>Click to reveal solution</strong></summary>
+<h3 id="Solution">Solution<a class="anchor-link" href="#Solution">¶</a></h3><p>We want to show that for small velocities ($v_s, v_o \ll v$), both cases give the same result to first order.</p>
+<p><strong>Binomial Expansion Reminder:</strong>
+For small $x$ (i.e., $|x| \ll 1$):
+\begin{equation}
+(1 + x)^n \approx 1 + nx + O(x^2)
+\end{equation}</p>
+<p><strong>Case 1: Source moving toward stationary observer</strong>
+\begin{equation}
+\begin{split}
+f_o &amp;= \frac{v}{v - v_s} f \\
+&amp;= \frac{1}{1 - v_s/v} f \\
+&amp;= \left(1 - \frac{v_s}{v}\right)^{-1} f
+\end{split}
+\end{equation}</p>
+<p>Using the binomial expansion with $x = -v_s/v$ and $n = -1$:
+\begin{equation}
+\left(1 - \frac{v_s}{v}\right)^{-1} \approx 1 + \frac{v_s}{v}
+\end{equation}</p>
+<p>Therefore
+\begin{equation}
+f_o \approx \left(1 + \frac{v_s}{v}\right) f.
+\end{equation}</p>
+<p><strong>Case 2: Observer moving toward stationary source</strong>
+\begin{equation}
+\begin{split}
+f_o &amp;= \frac{v + v_o}{v} f \\
+&amp;= \left(1 + \frac{v_o}{v}\right) f
+\end{split}
+\end{equation}</p>
+<p>This is already in first-order form—no expansion needed!</p>
+<p>When $v_s = v_o = v_{experiment}$, both cases give to first order
+\begin{equation}
+f_o \approx \left(1 + \frac{v_{experiment}}{v}\right) f.
+\end{equation}</p>
+<p>The difference only appears in the second-order terms (proportional to $(v_{experiment}/v)^2$), which are negligible for everyday speeds!</p>
+</details>
 </div>
 </div>
 </div>
@@ -10693,7 +10769,7 @@ v_o = v \times 0.02
 \begin{equation}
 v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 \end{equation}</p>
-<p><strong>You would need to move at approximately 6.8 m/s</strong> (about 24.5 km/h or 15 mph). This is faster than a jog—it's close to a running pace! I have never noticed a pitch change while sprinting, although, I am super slow...</p>
+<p><strong>You would need to move at approximately 6.8 m/s</strong> (about 24.5 km/h or 15 mph). This is faster than a jog; it's a running pace! I have never noticed a pitch change while sprinting, although, I am super slow...maybe just bad ears...</p>
 </details>
 <hr/>
 </div>
@@ -10716,7 +10792,7 @@ v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [4]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [5]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="kn">import</span><span class="w"> </span><span class="nn">numpy</span><span class="w"> </span><span class="k">as</span><span class="w"> </span><span class="nn">np</span>
@@ -10749,7 +10825,7 @@ v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [21]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [6]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generate 440 Hz tone (Concert A)</span>
@@ -10812,7 +10888,7 @@ v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [23]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [7]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="c1"># Generate 450 Hz t</span>
@@ -10886,7 +10962,7 @@ v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [25]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [8]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">beat</span> <span class="o">=</span> <span class="n">tone_A</span> <span class="o">-</span> <span class="n">tone_B</span>
@@ -10924,7 +11000,7 @@ v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [26]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [9]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">fig</span><span class="p">,</span> <span class="n">ax</span> <span class="o">=</span> <span class="n">plt</span><span class="o">.</span><span class="n">subplots</span><span class="p">(</span><span class="n">figsize</span><span class="o">=</span><span class="p">(</span><span class="mi">12</span><span class="p">,</span> <span class="mi">4</span><span class="p">))</span>  <span class="c1"># Makes the plot wider</span>
@@ -10970,7 +11046,7 @@ v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [28]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [10]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">low_E</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">generate_tone</span><span class="p">(</span><span class="mf">82.41</span><span class="p">)</span>
@@ -11008,7 +11084,7 @@ v_o = 340 \times 0.02 = 6.8 \text{ m/s}
 <div class="jp-Collapser jp-InputCollapser jp-Cell-inputCollapser">
 </div>
 <div class="jp-InputArea jp-Cell-inputArea">
-<div class="jp-InputPrompt jp-InputArea-prompt">In [29]:</div>
+<div class="jp-InputPrompt jp-InputArea-prompt">In [11]:</div>
 <div class="jp-CodeMirrorEditor jp-Editor jp-InputArea-editor" data-type="inline">
 <div class="cm-editor cm-s-jupyter">
 <div class="highlight hl-ipython3"><pre><span></span><span class="n">high_E</span><span class="p">,</span> <span class="n">t</span> <span class="o">=</span> <span class="n">generate_tone</span><span class="p">(</span><span class="mf">329.63</span><span class="p">)</span>
