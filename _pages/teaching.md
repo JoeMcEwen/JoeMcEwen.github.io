@@ -28,6 +28,7 @@ Here are some class notes for my *Waves and Oscillations* course:
 - [Modes on a String](/files/ModesOnStringShort.html)
 - [Sound Mathematics](/files/SoundMath.html)
 - [Doppler Shift](/files/DopplerShift.html)
+- [Double Slit](/files/DoubleSlit.html)
 
 
 ## Numerical Methods for Machine Learning
