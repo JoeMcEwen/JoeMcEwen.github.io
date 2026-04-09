@@ -29,6 +29,7 @@ Here are some class notes for my *Waves and Oscillations* course:
 - [Sound Mathematics](/files/SoundMath.html)
 - [Doppler Shift](/files/DopplerShift.html)
 - [Double Slit](/files/DoubleSlit.html)
+- [Coulomb's Law Worksheet](/files/CoulombsLawVectorWorksheet.html)
 
 
 ## Numerical Methods for Machine Learning
