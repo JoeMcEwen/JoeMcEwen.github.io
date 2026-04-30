@@ -30,6 +30,7 @@ Here are some class notes for my *Waves and Oscillations* course:
 - [Doppler Shift](/files/DopplerShift.html)
 - [Double Slit](/files/DoubleSlit.html)
 - [Coulomb's Law Worksheet](/files/CoulombsLawVectorWorksheet(1).html)
+- [Electric Potential Law Worksheet](/files/Energy.html)
 
 
 ## Numerical Methods for Machine Learning
